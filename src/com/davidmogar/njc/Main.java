@@ -1,11 +1,12 @@
 package com.davidmogar.njc;
 
-import com.davidmogar.njc.blocks.FunctionBlock;
+import com.davidmogar.njc.statements.blocks.Block;
+import com.davidmogar.njc.statements.blocks.FunctionBlock;
 import com.davidmogar.njc.expressions.Expression;
 import com.davidmogar.njc.expressions.Variable;
 import com.davidmogar.njc.expressions.numbers.Integer;
 import com.davidmogar.njc.expressions.operators.ArithmeticOperator;
-import com.davidmogar.njc.expressions.operators.DecrementUnaryOperator;
+import com.davidmogar.njc.expressions.operators.NegationOperator;
 import com.davidmogar.njc.statements.AssignmentStatement;
 import com.davidmogar.njc.statements.ReadStatement;
 import com.davidmogar.njc.statements.Statement;
@@ -30,7 +31,7 @@ public class Main {
         Expression rightValue = new ArithmeticOperator(3, 22,
                 new ArithmeticOperator(3, 18,
                     new ArithmeticOperator(3, 13,
-                        new DecrementUnaryOperator(3, 10, new Variable(3, 11, "b")),
+                        new NegationOperator(3, 10, new Variable(3, 11, "b")),
                         new com.davidmogar.njc.expressions.numbers.Integer(3, 15, 3), "+"),
                     new Variable(3, 20, "c"), "*"),
                 new Integer(3, 24, 2), "/");
@@ -45,9 +46,12 @@ public class Main {
         statements.add(new WriteStatement(2, 5, expressions));
 
         /* Function */
-        FunctionBlock block = new FunctionBlock(1, 1, "main", "void", statements);
-        System.out.println(block);
+        List<Block> blocks = new ArrayList<Block>();
+        blocks.add(new FunctionBlock(1, 1, "main", "void", statements));
 
+        /* Program */
+        Program program = new Program(blocks);
+        System.out.println(program);
     }
 }
 

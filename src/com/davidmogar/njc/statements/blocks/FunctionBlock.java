@@ -1,4 +1,4 @@
-package com.davidmogar.njc.blocks;
+package com.davidmogar.njc.statements.blocks;
 
 import com.davidmogar.njc.statements.Statement;
 

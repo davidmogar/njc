@@ -8,8 +8,6 @@ public abstract class AbstractAstNode implements AstNode {
     public AbstractAstNode(int line, int column) {
         this.line = line;
         this.column = column;
-        int a = 0;
-        a++;
     }
 
     public int getColumn() {
