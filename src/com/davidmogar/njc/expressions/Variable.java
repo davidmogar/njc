@@ -1,4 +1,6 @@
-package com.davidmogar.njc;
+package com.davidmogar.njc.expressions;
+
+import com.davidmogar.njc.AbstractAstNode;
 
 public class Variable extends AbstractAstNode implements Expression {
 
