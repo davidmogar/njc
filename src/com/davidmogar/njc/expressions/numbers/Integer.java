@@ -1,4 +1,8 @@
-package com.davidmogar.njc;
+package com.davidmogar.njc.expressions.numbers;
+
+import com.davidmogar.njc.AbstractAstNode;
+
+import java.lang.*;
 
 public class Integer extends AbstractAstNode implements Number {
 

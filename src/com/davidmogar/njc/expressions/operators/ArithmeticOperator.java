@@ -1,4 +1,7 @@
-package com.davidmogar.njc;
+package com.davidmogar.njc.expressions.operators;
+
+import com.davidmogar.njc.AbstractAstNode;
+import com.davidmogar.njc.expressions.Expression;
 
 public class ArithmeticOperator extends AbstractAstNode implements Operator {
 

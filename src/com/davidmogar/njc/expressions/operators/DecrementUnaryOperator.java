@@ -1,4 +1,8 @@
-package com.davidmogar.njc;
+package com.davidmogar.njc.expressions.operators;
+
+import com.davidmogar.njc.AbstractAstNode;
+import com.davidmogar.njc.expressions.Expression;
+import com.davidmogar.njc.expressions.operators.UnaryOperator;
 
 public class DecrementUnaryOperator extends AbstractAstNode implements UnaryOperator {
 

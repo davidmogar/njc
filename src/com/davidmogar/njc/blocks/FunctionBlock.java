@@ -1,4 +1,6 @@
-package com.davidmogar.njc;
+package com.davidmogar.njc.blocks;
+
+import com.davidmogar.njc.statements.Statement;
 
 import java.util.List;
 

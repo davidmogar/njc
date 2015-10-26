@@ -1,5 +1,16 @@
 package com.davidmogar.njc;
 
+import com.davidmogar.njc.blocks.FunctionBlock;
+import com.davidmogar.njc.expressions.Expression;
+import com.davidmogar.njc.expressions.Variable;
+import com.davidmogar.njc.expressions.numbers.Integer;
+import com.davidmogar.njc.expressions.operators.ArithmeticOperator;
+import com.davidmogar.njc.expressions.operators.DecrementUnaryOperator;
+import com.davidmogar.njc.statements.AssignmentStatement;
+import com.davidmogar.njc.statements.ReadStatement;
+import com.davidmogar.njc.statements.Statement;
+import com.davidmogar.njc.statements.WriteStatement;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +31,7 @@ public class Main {
                 new ArithmeticOperator(3, 18,
                     new ArithmeticOperator(3, 13,
                         new DecrementUnaryOperator(3, 10, new Variable(3, 11, "b")),
-                        new Integer(3, 15, 3), "+"),
+                        new com.davidmogar.njc.expressions.numbers.Integer(3, 15, 3), "+"),
                     new Variable(3, 20, "c"), "*"),
                 new Integer(3, 24, 2), "/");
         statements.add(new AssignmentStatement(3, 5, leftValue, rightValue));
