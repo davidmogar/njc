@@ -1,7 +1,7 @@
-package com.davidmogar.njc.expressions.operators;
+package com.davidmogar.njc.ast.expressions.operators;
 
-import com.davidmogar.njc.AbstractAstNode;
-import com.davidmogar.njc.expressions.Expression;
+import com.davidmogar.njc.ast.AbstractAstNode;
+import com.davidmogar.njc.ast.expressions.Expression;
 
 public class ArithmeticOperator extends AbstractAstNode implements Operator {
 
@@ -18,11 +18,7 @@ public class ArithmeticOperator extends AbstractAstNode implements Operator {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append(leftValue);
-        builder.append(operator);
-        builder.append(rightValue);
-        return builder.toString();
+        return leftValue + operator + rightValue;
     }
 
 }

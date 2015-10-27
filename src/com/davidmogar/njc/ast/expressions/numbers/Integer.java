@@ -1,6 +1,6 @@
-package com.davidmogar.njc.expressions.numbers;
+package com.davidmogar.njc.ast.expressions.numbers;
 
-import com.davidmogar.njc.AbstractAstNode;
+import com.davidmogar.njc.ast.AbstractAstNode;
 
 import java.lang.*;
 

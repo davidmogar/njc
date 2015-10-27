@@ -1,7 +1,7 @@
-package com.davidmogar.njc.statements;
+package com.davidmogar.njc.ast.statements;
 
-import com.davidmogar.njc.AbstractAstNode;
-import com.davidmogar.njc.expressions.Expression;
+import com.davidmogar.njc.ast.AbstractAstNode;
+import com.davidmogar.njc.ast.expressions.Expression;
 
 public class AssignmentStatement extends AbstractAstNode implements Statement {
 

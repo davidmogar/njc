@@ -1,7 +1,7 @@
-package com.davidmogar.njc.statements.blocks;
+package com.davidmogar.njc.ast.statements.blocks;
 
-import com.davidmogar.njc.AbstractAstNode;
-import com.davidmogar.njc.statements.Statement;
+import com.davidmogar.njc.ast.AbstractAstNode;
+import com.davidmogar.njc.ast.statements.Statement;
 
 import java.util.List;
 

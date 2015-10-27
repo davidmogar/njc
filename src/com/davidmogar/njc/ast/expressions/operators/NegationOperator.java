@@ -1,8 +1,7 @@
-package com.davidmogar.njc.expressions.operators;
+package com.davidmogar.njc.ast.expressions.operators;
 
-import com.davidmogar.njc.AbstractAstNode;
-import com.davidmogar.njc.expressions.Expression;
-import com.davidmogar.njc.expressions.operators.UnaryOperator;
+import com.davidmogar.njc.ast.AbstractAstNode;
+import com.davidmogar.njc.ast.expressions.Expression;
 
 public class NegationOperator extends AbstractAstNode implements UnaryOperator {
 

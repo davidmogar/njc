@@ -1,4 +1,4 @@
-package com.davidmogar.njc;
+package com.davidmogar.njc.ast;
 
 public abstract class AbstractAstNode implements AstNode {
 
