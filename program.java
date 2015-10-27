@@ -13,7 +13,7 @@ void main() { // Main function
     char c;
     int[10] v; // Array
 
-    i = 1;
+    i = 1++;
     r = 12.3 - 34.12E-3 * 2. + 3e3;
     c = '\126';
 
@@ -22,7 +22,7 @@ void main() { // Main function
         i = b;
     }
 
-    while (i<10) {
+    while (i<=10) {
         i=i+1;
         j=i;
     }
