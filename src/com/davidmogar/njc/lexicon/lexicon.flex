@@ -34,23 +34,22 @@ public int getLine() {
 
 %}
 
+/* Comments */
 SingleLineComment = "//".*
 BlockComment = "/*"~"*/"
 Comment = {SingleLineComment} | {BlockComment}
 
 BreakLine = \n | \r | \r\n | \n\r
-
-SingleCharTokens = "+" | "-" | "*" | "/" | "[" | "]" | "(" | ")" | "{" | "}" | "<" | ">" | "," | ";" | "=" | "!"
-
 Digit = [0-9]
 Letter = [a-zA-Z]
-Alphanumeric = ({Letter} | {Digit})+
-Character = \'(. | \\{Digit}{3})\'
-Integer = \-?{Digit}+
-Double = ({Integer}\.{Digit}* | \-?\.{Digit})([eE]{Integer})?
+SingleCharTokens = "+" | "-" | "*" | "/" | "[" | "]" | "(" | ")" | "{" | "}" | "<" | ">" | "," | ";" | "=" | "!"
 String = \"~\"
 
+Character = \'(. | \\{Digit}{3})\'
+Integer = \-?{Digit}+
+Alphanumeric = ({Letter} | {Digit})+
 Identifier = {Letter}({Alphanumeric} | \_)*
+Double = ({Integer}\.{Digit}* | \-?\.{Digit})([eE]{Integer})?
 
 %%
 
