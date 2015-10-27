@@ -76,4 +76,4 @@ Integer = [0-9]*
 
 {SingleCharTokens} { return (int) yycharat(0); }
 
-. { new TypeError(this.getLine(), this.getColumn(),"Caracter \'" + yycharat(0) + "' desconocido.");}
+. { new TypeError(this.getLine(), this.getColumn(),"Character \'" + yycharat(0) + "' unknown.");}
