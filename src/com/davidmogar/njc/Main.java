@@ -1,57 +1,36 @@
 package com.davidmogar.njc;
 
-import com.davidmogar.njc.statements.blocks.Block;
-import com.davidmogar.njc.statements.blocks.FunctionBlock;
-import com.davidmogar.njc.expressions.Expression;
-import com.davidmogar.njc.expressions.Variable;
-import com.davidmogar.njc.expressions.numbers.Integer;
-import com.davidmogar.njc.expressions.operators.ArithmeticOperator;
-import com.davidmogar.njc.expressions.operators.NegationOperator;
-import com.davidmogar.njc.statements.AssignmentStatement;
-import com.davidmogar.njc.statements.ReadStatement;
-import com.davidmogar.njc.statements.Statement;
-import com.davidmogar.njc.statements.WriteStatement;
+import com.davidmogar.njc.lexicon.Lexicon;
+import com.davidmogar.njc.syntactic.Parser;
+import com.davidmogar.njc.syntactic.Tokens;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args) {
-        List<Statement> statements = new ArrayList<>();
+    public static void main(String[] args) throws IOException {
+        if (args.length < 1) {
+            System.err.println("Input file expected.");
+            return;
+        }
 
-        /* Read statement */
-        List<Expression> expressions = new ArrayList<>();
-        expressions.add(new Variable(2, 10, "a"));
-        expressions.add(new Variable(2, 13, "b"));
-        statements.add(new ReadStatement(2, 5, expressions));
+        FileReader fileReader = null;
+        try {
+            fileReader = new FileReader(args[0]);
+        } catch (IOException io) {
+            System.err.println("El archivo "+args[0]+" no se ha podido abrir.");
+            return;
+        }
 
-        /* Assignment statement */
-        Expression leftValue = new Variable(3, 5, "a");
-        Expression rightValue = new ArithmeticOperator(3, 22,
-                new ArithmeticOperator(3, 18,
-                    new ArithmeticOperator(3, 13,
-                        new NegationOperator(3, 10, new Variable(3, 11, "b")),
-                        new com.davidmogar.njc.expressions.numbers.Integer(3, 15, 3), "+"),
-                    new Variable(3, 20, "c"), "*"),
-                new Integer(3, 24, 2), "/");
-        statements.add(new AssignmentStatement(3, 5, leftValue, rightValue));
+        Lexicon lexicon = new Lexicon(fileReader);
+        Parser parser = new Parser(lexicon);
 
-        /* Write statement */
-        expressions = new ArrayList<>();
-        expressions.add(new Variable(4, 11, "a"));
-        expressions.add(new ArithmeticOperator(4, 16,
-                new Variable(4, 14, "c"),
-                new Integer(4, 18, 2), "*"));
-        statements.add(new WriteStatement(2, 5, expressions));
-
-        /* Function */
-        List<Block> blocks = new ArrayList<Block>();
-        blocks.add(new FunctionBlock(1, 1, "main", "void", statements));
-
-        /* Program */
-        Program program = new Program(blocks);
-        System.out.println(program);
+        int token;
+        while ((token = lexicon.yylex()) != 0) {
+            System.out.println("(" + lexicon.getLine() + ", " + lexicon.getColumn() +
+                    ") " + lexicon.matchedText + " -> " + Tokens.getTokenNameByValue(token));
+        }
     }
 }
 
