@@ -12,15 +12,15 @@ public class Main {
     public static void main(String[] args) throws IOException {
         if (args.length < 1) {
             System.err.println("Input file expected.");
-            return;
+            System.exit(0);
         }
 
         FileReader fileReader = null;
         try {
             fileReader = new FileReader(args[0]);
-        } catch (IOException io) {
-            System.err.println("El archivo "+args[0]+" no se ha podido abrir.");
-            return;
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+            System.exit(-1);
         }
 
         Lexicon lexicon = new Lexicon(fileReader);
@@ -34,10 +34,5 @@ public class Main {
 
         ErrorHandler.getInstance().getTypeErrors().forEach(System.err::println);
     }
-}
 
-//void main() {
-//    read a, b;
-//    a = (-b + 3) * c / 2;
-//    white a, c * 2;
-//}
+}

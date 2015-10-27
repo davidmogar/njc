@@ -40,12 +40,16 @@ Comment = {SingleLineComment} | {BlockComment}
 
 BreakLine = [\n\r]
 
-SingleCharTokens = "+" | "-" | "*" | "/" | "[" | "]" | "<" | ">"
-TwoCharTokens = ""
+SingleCharTokens = "+" | "-" | "*" | "/" | "[" | "]" | "(" | ")" | "{" | "}" | "<" | ">" | "," | ";" | "=" | "!"
 
-Character = \'.\'
-Double = [0-9]*
-Integer = [0-9]*
+Digit = [0-9]
+Letter = [a-zA-Z]
+Alphanumeric = ({Letter} | {Digit})+
+Character = \'(. | \\{Digit}{3})\'
+Integer = \-?{Digit}+
+Double = ({Integer}\.{Digit}* | \-?\.{Digit})([eE]{Integer})?
+
+Identifier = {Letter}({Alphanumeric} | \_)*
 
 %%
 
@@ -54,26 +58,48 @@ Integer = [0-9]*
 
 /* Reserved words */
 
-/* Types */
+/* Primitive types */
+
 "char"		{ matchedText = yytext(); return Tokens.CHARACTER; }
 "double"	{ matchedText = yytext(); return Tokens.DOUBLE; }
 "int"		{ matchedText = yytext(); return Tokens.INTEGER; }
-"void"		{ matchedText = yytext(); return Tokens.VOID; }
 
 /* Control flow */
+
 "if"		{ matchedText = yytext(); return Tokens.IF; }
 "while"		{ matchedText = yytext(); return Tokens.WHILE; }
 
-/* Other reserved words */
+/* Reserved words */
+
 "main"		{ matchedText = yytext(); return Tokens.MAIN; }
 "return"	{ matchedText = yytext(); return Tokens.RETURN; }
+"void"		{ matchedText = yytext(); return Tokens.VOID; }
 
+/* Other tokens */
+{Identifier}		{ matchedText = yytext(); return Tokens.IDENTIFIER; }
 
 /* Numbers */
-{Character}	{ matchedText = yycharat(1); }
-//{Double}	{ matchedText = new Double(yytext()); return Tokens.Double; }
-{Integer}	{ matchedText = new Integer(yytext()); return Tokens.INTEGER; }
+{Character}	{
+				matchedText = (char) Integer.parseInt(yytext().replaceAll("[\\\\\']", ""));
+				return Tokens.CHARACTER_LITERAL;
+			}
 
-{SingleCharTokens} { return (int) yycharat(0); }
+{Double}	{ matchedText = new Double(yytext()); return Tokens.DOUBLE_LITERAL; }
+{Integer}	{ matchedText = new Integer(yytext()); return Tokens.INTEGER_LITERAL; }
+
+/* Operators */
+
+"&&"				{ matchedText = yytext(); return Tokens.AND; }
+"--"				{ matchedText = yytext(); return Tokens.DECREMENT; }
+"=="				{ matchedText = yytext(); return Tokens.EQUALS; }
+">="				{ matchedText = yytext(); return Tokens.GREATER_EQUALS; }
+"++"				{ matchedText = yytext(); return Tokens.INCREMENT; }
+"<="				{ matchedText = yytext(); return Tokens.LOWER_EQUALS; }
+"!="				{ matchedText = yytext(); return Tokens.NOT_EQUALS; }
+"||"				{ matchedText = yytext(); return Tokens.OR; }
+
+{SingleCharTokens}	{ matchedText = yycharat(0); return (int) yycharat(0); }
+
+/* Anythin else */
 
 . { new TypeError(this.getLine(), this.getColumn(),"Character \'" + yycharat(0) + "' unknown.");}
