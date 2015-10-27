@@ -34,11 +34,11 @@ public int getLine() {
 
 %}
 
-SingleLineComment = "//".*\n
+SingleLineComment = "//".*
 BlockComment = "/*"~"*/"
 Comment = {SingleLineComment} | {BlockComment}
 
-BreakLine = [\n\r]
+BreakLine = \n | \r | \r\n | \n\r
 
 SingleCharTokens = "+" | "-" | "*" | "/" | "[" | "]" | "(" | ")" | "{" | "}" | "<" | ">" | "," | ";" | "=" | "!"
 
@@ -48,6 +48,7 @@ Alphanumeric = ({Letter} | {Digit})+
 Character = \'(. | \\{Digit}{3})\'
 Integer = \-?{Digit}+
 Double = ({Integer}\.{Digit}* | \-?\.{Digit})([eE]{Integer})?
+String = \"~\"
 
 Identifier = {Letter}({Alphanumeric} | \_)*
 
@@ -64,6 +65,10 @@ Identifier = {Letter}({Alphanumeric} | \_)*
 "double"	{ matchedText = yytext(); return Tokens.DOUBLE; }
 "int"		{ matchedText = yytext(); return Tokens.INTEGER; }
 
+/* Complex types */
+
+"String"	{ matchedText = yytext(); return Tokens.STRING; }
+
 /* Control flow */
 
 "if"		{ matchedText = yytext(); return Tokens.IF; }
@@ -78,7 +83,7 @@ Identifier = {Letter}({Alphanumeric} | \_)*
 /* Other tokens */
 {Identifier}		{ matchedText = yytext(); return Tokens.IDENTIFIER; }
 
-/* Numbers */
+/* Literals */
 {Character}	{
 				matchedText = (char) Integer.parseInt(yytext().replaceAll("[\\\\\']", ""));
 				return Tokens.CHARACTER_LITERAL;
@@ -86,6 +91,7 @@ Identifier = {Letter}({Alphanumeric} | \_)*
 
 {Double}	{ matchedText = new Double(yytext()); return Tokens.DOUBLE_LITERAL; }
 {Integer}	{ matchedText = new Integer(yytext()); return Tokens.INTEGER_LITERAL; }
+{String}	{ matchedText = yytext().replaceAll("\"", ""); return Tokens.STRING_LITERAL; }
 
 /* Operators */
 
