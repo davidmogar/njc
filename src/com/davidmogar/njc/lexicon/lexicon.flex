@@ -45,7 +45,7 @@ Letter = [a-zA-Z]
 SingleCharTokens = "+" | "-" | "*" | "/" | "[" | "]" | "(" | ")" | "{" | "}" | "<" | ">" | "," | ";" | "=" | "!"
 String = \"~\"
 
-Character = \'(. | \\{Digit}{3})\'
+Character = \'(. | \\({Digit}{3} | "n" | "r"))\'
 Integer = \-?{Digit}+
 Alphanumeric = ({Letter} | {Digit})+
 Identifier = {Letter}({Alphanumeric} | \_)*
@@ -59,7 +59,6 @@ Double = ({Integer}\.{Digit}* | \-?\.{Digit})([eE]{Integer})?
 /* Reserved words */
 
 /* Primitive types */
-
 "char"		{ matchedText = yytext(); return Tokens.CHARACTER; }
 "double"	{ matchedText = yytext(); return Tokens.DOUBLE; }
 "int"		{ matchedText = yytext(); return Tokens.INTEGER; }
@@ -69,12 +68,10 @@ Double = ({Integer}\.{Digit}* | \-?\.{Digit})([eE]{Integer})?
 "String"	{ matchedText = yytext(); return Tokens.STRING; }
 
 /* Control flow */
-
 "if"		{ matchedText = yytext(); return Tokens.IF; }
 "while"		{ matchedText = yytext(); return Tokens.WHILE; }
 
 /* Reserved words */
-
 "main"		{ matchedText = yytext(); return Tokens.MAIN; }
 "return"	{ matchedText = yytext(); return Tokens.RETURN; }
 "void"		{ matchedText = yytext(); return Tokens.VOID; }
@@ -83,17 +80,12 @@ Double = ({Integer}\.{Digit}* | \-?\.{Digit})([eE]{Integer})?
 {Identifier}		{ matchedText = yytext(); return Tokens.IDENTIFIER; }
 
 /* Literals */
-{Character}	{
-				matchedText = (char) Integer.parseInt(yytext().replaceAll("[\\\\\']", ""));
-				return Tokens.CHARACTER_LITERAL;
-			}
-
+{Character}	{ matchedText = yytext().charAt(1); return Tokens.CHARACTER_LITERAL; }
 {Double}	{ matchedText = new Double(yytext()); return Tokens.DOUBLE_LITERAL; }
 {Integer}	{ matchedText = new Integer(yytext()); return Tokens.INTEGER_LITERAL; }
 {String}	{ matchedText = yytext().replaceAll("\"", ""); return Tokens.STRING_LITERAL; }
 
 /* Operators */
-
 "&&"				{ matchedText = yytext(); return Tokens.AND; }
 "--"				{ matchedText = yytext(); return Tokens.DECREMENT; }
 "=="				{ matchedText = yytext(); return Tokens.EQUALS; }
@@ -103,8 +95,8 @@ Double = ({Integer}\.{Digit}* | \-?\.{Digit})([eE]{Integer})?
 "!="				{ matchedText = yytext(); return Tokens.NOT_EQUALS; }
 "||"				{ matchedText = yytext(); return Tokens.OR; }
 
+/* Single char tokens and operators */
 {SingleCharTokens}	{ matchedText = yycharat(0); return (int) yycharat(0); }
 
 /* Anythin else */
-
 . { new TypeError(this.getLine(), this.getColumn(),"Character \'" + yycharat(0) + "' unknown.");}
