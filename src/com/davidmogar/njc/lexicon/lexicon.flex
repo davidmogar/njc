@@ -16,7 +16,7 @@ import com.davidmogar.njc.syntactic.Tokens;
 
 %{
 
-public Object matchedText; // Semantic value of the token returned.
+public Object matchedValue; // Semantic value of the token returned.
 
 /**
  * Return token's column.
@@ -45,11 +45,13 @@ Letter = [a-zA-Z]
 SingleCharTokens = "+" | "-" | "*" | "/" | "[" | "]" | "(" | ")" | "{" | "}" | "<" | ">" | "," | ";" | "=" | "!"
 String = \"~\"
 
-Character = \'(. | \\({Digit}{3} | "n" | "r"))\'
-Integer = \-?{Digit}+
+Character = \'.\'
+OctalCharacter = \'\\{Digit}{3}\'
+SpecialCharacter = \'(\\n | \\t)\'
+Integer = {Digit}+
 Alphanumeric = ({Letter} | {Digit})+
 Identifier = {Letter}({Alphanumeric} | \_ | "$")*
-Double = ({Integer}\.{Digit}* | \-?\.{Digit})([eE]{Integer})?
+Double = ({Integer}\.{Digit}* | \.{Digit})([eE][\-\+]?{Integer})?
 
 %%
 
@@ -59,44 +61,49 @@ Double = ({Integer}\.{Digit}* | \-?\.{Digit})([eE]{Integer})?
 /* Reserved words */
 
 /* Primitive types */
-"char"		{ matchedText = yytext(); return Tokens.CHARACTER; }
-"double"	{ matchedText = yytext(); return Tokens.DOUBLE; }
-"int"		{ matchedText = yytext(); return Tokens.INTEGER; }
+"char"		{ matchedValue = yytext(); return Tokens.CHARACTER; }
+"double"	{ matchedValue = yytext(); return Tokens.DOUBLE; }
+"int"		{ matchedValue = yytext(); return Tokens.INTEGER; }
 
 /* Complex types */
 
-"String"	{ matchedText = yytext(); return Tokens.STRING; }
+"String"	{ matchedValue = yytext(); return Tokens.STRING; }
 
 /* Control flow */
-"if"		{ matchedText = yytext(); return Tokens.IF; }
-"while"		{ matchedText = yytext(); return Tokens.WHILE; }
+"if"		{ matchedValue = yytext(); return Tokens.IF; }
+"while"		{ matchedValue = yytext(); return Tokens.WHILE; }
 
 /* Reserved words */
-"main"		{ matchedText = yytext(); return Tokens.MAIN; }
-"return"	{ matchedText = yytext(); return Tokens.RETURN; }
-"void"		{ matchedText = yytext(); return Tokens.VOID; }
+"main"		{ matchedValue = yytext(); return Tokens.MAIN; }
+"return"	{ matchedValue = yytext(); return Tokens.RETURN; }
+"void"		{ matchedValue = yytext(); return Tokens.VOID; }
 
 /* Other tokens */
-{Identifier}		{ matchedText = yytext(); return Tokens.IDENTIFIER; }
+{Identifier}	{ matchedValue = yytext(); return Tokens.IDENTIFIER; }
 
 /* Literals */
-{Character}	{ matchedText = yytext().charAt(1); return Tokens.CHARACTER_LITERAL; }
-{Double}	{ matchedText = new Double(yytext()); return Tokens.DOUBLE_LITERAL; }
-{Integer}	{ matchedText = new Integer(yytext()); return Tokens.INTEGER_LITERAL; }
-{String}	{ matchedText = yytext().replaceAll("\"", ""); return Tokens.STRING_LITERAL; }
+{Character}			{ matchedValue = yytext().charAt(1); return Tokens.CHARACTER_LITERAL; }
+{OctalCharacter}	{
+						matchedValue = (char) Integer.parseInt(yytext().replaceAll("[\\\\\']", ""));
+						return Tokens.CHARACTER_LITERAL;
+					}
+{SpecialCharacter}	{ matchedValue = yytext().charAt(1); return Tokens.CHARACTER_LITERAL; }
+{Double}			{ matchedValue = new Double(yytext()); return Tokens.DOUBLE_LITERAL; }
+{Integer}			{ matchedValue = new Integer(yytext()); return Tokens.INTEGER_LITERAL; }
+{String}			{ matchedValue = yytext().replaceAll("\"", ""); return Tokens.STRING_LITERAL; }
 
 /* Operators */
-"&&"				{ matchedText = yytext(); return Tokens.AND; }
-"--"				{ matchedText = yytext(); return Tokens.DECREMENT; }
-"=="				{ matchedText = yytext(); return Tokens.EQUALS; }
-">="				{ matchedText = yytext(); return Tokens.GREATER_EQUALS; }
-"++"				{ matchedText = yytext(); return Tokens.INCREMENT; }
-"<="				{ matchedText = yytext(); return Tokens.LOWER_EQUALS; }
-"!="				{ matchedText = yytext(); return Tokens.NOT_EQUALS; }
-"||"				{ matchedText = yytext(); return Tokens.OR; }
+"&&"				{ matchedValue = yytext(); return Tokens.AND; }
+"--"				{ matchedValue = yytext(); return Tokens.DECREMENT; }
+"=="				{ matchedValue = yytext(); return Tokens.EQUALS; }
+">="				{ matchedValue = yytext(); return Tokens.GREATER_EQUALS; }
+"++"				{ matchedValue = yytext(); return Tokens.INCREMENT; }
+"<="				{ matchedValue = yytext(); return Tokens.LOWER_EQUALS; }
+"!="				{ matchedValue = yytext(); return Tokens.NOT_EQUALS; }
+"||"				{ matchedValue = yytext(); return Tokens.OR; }
 
 /* Single char tokens and operators */
-{SingleCharTokens}	{ matchedText = yycharat(0); return (int) yycharat(0); }
+{SingleCharTokens}	{ matchedValue = yycharat(0); return (int) yycharat(0); }
 
 /* Anythin else */
 . { new TypeError(this.getLine(), this.getColumn(),"Character \'" + yycharat(0) + "' unknown.");}

@@ -25,12 +25,7 @@ public class Main {
 
         Lexicon lexicon = new Lexicon(fileReader);
         Parser parser = new Parser(lexicon);
-
-        int token;
-        while ((token = lexicon.yylex()) != 0) {
-            System.out.println("(" + lexicon.getLine() + ", " + lexicon.getColumn() +
-                    ") " + lexicon.matchedText + " -> " + Tokens.getTokenNameByValue(token));
-        }
+        parser.run();
 
         ErrorHandler.getInstance().getTypeErrors().forEach(System.err::println);
     }
