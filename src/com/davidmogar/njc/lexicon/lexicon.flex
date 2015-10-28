@@ -48,7 +48,7 @@ String = \"~\"
 Character = \'(. | \\({Digit}{3} | "n" | "r"))\'
 Integer = \-?{Digit}+
 Alphanumeric = ({Letter} | {Digit})+
-Identifier = {Letter}({Alphanumeric} | \_)*
+Identifier = {Letter}({Alphanumeric} | \_ | "$")*
 Double = ({Integer}\.{Digit}* | \-?\.{Digit})([eE]{Integer})?
 
 %%
