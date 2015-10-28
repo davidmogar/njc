@@ -1,27 +1,88 @@
    0  $accept : programa $end
 
-   1  programa : INTEGER_LITERAL
+   1  programa : expresion
+
+   2  expresion : expresion '+' expresion
+   3            | expresion '/' expresion
+   4            | IDENTIFIER
+   5            | INTEGER_LITERAL
 
 state 0
 	$accept : . programa $end  (0)
 
 	INTEGER_LITERAL  shift 1
+	IDENTIFIER  shift 2
 	.  error
 
-	programa  goto 2
+	programa  goto 3
+	expresion  goto 4
 
 
 state 1
-	programa : INTEGER_LITERAL .  (1)
+	expresion : INTEGER_LITERAL .  (5)
 
-	.  reduce 1
+	.  reduce 5
 
 
 state 2
+	expresion : IDENTIFIER .  (4)
+
+	.  reduce 4
+
+
+state 3
 	$accept : programa . $end  (0)
 
 	$end  accept
 
 
-25 terminals, 2 nonterminals
-2 grammar rules, 3 states
+state 4
+	programa : expresion .  (1)
+	expresion : expresion . '+' expresion  (2)
+	expresion : expresion . '/' expresion  (3)
+
+	'+'  shift 5
+	'/'  shift 6
+	$end  reduce 1
+
+
+state 5
+	expresion : expresion '+' . expresion  (2)
+
+	INTEGER_LITERAL  shift 1
+	IDENTIFIER  shift 2
+	.  error
+
+	expresion  goto 7
+
+
+state 6
+	expresion : expresion '/' . expresion  (3)
+
+	INTEGER_LITERAL  shift 1
+	IDENTIFIER  shift 2
+	.  error
+
+	expresion  goto 8
+
+
+state 7
+	expresion : expresion . '+' expresion  (2)
+	expresion : expresion '+' expresion .  (2)
+	expresion : expresion . '/' expresion  (3)
+
+	'/'  shift 6
+	$end  reduce 2
+	'+'  reduce 2
+
+
+state 8
+	expresion : expresion . '+' expresion  (2)
+	expresion : expresion . '/' expresion  (3)
+	expresion : expresion '/' expresion .  (3)
+
+	.  reduce 3
+
+
+28 terminals, 3 nonterminals
+6 grammar rules, 9 states

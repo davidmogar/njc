@@ -2,7 +2,6 @@ package com.davidmogar.njc;
 
 import com.davidmogar.njc.lexicon.Lexicon;
 import com.davidmogar.njc.syntactic.Parser;
-import com.davidmogar.njc.syntactic.Tokens;
 
 import java.io.FileReader;
 import java.io.IOException;

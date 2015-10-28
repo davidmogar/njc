@@ -2,7 +2,6 @@ package com.davidmogar.njc.lexicon;
 
 import com.davidmogar.njc.syntactic.Parser;
 import com.davidmogar.njc.TypeError;
-import com.davidmogar.njc.syntactic.Tokens;
 
 %%
 
@@ -12,7 +11,6 @@ import com.davidmogar.njc.syntactic.Tokens;
 %class Lexicon
 %public
 %unicode
-
 
 %{
 
@@ -61,46 +59,46 @@ Double = ({Integer}\.{Digit}* | \.{Digit})([eE][\-\+]?{Integer})?
 /* Reserved words */
 
 /* Primitive types */
-"char"		{ matchedValue = yytext(); return Tokens.CHARACTER; }
-"double"	{ matchedValue = yytext(); return Tokens.DOUBLE; }
-"int"		{ matchedValue = yytext(); return Tokens.INTEGER; }
+"char"		{ matchedValue = yytext(); return Parser.CHARACTER; }
+"double"	{ matchedValue = yytext(); return Parser.DOUBLE; }
+"int"		{ matchedValue = yytext(); return Parser.INTEGER; }
 
 /* Complex types */
 
-"String"	{ matchedValue = yytext(); return Tokens.STRING; }
+"String"	{ matchedValue = yytext(); return Parser.STRING; }
 
 /* Control flow */
-"if"		{ matchedValue = yytext(); return Tokens.IF; }
-"while"		{ matchedValue = yytext(); return Tokens.WHILE; }
+"if"		{ matchedValue = yytext(); return Parser.IF; }
+"while"		{ matchedValue = yytext(); return Parser.WHILE; }
 
 /* Reserved words */
-"main"		{ matchedValue = yytext(); return Tokens.MAIN; }
-"return"	{ matchedValue = yytext(); return Tokens.RETURN; }
-"void"		{ matchedValue = yytext(); return Tokens.VOID; }
+"main"		{ matchedValue = yytext(); return Parser.MAIN; }
+"return"	{ matchedValue = yytext(); return Parser.RETURN; }
+"void"		{ matchedValue = yytext(); return Parser.VOID; }
 
 /* Other tokens */
-{Identifier}	{ matchedValue = yytext(); return Tokens.IDENTIFIER; }
+{Identifier}	{ matchedValue = yytext(); return Parser.IDENTIFIER; }
 
 /* Literals */
-{Character}			{ matchedValue = yytext().charAt(1); return Tokens.CHARACTER_LITERAL; }
+{Character}			{ matchedValue = yytext().charAt(1); return Parser.CHARACTER_LITERAL; }
 {OctalCharacter}	{
 						matchedValue = (char) Integer.parseInt(yytext().replaceAll("[\\\\\']", ""));
-						return Tokens.CHARACTER_LITERAL;
+						return Parser.CHARACTER_LITERAL;
 					}
-{SpecialCharacter}	{ matchedValue = yytext().charAt(1); return Tokens.CHARACTER_LITERAL; }
-{Double}			{ matchedValue = new Double(yytext()); return Tokens.DOUBLE_LITERAL; }
-{Integer}			{ matchedValue = new Integer(yytext()); return Tokens.INTEGER_LITERAL; }
-{String}			{ matchedValue = yytext().replaceAll("\"", ""); return Tokens.STRING_LITERAL; }
+{SpecialCharacter}	{ matchedValue = yytext().charAt(1); return Parser.CHARACTER_LITERAL; }
+{Double}			{ matchedValue = new Double(yytext()); return Parser.DOUBLE_LITERAL; }
+{Integer}			{ matchedValue = new Integer(yytext()); return Parser.INTEGER_LITERAL; }
+{String}			{ matchedValue = yytext().replaceAll("\"", ""); return Parser.STRING_LITERAL; }
 
 /* Operators */
-"&&"				{ matchedValue = yytext(); return Tokens.AND; }
-"--"				{ matchedValue = yytext(); return Tokens.DECREMENT; }
-"=="				{ matchedValue = yytext(); return Tokens.EQUALS; }
-">="				{ matchedValue = yytext(); return Tokens.GREATER_EQUALS; }
-"++"				{ matchedValue = yytext(); return Tokens.INCREMENT; }
-"<="				{ matchedValue = yytext(); return Tokens.LOWER_EQUALS; }
-"!="				{ matchedValue = yytext(); return Tokens.NOT_EQUALS; }
-"||"				{ matchedValue = yytext(); return Tokens.OR; }
+"&&"				{ matchedValue = yytext(); return Parser.AND; }
+"--"				{ matchedValue = yytext(); return Parser.DECREMENT; }
+"=="				{ matchedValue = yytext(); return Parser.EQUALS; }
+">="				{ matchedValue = yytext(); return Parser.GREATER_EQUALS; }
+"++"				{ matchedValue = yytext(); return Parser.INCREMENT; }
+"<="				{ matchedValue = yytext(); return Parser.LOWER_EQUALS; }
+"!="				{ matchedValue = yytext(); return Parser.NOT_EQUALS; }
+"||"				{ matchedValue = yytext(); return Parser.OR; }
 
 /* Single char tokens and operators */
 {SingleCharTokens}	{ matchedValue = yycharat(0); return (int) yycharat(0); }

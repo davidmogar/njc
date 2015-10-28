@@ -19,12 +19,11 @@ package com.davidmogar.njc.syntactic;
 
 //#line 1 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 
-
 import com.davidmogar.njc.lexicon.Lexicon;
 import com.davidmogar.njc.ast.*;
 import java.util.*;
 
-//#line 24 "Parser.java"
+//#line 23 "Parser.java"
 
 
 
@@ -153,14 +152,14 @@ final Object dup_yyval(Object val)
   return val;
 }
 //#### end semantic value section ####
-public final static short CHARACTER_LITERAL=257;
-public final static short DOUBLE_LITERAL=258;
-public final static short INTEGER_LITERAL=259;
-public final static short STRING_LITERAL=260;
-public final static short CHARACTER=261;
-public final static short DOUBLE=262;
-public final static short INTEGER=263;
-public final static short STRING=264;
+public final static short CHARACTER=257;
+public final static short DOUBLE=258;
+public final static short INTEGER=259;
+public final static short CHARACTER_LITERAL=260;
+public final static short DOUBLE_LITERAL=261;
+public final static short INTEGER_LITERAL=262;
+public final static short STRING=263;
+public final static short STRING_LITERAL=264;
 public final static short IF=265;
 public final static short WHILE=266;
 public final static short MAIN=267;
@@ -177,43 +176,56 @@ public final static short NOT_EQUALS=277;
 public final static short OR=278;
 public final static short YYERRCODE=256;
 final static short yylhs[] = {                           -1,
-    0,
+    0,    1,    1,    1,    1,
 };
 final static short yylen[] = {                            2,
-    1,
+    1,    3,    3,    1,    1,
 };
 final static short yydefred[] = {                         0,
-    1,    0,
+    5,    4,    0,    0,    0,    0,    0,    3,
 };
-final static short yydgoto[] = {                          2,
+final static short yydgoto[] = {                          3,
+    4,
 };
-final static short yysindex[] = {                      -259,
-    0,    0,
+final static short yysindex[] = {                      -262,
+    0,    0,    0,  -41, -262, -262,  -42,    0,
 };
 final static short yyrindex[] = {                         0,
-    0,    0,
+    0,    0,    0,    7,    0,    0,    1,    0,
 };
 final static short yygindex[] = {                         0,
+   -2,
 };
-final static int YYTABLESIZE=0;
+final static int YYTABLESIZE=44;
 static short yytable[];
 static { yytable();}
 static void yytable(){
 yytable = new short[]{                          1,
+    2,    5,    7,    8,    6,    6,    1,    0,    0,    0,
+    0,    2,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    2,
 };
 }
 static short yycheck[];
 static { yycheck(); }
 static void yycheck() {
-yycheck = new short[] {                        259,
+yycheck = new short[] {                        262,
+    0,   43,    5,    6,   47,   47,    0,   -1,   -1,   -1,
+   -1,  274,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
+   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
+   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
+   -1,   -1,   -1,   43,
 };
 }
-final static short YYFINAL=2;
+final static short YYFINAL=3;
 final static short YYMAXTOKEN=278;
 final static String yyname[] = {
 "end-of-file",null,null,null,null,null,null,null,null,null,null,null,null,null,
 null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
-null,null,null,null,null,null,null,null,null,null,null,null,null,"'+'",null,
+null,null,null,null,null,null,null,null,null,null,null,null,"'*'","'+'",null,
+"'-'",null,"'/'",null,null,null,null,null,null,null,null,null,null,null,null,
 null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
@@ -226,56 +238,62 @@ null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
-null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
-null,null,null,null,"CHARACTER_LITERAL","DOUBLE_LITERAL","INTEGER_LITERAL",
-"STRING_LITERAL","CHARACTER","DOUBLE","INTEGER","STRING","IF","WHILE","MAIN",
-"RETURN","VOID","AND","DECREMENT","EQUALS","GREATER_EQUALS","IDENTIFIER",
+null,null,null,null,null,"CHARACTER","DOUBLE","INTEGER","CHARACTER_LITERAL",
+"DOUBLE_LITERAL","INTEGER_LITERAL","STRING","STRING_LITERAL","IF","WHILE",
+"MAIN","RETURN","VOID","AND","DECREMENT","EQUALS","GREATER_EQUALS","IDENTIFIER",
 "INCREMENT","LOWER_EQUALS","NOT_EQUALS","OR",
 };
 final static String yyrule[] = {
 "$accept : programa",
-"programa : INTEGER_LITERAL",
+"programa : expresion",
+"expresion : expresion '+' expresion",
+"expresion : expresion '/' expresion",
+"expresion : IDENTIFIER",
+"expresion : INTEGER_LITERAL",
 };
 
-//#line 21 "../src/com/davidmogar/njc/syntactic/syntactic.y"
-
+//#line 40 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 
 private Lexicon lexicon;
 public AstNode ast;
 
-// * Llamada al analizador l�xico
 private int yylex () {
     int token=0;
     try { 
-	token=lexicon.yylex();
+	token=lexicon.yylex(); 
     } catch(Throwable e) {
-	    System.err.println ("Error L�xico en l�nea " + lexicon.getLine()+
-		" y columna "+lexicon.getColumn()+":\n\t"+e);
+	    System.err.println ("Error lexicon en linea " + lexicon.getLine()+
+		" y columna "+lexicon.getColumn()+":\n\t"+e); 
     }
     return token;
 }
 
-// * Manejo de Errores Sint�cticos
+// * Manejo de Errores Sintacticos
 public void yyerror (String error) {
-    System.err.println ("Error Sint�ctico en l�nea " + lexicon.getLine()+
+    System.err.println ("Error Sintactico en linea " + lexicon.getLine()+
 		" y columna "+lexicon.getColumn()+":\n\t"+error);
 }
 
-// * Constructor del Sint�ctico
+// * Constructor del Sintactico
 public Parser(Lexicon lexicon) {
 	this.lexicon = lexicon;
 }
 
-// * El yyparse original no es p�blico
+// * El yyparse original no es publico
 public int parse() {
 	return yyparse();
 }
 
-// * El yylval no es un atributo p�blico
+// * El yylval no es un atributo publico
+public void setYylval(Object yylval) {
+	this.yylval=yylval;
+}
+
+// * El yylval no es un atributo publico
 public Object getMatchedValue() {
 	return lexicon.matchedValue;
 }
-//#line 215 "Parser.java"
+//#line 233 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
