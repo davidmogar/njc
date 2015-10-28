@@ -45,7 +45,6 @@ String = \"~\"
 
 Character = \'.\'
 OctalCharacter = \'\\{Digit}{3}\'
-SpecialCharacter = \'(\\n | \\t)\'
 Integer = {Digit}+
 Alphanumeric = ({Letter} | {Digit})+
 Identifier = {Letter}({Alphanumeric} | \_ | "$")*
@@ -62,19 +61,22 @@ Double = ({Integer}\.{Digit}* | \.{Digit})([eE][\-\+]?{Integer})?
 "char"		{ matchedValue = yytext(); return Parser.CHARACTER; }
 "double"	{ matchedValue = yytext(); return Parser.DOUBLE; }
 "int"		{ matchedValue = yytext(); return Parser.INTEGER; }
+"void"		{ matchedValue = yytext(); return Parser.VOID; }
 
 /* Complex types */
 
 "String"	{ matchedValue = yytext(); return Parser.STRING; }
 
 /* Control flow */
+"else"		{ matchedValue = yytext(); return Parser.ELSE; }
 "if"		{ matchedValue = yytext(); return Parser.IF; }
 "while"		{ matchedValue = yytext(); return Parser.WHILE; }
 
 /* Reserved words */
 "main"		{ matchedValue = yytext(); return Parser.MAIN; }
+"read"		{ matchedValue = yytext(); return Parser.READ; }
 "return"	{ matchedValue = yytext(); return Parser.RETURN; }
-"void"		{ matchedValue = yytext(); return Parser.VOID; }
+"write"		{ matchedValue = yytext(); return Parser.WRITE; }
 
 /* Other tokens */
 {Identifier}	{ matchedValue = yytext(); return Parser.IDENTIFIER; }
@@ -85,7 +87,8 @@ Double = ({Integer}\.{Digit}* | \.{Digit})([eE][\-\+]?{Integer})?
 						matchedValue = (char) Integer.parseInt(yytext().replaceAll("[\\\\\']", ""));
 						return Parser.CHARACTER_LITERAL;
 					}
-{SpecialCharacter}	{ matchedValue = yytext().charAt(1); return Parser.CHARACTER_LITERAL; }
+'\\n'				{ matchedValue = '\n'; return Parser.CHARACTER_LITERAL; }
+'\\t'				{ matchedValue = '\n'; return Parser.CHARACTER_LITERAL; }
 {Double}			{ matchedValue = new Double(yytext()); return Parser.DOUBLE_LITERAL; }
 {Integer}			{ matchedValue = new Integer(yytext()); return Parser.INTEGER_LITERAL; }
 {String}			{ matchedValue = yytext().replaceAll("\"", ""); return Parser.STRING_LITERAL; }

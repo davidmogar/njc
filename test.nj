@@ -1,1 +1,13 @@
-4 + 6 / 7
+/*
+	Ejemplo de programa de entrada 
+*/
+
+int i,e;
+double j;
+int[10] v;
+
+void main() {
+    read i,e;
+    j = -((i-e)/2);
+    write j, v[i];
+}

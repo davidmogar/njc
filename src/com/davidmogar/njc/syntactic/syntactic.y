@@ -5,75 +5,180 @@ import java.util.*;
 
 %}
       
-/* Primitive types (from 260 to 279) */
+/* Primitive types */
 %token CHARACTER DOUBLE INTEGER
 
-/* Primitive types literals (from 279 to 299) */
+/* Primitive types literals */
 %token CHARACTER_LITERAL DOUBLE_LITERAL INTEGER_LITERAL
 
-/* Complex types (from 300 to 349) */
-%token STRING
+/* Complex types */
+%token STRING VOID
 
-/* Complex types literals (from 350 to 399) */
+/* Complex types literals */
 %token STRING_LITERAL
 
-/* Control flow (from 400 to 429) */
-%token IF WHILE
+/* Control flow */
+%token ELSE IF WHILE
 
-/* Reserved words (from 430 to 729) */
-%token MAIN RETURN VOID
+/* Reserved words */
+%token MAIN READ RETURN WRITE
 
-/* Other tokens (from 730 onwards) */
+/* Other tokens */
 %token AND DECREMENT EQUALS GREATER_EQUALS IDENTIFIER INCREMENT LOWER_EQUALS NOT_EQUALS OR
-    
+
+%nonassoc LOWER_THAN_ELSE
+%nonassoc ELSE
+%left AND OR '!'
+%left EQUALS GREATER_EQUALS LOWER_EQUALS NOT_EQUALS
 %left '+' '-'
 %left '*' '/'
+%nonassoc '(' ')'
 
 %%
 
-programa:  expresion
-expresion: expresion '+' expresion
-         | expresion '/' expresion
-         | IDENTIFIER
-         | INTEGER_LITERAL
-         ;
+program:    functions
+            | declarations functions ;
+
+statement:  function_call ';'
+            | declaration ';'
+            | if
+            | while
+            | read ';'
+            | return ';'
+            | write ';'
+            | assignment ';' ;
+
+statements: statement | statements statement ;
+
+/* Identifiers, declarations and assignments */
+
+array_position:     '[' expression ']'
+                    | '[' expression ']' array_position ;
+
+array_access:       IDENTIFIER array_position ;
+
+array_declaration:  type array_position identifiers;
+
+assignment:         IDENTIFIER '=' expression | array_access '=' expression ;
+
+declaration:        type identifiers
+                    | array_declaration ;
+
+declarations:       declarations declaration ';'
+                    | declaration ';' ;
+
+identifiers:        IDENTIFIER
+                    | IDENTIFIER ',' identifiers ;
+
+/* Blocks, functions and control flow */
+
+block:                  '{' '}'
+                        | '{' statements '}' ;
+
+function:               type function_name '(' ')' block
+                        | type function_name '(' function_parameters ')' block ;
+
+functions:              function
+                        | function functions ;
+
+function_call:          IDENTIFIER '(' ')' | IDENTIFIER '(' expressions ')' ;
+
+function_name:          IDENTIFIER | MAIN ;
+
+function_parameters:    type IDENTIFIER
+                        | type IDENTIFIER ',' function_parameters ;
+
+else:                   ELSE statement
+                        | ELSE block ;
+
+if_statement:           IF '(' expression ')' statement %prec LOWER_THAN_ELSE
+                        | IF '(' expression ')' statement else ;
+
+if_block:               IF '(' expression ')' block %prec LOWER_THAN_ELSE
+                        | IF '(' expression ')' block else ;
+
+if:                     if_statement | if_block ;
+
+while:                  WHILE '(' expression ')' block ;
+
+/* Language functions */
+
+value_holders:   IDENTIFIER
+                | array_access
+                | IDENTIFIER ',' value_holders
+                | array_access ',' value_holders ;
+
+read:           READ value_holders ;
+
+return:         RETURN expression ;
+
+write: WRITE expressions ;
+
+logic_expression:   expression AND expression
+                    | expression EQUALS expression
+                    | expression GREATER_EQUALS expression
+                    | expression LOWER_EQUALS expression
+                    | expression NOT_EQUALS expression
+                    | '!' expression ;
+
+expression:         expression '+' expression
+                    | expression '-' expression
+                    | expression '*' expression
+                    | expression '/' expression
+                    | '(' expression ')'
+                    | '-' expression
+                    | '(' type ')' expression
+                    | logic_expression
+                    | array_access
+                    | function_call
+                    | literal
+                    | IDENTIFIER ;
+
+expressions:        expression
+                    | expressions ',' expression ;
+
+/* Terminal symbols */
+literal:    CHARACTER_LITERAL
+            | DOUBLE_LITERAL
+            | INTEGER_LITERAL
+            | STRING_LITERAL ;
+
+type:       CHARACTER
+            | DOUBLE
+            | INTEGER
+            | STRING
+            | VOID ;
+
 %%
+
 private Lexicon lexicon;
+
 public AstNode ast;
 
 private int yylex () {
-    int token=0;
-    try { 
-	token=lexicon.yylex(); 
+    int token = 0;
+    try {
+	    token=lexicon.yylex();
     } catch(Throwable e) {
-	    System.err.println ("Error lexicon en linea " + lexicon.getLine()+
+        System.err.println ("Error lexicon en linea " + lexicon.getLine()+
 		" y columna "+lexicon.getColumn()+":\n\t"+e); 
     }
     return token;
 }
 
-// * Manejo de Errores Sintacticos
 public void yyerror (String error) {
     System.err.println ("Error Sintactico en linea " + lexicon.getLine()+
 		" y columna "+lexicon.getColumn()+":\n\t"+error);
 }
 
-// * Constructor del Sintactico
 public Parser(Lexicon lexicon) {
 	this.lexicon = lexicon;
 }
 
-// * El yyparse original no es publico
 public int parse() {
 	return yyparse();
 }
 
-// * El yylval no es un atributo publico
-public void setYylval(Object yylval) {
-	this.yylval=yylval;
-}
-
-// * El yylval no es un atributo publico
 public Object getMatchedValue() {
 	return lexicon.matchedValue;
 }
