@@ -1,0 +1,27 @@
+   0  $accept : programa $end
+
+   1  programa : INTEGER_LITERAL
+
+state 0
+	$accept : . programa $end  (0)
+
+	INTEGER_LITERAL  shift 1
+	.  error
+
+	programa  goto 2
+
+
+state 1
+	programa : INTEGER_LITERAL .  (1)
+
+	.  reduce 1
+
+
+state 2
+	$accept : programa . $end  (0)
+
+	$end  accept
+
+
+25 terminals, 2 nonterminals
+2 grammar rules, 3 states
