@@ -115,12 +115,7 @@ while:                  WHILE '(' expression ')' block ;
 
 /* Language functions */
 
-value_holders:   IDENTIFIER
-                | array_access
-                | IDENTIFIER ',' value_holders
-                | array_access ',' value_holders ;
-
-read:           READ value_holders ;
+read:           READ expressions ;
 
 return:         RETURN expression ;
 
