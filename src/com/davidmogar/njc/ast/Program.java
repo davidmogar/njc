@@ -1,21 +1,21 @@
 package com.davidmogar.njc.ast;
 
-import com.davidmogar.njc.ast.statements.Block;
+import com.davidmogar.njc.ast.statements.definitions.Definition;
 
 import java.util.List;
 
 public class Program implements AstNode {
 
-    public List<Block> blocks;
+    public List<Definition> definitions;
 
-    public Program(List<Block> blocks) {
-        this.blocks = blocks;
+    public Program(List<Definition> definitions) {
+        this.definitions = definitions;
     }
 
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        blocks.forEach(builder::append);
+        definitions.forEach(builder::append);
         return builder.toString();
     }
 }
