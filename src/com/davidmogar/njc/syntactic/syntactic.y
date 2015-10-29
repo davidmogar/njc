@@ -69,7 +69,7 @@ array_access:       IDENTIFIER array_position ;
 
 array_declaration:  type array_position identifiers;
 
-assignment:         IDENTIFIER '=' expression | array_access '=' expression ;
+assignment:         expression '=' expression ;
 
 declaration:        type identifiers
                     | array_declaration ;
