@@ -1,6 +1,7 @@
 %{
 import com.davidmogar.njc.lexicon.Lexicon;
 import com.davidmogar.njc.ast.*;
+import com.davidmogar.njc.ast.expressions.literals.*;
 import java.util.*;
 
 %}
@@ -54,10 +55,10 @@ statements: statement | statements statement ;
 
 /* Identifiers, declarations and assignments */
 
-literal:    CHARACTER_LITERAL
-            | DOUBLE_LITERAL
-            | INTEGER_LITERAL
-            | STRING_LITERAL ;
+literal:    CHARACTER_LITERAL { $$ = new CharacterLiteral(lexicon.getLine(), lexicon.getColumn(), (Character) $1); }
+            | DOUBLE_LITERAL { $$ = new DoubleLiteral(lexicon.getLine(), lexicon.getColumn(), (Double) $1); }
+            | INTEGER_LITERAL { $$ = new IntegerLiteral(lexicon.getLine(), lexicon.getColumn(), (Integer) $1); }
+            | STRING_LITERAL { $$ = new StringLiteral(lexicon.getLine(), lexicon.getColumn(), (String) $1); } ;
 
 type:       CHARACTER
             | DOUBLE
@@ -157,6 +158,7 @@ private int yylex () {
     int token = 0;
     try {
 	    token=lexicon.yylex();
+	    yylval = lexicon.matchedValue;
     } catch(Throwable e) {
         System.err.println ("Error lexicon en linea " + lexicon.getLine()+
 		" y columna "+lexicon.getColumn()+":\n\t"+e); 
@@ -175,8 +177,4 @@ public Parser(Lexicon lexicon) {
 
 public int parse() {
 	return yyparse();
-}
-
-public Object getMatchedValue() {
-	return lexicon.matchedValue;
 }

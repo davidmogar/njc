@@ -21,9 +21,10 @@ package com.davidmogar.njc.syntactic;
 
 import com.davidmogar.njc.lexicon.Lexicon;
 import com.davidmogar.njc.ast.*;
+import com.davidmogar.njc.ast.expressions.literals.*;
 import java.util.*;
 
-//#line 23 "Parser.java"
+//#line 24 "Parser.java"
 
 
 
@@ -517,7 +518,7 @@ final static String yyrule[] = {
 "expressions : expressions ',' expression",
 };
 
-//#line 150 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 151 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 
 
 private Lexicon lexicon;
@@ -528,6 +529,7 @@ private int yylex () {
     int token = 0;
     try {
 	    token=lexicon.yylex();
+	    yylval = lexicon.matchedValue;
     } catch(Throwable e) {
         System.err.println ("Error lexicon en linea " + lexicon.getLine()+
 		" y columna "+lexicon.getColumn()+":\n\t"+e); 
@@ -547,11 +549,7 @@ public Parser(Lexicon lexicon) {
 public int parse() {
 	return yyparse();
 }
-
-public Object getMatchedValue() {
-	return lexicon.matchedValue;
-}
-//#line 491 "Parser.java"
+//#line 489 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -705,6 +703,23 @@ boolean doaction;
     switch(yyn)
       {
 //########## USER-SUPPLIED ACTIONS ##########
+case 13:
+//#line 58 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+{ yyval = new CharacterLiteral(lexicon.getLine(), lexicon.getColumn(), (Character) val_peek(0)); }
+break;
+case 14:
+//#line 59 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+{ yyval = new DoubleLiteral(lexicon.getLine(), lexicon.getColumn(), (Double) val_peek(0)); }
+break;
+case 15:
+//#line 60 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+{ yyval = new IntegerLiteral(lexicon.getLine(), lexicon.getColumn(), (Integer) val_peek(0)); }
+break;
+case 16:
+//#line 61 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+{ yyval = new StringLiteral(lexicon.getLine(), lexicon.getColumn(), (String) val_peek(0)); }
+break;
+//#line 654 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

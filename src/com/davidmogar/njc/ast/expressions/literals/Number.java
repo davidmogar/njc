@@ -1,4 +1,4 @@
-package com.davidmogar.njc.ast.expressions.numbers;
+package com.davidmogar.njc.ast.expressions.literals;
 
 import com.davidmogar.njc.ast.expressions.Expression;
 

@@ -1,14 +1,14 @@
-package com.davidmogar.njc.ast.expressions.numbers;
+package com.davidmogar.njc.ast.expressions.literals;
 
 import com.davidmogar.njc.ast.AbstractAstNode;
 
 import java.lang.*;
 
-public class Integer extends AbstractAstNode implements Number {
+public class IntegerLiteral extends AbstractAstNode implements Number {
 
     public int value;
 
-    public Integer(int line, int column, int value) {
+    public IntegerLiteral(int line, int column, int value) {
         super(line, column);
         this.value = value;
     }
