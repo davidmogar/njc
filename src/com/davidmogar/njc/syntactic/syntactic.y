@@ -33,6 +33,7 @@ import java.util.*;
 %left '+' '-'
 %left '*' '/'
 %right NEGATION
+%nonassoc '[' ']'
 %nonassoc '(' ')'
 
 %%
@@ -61,19 +62,20 @@ literal:    CHARACTER_LITERAL
 type:       CHARACTER
             | DOUBLE
             | INTEGER
-            | STRING ;
+            | STRING
+            | type '[' INTEGER_LITERAL ']';
 
+/*
 array_position:     '[' expression ']'
                     | '[' expression ']' array_position ;
 
 array_access:       IDENTIFIER array_position ;
 
 array_declaration:  type array_position identifiers;
-
+*/
 assignment:         expression '=' expression ;
 
-declaration:        type identifiers
-                    | array_declaration ;
+declaration:        type identifiers ;
 
 declarations:       declarations declaration ';'
                     | declaration ';' ;
@@ -87,7 +89,9 @@ block:                  '{' '}'
                         | '{' statements '}' ;
 
 function:               type function_name '(' ')' block
-                        | type function_name '(' function_parameters ')' block ;
+                        | VOID function_name '(' ')' block
+                        | type function_name '(' function_parameters ')' block
+                        | VOID function_name '(' function_parameters ')' block ;
 
 functions:              function
                         | function functions ;
@@ -96,10 +100,8 @@ function_call:          IDENTIFIER '(' ')' | IDENTIFIER '(' expressions ')' ;
 
 function_name:          IDENTIFIER | MAIN ;
 
-function_parameters:    function_return IDENTIFIER
+function_parameters:    type IDENTIFIER
                         | type IDENTIFIER ',' function_parameters ;
-
-function_return:        type | VOID ;
 
 else:                   ELSE statement
                         | ELSE block ;
