@@ -5,14 +5,14 @@ import com.davidmogar.njc.ast.expressions.Expression;
 
 public abstract class BinaryOperator extends AbstractAstNode implements Expression {
 
-    public Expression leftValue;
-    public Expression rightValue;
+    public Expression leftExpression;
+    public Expression rightExpression;
     public String operator;
 
-    public BinaryOperator(int line, int column, Expression leftValue, Expression rightValue, String operator) {
+    public BinaryOperator(int line, int column, Expression leftExpression, Expression rightExpression, String operator) {
         super(line, column);
-        this.leftValue = leftValue;
-        this.rightValue = rightValue;
+        this.leftExpression = leftExpression;
+        this.rightExpression = rightExpression;
         this.operator = operator;
     }
 
