@@ -1,0 +1,28 @@
+int i, n;
+char c;
+
+void p() {}
+
+int f(int n, double r) {
+  double real;
+  char c1, c2;
+  c1 = (char)n;
+  real = c1 + n + r;
+  p();
+  return (int)c1;
+}
+
+void main() {
+  double[10][5] vector;
+  i=0;
+  while (n >= i) {
+    if (n == vector[0][0] && !c)
+      write 'c', 'i', 'e', 'r', 't', 'o', '\n';
+    else
+      write 'f', 'a', 'l', 's', 'o', '\n';
+    i=i+1;
+  }
+  write f(i, (double)i);
+  vector[9][(int)4.3]=5.6;
+  f(1, 2.2);
+}
