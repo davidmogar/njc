@@ -10,7 +10,7 @@ public class IntegerType extends AbstractAstNode implements Type {
         super(line, column);
     }
 
-    public IntegerType getInstance(int line, int column) {
+    public static IntegerType getInstance(int line, int column) {
         if (instance == null) {
             instance = new IntegerType(line, column);
         }

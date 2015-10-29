@@ -10,7 +10,7 @@ public class StringType extends AbstractAstNode implements Type {
         super(line, column);
     }
 
-    public StringType getInstance(int line, int column) {
+    public static StringType getInstance(int line, int column) {
         if (instance == null) {
             instance = new StringType(line, column);
         }

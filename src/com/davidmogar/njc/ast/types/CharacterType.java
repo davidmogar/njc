@@ -10,7 +10,7 @@ public class CharacterType extends AbstractAstNode implements Type {
         super(line, column);
     }
 
-    public CharacterType getInstance(int line, int column) {
+    public static CharacterType getInstance(int line, int column) {
         if (instance == null) {
             instance = new CharacterType(line, column);
         }

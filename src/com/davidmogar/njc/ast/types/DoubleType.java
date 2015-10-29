@@ -10,7 +10,7 @@ public class DoubleType extends AbstractAstNode implements Type {
         super(line, column);
     }
 
-    public DoubleType getInstance(int line, int column) {
+    public static DoubleType getInstance(int line, int column) {
         if (instance == null) {
             instance = new DoubleType(line, column);
         }
