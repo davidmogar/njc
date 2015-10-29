@@ -52,6 +52,16 @@ statements: statement | statements statement ;
 
 /* Identifiers, declarations and assignments */
 
+literal:    CHARACTER_LITERAL
+            | DOUBLE_LITERAL
+            | INTEGER_LITERAL
+            | STRING_LITERAL ;
+
+type:       CHARACTER
+            | DOUBLE
+            | INTEGER
+            | STRING ;
+
 array_position:     '[' expression ']'
                     | '[' expression ']' array_position ;
 
@@ -68,7 +78,7 @@ declarations:       declarations declaration ';'
                     | declaration ';' ;
 
 identifiers:        IDENTIFIER
-                    | IDENTIFIER ',' identifiers ;
+                    | identifiers ',' IDENTIFIER ;
 
 /* Blocks, functions and control flow */
 
@@ -85,8 +95,10 @@ function_call:          IDENTIFIER '(' ')' | IDENTIFIER '(' expressions ')' ;
 
 function_name:          IDENTIFIER | MAIN ;
 
-function_parameters:    type IDENTIFIER
+function_parameters:    function_return IDENTIFIER
                         | type IDENTIFIER ',' function_parameters ;
+
+function_return:        type | VOID ;
 
 else:                   ELSE statement
                         | ELSE block ;
@@ -136,18 +148,6 @@ expression:         expression '+' expression
 
 expressions:        expression
                     | expressions ',' expression ;
-
-/* Terminal symbols */
-literal:    CHARACTER_LITERAL
-            | DOUBLE_LITERAL
-            | INTEGER_LITERAL
-            | STRING_LITERAL ;
-
-type:       CHARACTER
-            | DOUBLE
-            | INTEGER
-            | STRING
-            | VOID ;
 
 %%
 
