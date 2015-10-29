@@ -32,6 +32,7 @@ import java.util.*;
 %left EQUALS GREATER_EQUALS LOWER_EQUALS NOT_EQUALS
 %left '+' '-'
 %left '*' '/'
+%right NEGATION
 %nonassoc '(' ')'
 
 %%
@@ -133,7 +134,7 @@ expression:         expression '+' expression
                     | expression '*' expression
                     | expression '/' expression
                     | '(' expression ')'
-                    | '-' expression
+                    | '-' expression %prec NEGATION
                     | '(' type ')' expression
                     | logic_expression
                     | array_access
