@@ -137,7 +137,7 @@ expression:         expression '+' expression
                     | '-' expression %prec NEGATION
                     | '(' type ')' expression
                     | logic_expression
-                    | array_access
+                    | expression '[' expression ']'
                     | function_call
                     | literal
                     | IDENTIFIER ;
