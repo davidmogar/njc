@@ -7,11 +7,11 @@ import java.util.List;
 
 public abstract class Block extends AbstractAstNode implements Statement {
 
-    public Block block;
+    public List<Statement> statements;
 
-    public Block(int line, int column, Block block) {
+    public Block(int line, int column, List<Statement> statements) {
         super(line, column);
-        this.block = block;
+        this.statements = statements;
     }
 
 }
