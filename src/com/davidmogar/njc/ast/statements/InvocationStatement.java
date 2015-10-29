@@ -7,7 +7,7 @@ import com.davidmogar.njc.ast.expressions.Variable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InvocationStatement extends AbstractAstNode implements Statement {
+public class InvocationStatement extends AbstractAstNode implements Expression, Statement {
 
     public List<Expression> arguments;
     public Variable variable;

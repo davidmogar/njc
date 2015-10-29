@@ -11,6 +11,10 @@ public class IfStatement extends AbstractAstNode implements Statement {
     public Block ifBlock;
     public Expression condition;
 
+    public IfStatement(int line, int column, Expression condition, Block ifBlock) {
+        this(line, column, condition, ifBlock, null);
+    }
+
     public IfStatement(int line, int column, Expression condition, Block ifBlock, Block elseBlock) {
         super(line, column);
         this.condition = condition;
