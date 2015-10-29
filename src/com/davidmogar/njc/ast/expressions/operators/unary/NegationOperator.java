@@ -1,14 +1,14 @@
-package com.davidmogar.njc.ast.expressions.operators;
+package com.davidmogar.njc.ast.expressions.operators.unary;
 
 import com.davidmogar.njc.ast.AbstractAstNode;
 import com.davidmogar.njc.ast.expressions.Expression;
 
-public class NegationOperator extends AbstractAstNode implements UnaryOperator {
+public class NegationOperator extends UnaryOperator {
 
     public Expression expression;
 
     public NegationOperator(int line, int column, Expression expression) {
-        super(line, column);
+        super(line, column, expression);
         this.expression = expression;
     }
 
