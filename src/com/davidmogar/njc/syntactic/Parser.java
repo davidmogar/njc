@@ -17,14 +17,23 @@ package com.davidmogar.njc.syntactic;
 
 
 
-//#line 1 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 2 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 
-import com.davidmogar.njc.lexicon.Lexicon;
 import com.davidmogar.njc.ast.*;
+import com.davidmogar.njc.ast.expressions.*;
 import com.davidmogar.njc.ast.expressions.literals.*;
+import com.davidmogar.njc.ast.expressions.operators.*;
+import com.davidmogar.njc.ast.expressions.operators.binary.*;
+import com.davidmogar.njc.ast.expressions.operators.unary.*;
+import com.davidmogar.njc.ast.statements.*;
+import com.davidmogar.njc.ast.statements.controlflow.*;
+import com.davidmogar.njc.ast.statements.definitions.*;
+import com.davidmogar.njc.ast.statements.io.*;
+import com.davidmogar.njc.ast.types.*;
+import com.davidmogar.njc.lexicon.Lexicon;
 import java.util.*;
 
-//#line 24 "Parser.java"
+//#line 33 "Parser.java"
 
 
 
@@ -518,8 +527,7 @@ final static String yyrule[] = {
 "expressions : expressions ',' expression",
 };
 
-//#line 151 "../src/com/davidmogar/njc/syntactic/syntactic.y"
-
+//#line 156 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 
 private Lexicon lexicon;
 
@@ -549,7 +557,7 @@ public Parser(Lexicon lexicon) {
 public int parse() {
 	return yyparse();
 }
-//#line 489 "Parser.java"
+//#line 497 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -704,22 +712,30 @@ boolean doaction;
       {
 //########## USER-SUPPLIED ACTIONS ##########
 case 13:
-//#line 58 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 68 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new CharacterLiteral(lexicon.getLine(), lexicon.getColumn(), (Character) val_peek(0)); }
 break;
 case 14:
-//#line 59 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 69 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new DoubleLiteral(lexicon.getLine(), lexicon.getColumn(), (Double) val_peek(0)); }
 break;
 case 15:
-//#line 60 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 70 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new IntegerLiteral(lexicon.getLine(), lexicon.getColumn(), (Integer) val_peek(0)); }
 break;
 case 16:
-//#line 61 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 71 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new StringLiteral(lexicon.getLine(), lexicon.getColumn(), (String) val_peek(0)); }
 break;
-//#line 654 "Parser.java"
+case 28:
+//#line 92 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+{ yyval = new Block(lexicon.getLine(), lexicon.getColumn()); }
+break;
+case 29:
+//#line 93 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+{ yyval = new Block(lexicon.getLine(), lexicon.getColumn(), (List<Statement>) val_peek(1)); }
+break;
+//#line 670 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

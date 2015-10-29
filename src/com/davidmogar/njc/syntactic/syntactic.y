@@ -1,7 +1,17 @@
 %{
-import com.davidmogar.njc.lexicon.Lexicon;
+
 import com.davidmogar.njc.ast.*;
+import com.davidmogar.njc.ast.expressions.*;
 import com.davidmogar.njc.ast.expressions.literals.*;
+import com.davidmogar.njc.ast.expressions.operators.*;
+import com.davidmogar.njc.ast.expressions.operators.binary.*;
+import com.davidmogar.njc.ast.expressions.operators.unary.*;
+import com.davidmogar.njc.ast.statements.*;
+import com.davidmogar.njc.ast.statements.controlflow.*;
+import com.davidmogar.njc.ast.statements.definitions.*;
+import com.davidmogar.njc.ast.statements.io.*;
+import com.davidmogar.njc.ast.types.*;
+import com.davidmogar.njc.lexicon.Lexicon;
 import java.util.*;
 
 %}
@@ -58,7 +68,8 @@ statements: statement | statements statement ;
 literal:    CHARACTER_LITERAL { $$ = new CharacterLiteral(lexicon.getLine(), lexicon.getColumn(), (Character) $1); }
             | DOUBLE_LITERAL { $$ = new DoubleLiteral(lexicon.getLine(), lexicon.getColumn(), (Double) $1); }
             | INTEGER_LITERAL { $$ = new IntegerLiteral(lexicon.getLine(), lexicon.getColumn(), (Integer) $1); }
-            | STRING_LITERAL { $$ = new StringLiteral(lexicon.getLine(), lexicon.getColumn(), (String) $1); } ;
+            | STRING_LITERAL { $$ = new StringLiteral(lexicon.getLine(), lexicon.getColumn(), (String) $1); }
+            ;
 
 type:       CHARACTER
             | DOUBLE
@@ -66,14 +77,6 @@ type:       CHARACTER
             | STRING
             | type '[' INTEGER_LITERAL ']';
 
-/*
-array_position:     '[' expression ']'
-                    | '[' expression ']' array_position ;
-
-array_access:       IDENTIFIER array_position ;
-
-array_declaration:  type array_position identifiers;
-*/
 assignment:         expression '=' expression ;
 
 declaration:        type identifiers ;
@@ -86,8 +89,9 @@ identifiers:        IDENTIFIER
 
 /* Blocks, functions and control flow */
 
-block:                  '{' '}'
-                        | '{' statements '}' ;
+block:                  '{' '}' { $$ = new Block(lexicon.getLine(), lexicon.getColumn()); }
+                        | '{' statements '}' { $$ = new Block(lexicon.getLine(), lexicon.getColumn(), (List<Statement>) $2); }
+                        ;
 
 function:               type function_name '(' ')' block
                         | VOID function_name '(' ')' block
