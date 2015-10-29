@@ -1,6 +1,6 @@
 package com.davidmogar.njc.ast;
 
-import com.davidmogar.njc.ast.statements.blocks.Block;
+import com.davidmogar.njc.ast.statements.Block;
 
 import java.util.List;
 
