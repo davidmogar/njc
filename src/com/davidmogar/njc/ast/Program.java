@@ -18,4 +18,5 @@ public class Program implements AstNode {
         definitions.forEach(builder::append);
         return builder.toString();
     }
+
 }
