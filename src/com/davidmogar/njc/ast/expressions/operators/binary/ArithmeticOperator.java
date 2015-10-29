@@ -1,4 +1,4 @@
-package com.davidmogar.njc.ast.expressions.operators;
+package com.davidmogar.njc.ast.expressions.operators.binary;
 
 import com.davidmogar.njc.ast.AbstractAstNode;
 import com.davidmogar.njc.ast.expressions.Expression;
