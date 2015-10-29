@@ -49,19 +49,38 @@ import java.util.*;
 
 %%
 
-program:    functions
-            | declarations functions ;
+program:        definitions { ast = new Program((List<Definition>) $1); }
 
-statement:  function_call ';'
-            | declaration ';'
-            | if
-            | while
-            | read ';'
-            | return ';'
-            | write ';'
-            | assignment ';' ;
 
-statements: statement | statements statement ;
+definitions:    functions { $$ = $1; }
+                | declarations functions {
+                        List<Definition> list = (List<Definition>) $1;
+                        list.addAll((List<Definition>) $2);
+                        $$ = list;
+                    }
+                ;
+
+statement:      function_call ';' { $$ = $1; }
+                | declaration ';' { $$ = new Block(lexicon.getLine(), lexicon.getColumn(), (List<Statement>) $1); }
+                | if { $$ = $1; }
+                | while { $$ = $1; }
+                | read ';' { $$ = $1; }
+                | return ';' { $$ = $1; }
+                | write ';' { $$ = $1; }
+                | assignment ';' { $$ = $1; }
+                ;
+
+statements:     statement {
+                        List<Statement> statements = new ArrayList<>();
+                        statements.add((Statement) $1);
+                        $$ = statements;
+                    }
+                | statements statement {
+                        List<Statement> statements = (List<Statement>) $1;
+                        statements.add((Statement) $2);
+                        $$ = statements;
+                    }
+                ;
 
 /* Identifiers, declarations and assignments */
 
@@ -71,21 +90,45 @@ literal:    CHARACTER_LITERAL { $$ = new CharacterLiteral(lexicon.getLine(), lex
             | STRING_LITERAL { $$ = new StringLiteral(lexicon.getLine(), lexicon.getColumn(), (String) $1); }
             ;
 
-type:       CHARACTER
-            | DOUBLE
-            | INTEGER
-            | STRING
-            | type '[' INTEGER_LITERAL ']';
+type:       CHARACTER { $$ = CharacterType.getInstance(lexicon.getLine(), lexicon.getColumn()); }
+            | DOUBLE { $$ = DoubleType.getInstance(lexicon.getLine(), lexicon.getColumn()); }
+            | INTEGER { $$ = IntegerType.getInstance(lexicon.getLine(), lexicon.getColumn()); }
+            | STRING { $$ = StringType.getInstance(lexicon.getLine(), lexicon.getColumn()); }
+            | type '[' INTEGER_LITERAL ']' { $$ = new ArrayType(lexicon.getLine(), lexicon.getColumn(), (Type) $1, (Integer) $3); }
+            ;
 
-assignment:         expression '=' expression ;
+assignment:         expression '=' expression { $$ = new AssignmentStatement(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3); } ;
 
-declaration:        type identifiers ;
+declaration:        type identifiers {
+                            List<VariableDefinition> definitions = new ArrayList<>();;
+                            for(Variable variable : (List<Variable>) $2) {
+                                definitions.add(new VariableDefinition(lexicon.getLine(), lexicon.getColumn(), variable.name, (Type) $1));
+                            }
+                            $$ = definitions;
+                        }
+                    ;
 
-declarations:       declarations declaration ';'
-                    | declaration ';' ;
+declarations:       declarations declaration ';' {
+                            List<Statement> declarations = (List<Statement>) $1;
+                            declarations.addAll((List<Statement>) $2);
+                            $$ = declarations;
+                        }
+                    | declaration ';' { $$ = $1; }
+                    ;
 
-identifiers:        IDENTIFIER
-                    | identifiers ',' IDENTIFIER ;
+identifier:         IDENTIFIER { $$ = new Variable(lexicon.getLine(), lexicon.getColumn(), (String) $1); } ;
+
+identifiers:        identifier {
+                            List<Variable> variables = new ArrayList<>();
+                            variables.add((Variable) $1);
+                            $$ = variables;
+                        }
+                    | identifiers ',' identifier {
+                            List<Variable> variables = (List<Variable>) $1;
+                            variables.add((Variable) $3);
+                            $$ = variables;
+                        }
+                    ;
 
 /* Blocks, functions and control flow */
 
@@ -93,64 +136,137 @@ block:                  '{' '}' { $$ = new Block(lexicon.getLine(), lexicon.getC
                         | '{' statements '}' { $$ = new Block(lexicon.getLine(), lexicon.getColumn(), (List<Statement>) $2); }
                         ;
 
-function:               type function_name '(' ')' block
-                        | VOID function_name '(' ')' block
-                        | type function_name '(' function_parameters ')' block
-                        | VOID function_name '(' function_parameters ')' block ;
+function:               type function_name '(' ')' block {
+                                FunctionType type = new FunctionType(lexicon.getLine(), lexicon.getColumn(), (Type) $1);
+                                $$ = new FunctionDefinition(lexicon.getLine(), lexicon.getColumn(), ((Variable) $2).name, (Type) $1, (Block) $5);
+                            }
+                        | VOID function_name '(' ')' block {
+                                Type type = VoidType.getInstance(lexicon.getLine(), lexicon.getColumn());
+                                FunctionType functionType = new FunctionType(lexicon.getLine(), lexicon.getColumn(), type);
+                                $$ = new FunctionDefinition(lexicon.getLine(), lexicon.getColumn(), ((Variable) $2).name, functionType, (Block) $5);
+                            }
+                        | type function_name '(' function_parameters ')' block {
+                                FunctionType type = new FunctionType(lexicon.getLine(), lexicon.getColumn(), (List<VariableDefinition>) $4, (Type) $1);
+                                $$ = new FunctionDefinition(lexicon.getLine(), lexicon.getColumn(), ((Variable) $2).name, (Type) $1, (Block) $6);
+                            }
+                        | VOID function_name '(' function_parameters ')' block {
+                                Type type = VoidType.getInstance(lexicon.getLine(), lexicon.getColumn());
+                                FunctionType functionType = new FunctionType(lexicon.getLine(), lexicon.getColumn(), (List<VariableDefinition>) $4, type);
+                                $$ = new FunctionDefinition(lexicon.getLine(), lexicon.getColumn(), ((Variable) $2).name, functionType, (Block) $6);
+                            }
+                        ;
 
-functions:              function
-                        | function functions ;
+functions:              function {
+                                List<FunctionDefinition> functions = new ArrayList<>();
+                                functions.add((FunctionDefinition) $1);
+                                $$ = functions;
+                            }
+                        | function functions  {
+                                List<FunctionDefinition> functions = (List<FunctionDefinition>) $2;
+                                functions.add((FunctionDefinition) $1);
+                                $$ = functions;
+                            }
+                        ;
 
-function_call:          IDENTIFIER '(' ')' | IDENTIFIER '(' expressions ')' ;
+function_call:          identifier '(' ')' { $$ = new InvocationStatement(lexicon.getLine(), lexicon.getColumn(), (Variable) $1); }
+                        | identifier '(' expressions ')' { $$ = new InvocationStatement(lexicon.getLine(), lexicon.getColumn(), (Variable) $1, (List<Expression>) $3); }
+                        ;
 
-function_name:          IDENTIFIER | MAIN ;
+function_name:          identifier { $$ = $1; }
+                        | MAIN { $$ = new Variable(lexicon.getLine(), lexicon.getColumn(), (String) $1); }
+                        ;
 
-function_parameters:    type IDENTIFIER
-                        | type IDENTIFIER ',' function_parameters ;
+function_parameter:     type identifier { $$ = new VariableDefinition(lexicon.getLine(), lexicon.getColumn(), ((Variable) $2).name, (Type) $1); } ;
 
-else:                   ELSE statement
-                        | ELSE block ;
+function_parameters:    function_parameter {
+                                List<VariableDefinition> parameters = new ArrayList<>();
+                                parameters.add((VariableDefinition) $1);
+                                $$ = parameters;
+                            }
+                        | function_parameters ',' function_parameter {
+                                List<VariableDefinition> parameters = (List<VariableDefinition>) $1;
+                                parameters.add((VariableDefinition) $3);
+                                $$ = parameters;
+                            }
+                        ;
 
-if_statement:           IF '(' expression ')' statement %prec LOWER_THAN_ELSE
-                        | IF '(' expression ')' statement else ;
+else:                   ELSE statement {
+                                List<Statement> statements = new ArrayList<>();
+                                statements.add((Statement) $2);
+                                $$ = new Block(lexicon.getLine(), lexicon.getColumn(), statements);
+                            }
+                        | ELSE block { $$ = $2; }
+                        ;
 
-if_block:               IF '(' expression ')' block %prec LOWER_THAN_ELSE
-                        | IF '(' expression ')' block else ;
+if_statement:           IF '(' expression ')' statement %prec LOWER_THAN_ELSE {
+                                List<Statement> statements = new ArrayList<>();
+                                statements.add((Statement) $5);
+                                Block block = new Block(lexicon.getLine(), lexicon.getColumn(), statements);
+                                $$ = new IfStatement(lexicon.getLine(), lexicon.getColumn(), (Expression) $3, block);
+                            }
+                        | IF '(' expression ')' statement else {
+                                List<Statement> statements = new ArrayList<>();
+                                statements.add((Statement) $5);
+                                Block block = new Block(lexicon.getLine(), lexicon.getColumn(), statements);
+                                $$ = new IfStatement(lexicon.getLine(), lexicon.getColumn(), (Expression) $3, block, (Block) $6);
+                            }
+                        ;
 
-if:                     if_statement | if_block ;
+if_block:               IF '(' expression ')' block {
+                                $$ = new IfStatement(lexicon.getLine(), lexicon.getColumn(), (Expression) $3, (Block) $5);
+                            } %prec LOWER_THAN_ELSE
+                        | IF '(' expression ')' block else {
+                                $$ = new IfStatement(lexicon.getLine(), lexicon.getColumn(), (Expression) $3, (Block) $5, (Block) $6);
+                            }
+                        ;
 
-while:                  WHILE '(' expression ')' block ;
+if:                     if_statement { $$ = $1; }
+                        | if_block { $$ = $1; }
+                        ;
+
+while:                  WHILE '(' expression ')' block { $$ = new WhileStatement(lexicon.getLine(), lexicon.getColumn(), (Expression) $3, (Block) $5); } ;
 
 /* Language functions */
 
-read:           READ expressions ;
+read:           READ expressions { $$ = new ReadStatement(lexicon.getLine(), lexicon.getColumn(), (List<Expression>) $2); } ;
 
-return:         RETURN expression ;
+return:         RETURN expression { $$ = new ReturnStatement(lexicon.getLine(), lexicon.getColumn(), (Expression) $2); } ;
 
-write: WRITE expressions ;
+write:          WRITE expressions { $$ = new ReadStatement(lexicon.getLine(), lexicon.getColumn(), (List<Expression>) $2); } ;
 
-logic_expression:   expression AND expression
-                    | expression EQUALS expression
-                    | expression GREATER_EQUALS expression
-                    | expression LOWER_EQUALS expression
-                    | expression NOT_EQUALS expression
-                    | '!' expression ;
+logic_expression:   expression AND expression { $$ = new LogicalOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "&&"); }
+                    | expression EQUALS expression { $$ = new LogicalOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "=="); }
+                    | expression GREATER_EQUALS expression { $$ = new LogicalOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, ">="); }
+                    | expression LOWER_EQUALS expression { $$ = new LogicalOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "<="); }
+                    | expression NOT_EQUALS expression { $$ = new LogicalOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "!="); }
+                    | '!' expression { $$ = new NotOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $2); }
+                    ;
 
-expression:         expression '+' expression
-                    | expression '-' expression
-                    | expression '*' expression
-                    | expression '/' expression
-                    | '(' expression ')'
-                    | '-' expression %prec NEGATION
-                    | '(' type ')' expression
-                    | logic_expression
-                    | expression '[' expression ']'
-                    | function_call
-                    | literal
-                    | IDENTIFIER ;
+expression:         expression '+' expression { $$ = new ArithmeticOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "+"); }
+                    | expression '-' expression { $$ = new ArithmeticOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "-"); }
+                    | expression '*' expression { $$ = new ArithmeticOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "*"); }
+                    | expression '/' expression { $$ = new ArithmeticOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "/"); }
+                    | '-' expression { $$ = new NegationOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $2); } %prec NEGATION
+                    | '(' type ')' expression { $$ = new CastOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $4, (Type) $2); }
+                    | expression '[' expression ']' { $$ = new ArrayAccessOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3); }
+                    | '(' expression ')' { $$ = $2; }
+                    | logic_expression { $$ = $1; }
+                    | function_call { $$ = $1; }
+                    | literal { $$ = $1; }
+                    | identifier { $$ = $1; }
+                    ;
 
-expressions:        expression
-                    | expressions ',' expression ;
+expressions:        expression {
+                            List<Expression> expressions = new ArrayList<>();
+                            expressions.add((Expression) $1);
+                            $$ = expressions;
+                        }
+                    | expressions ',' expression {
+                            List<Expression> expressions = (List<Expression>) $1;
+                            expressions.add((Expression) $3);
+                            $$ = expressions;
+                        }
+                    ;
 
 %%
 
