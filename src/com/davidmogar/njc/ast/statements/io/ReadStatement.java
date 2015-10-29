@@ -1,7 +1,8 @@
-package com.davidmogar.njc.ast.statements;
+package com.davidmogar.njc.ast.statements.io;
 
 import com.davidmogar.njc.ast.AbstractAstNode;
 import com.davidmogar.njc.ast.expressions.Expression;
+import com.davidmogar.njc.ast.statements.Statement;
 
 import java.util.List;
 
