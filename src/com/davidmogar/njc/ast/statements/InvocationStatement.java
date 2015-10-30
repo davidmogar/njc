@@ -1,14 +1,14 @@
 package com.davidmogar.njc.ast.statements;
 
-import com.davidmogar.njc.visitors.Visitor;
-import com.davidmogar.njc.ast.AbstractAstNode;
+import com.davidmogar.njc.ast.expressions.AbstractExpression;
 import com.davidmogar.njc.ast.expressions.Expression;
 import com.davidmogar.njc.ast.expressions.Variable;
+import com.davidmogar.njc.visitors.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InvocationStatement extends AbstractAstNode implements Expression, Statement {
+public class InvocationStatement extends AbstractExpression implements Statement {
 
     public List<Expression> arguments;
     public Variable variable;
