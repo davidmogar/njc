@@ -64,8 +64,6 @@ public interface Visitor {
 
     Object visit(NotOperator notOperator, Object object);
 
-    Object visit(UnaryOperator unaryOperator, Object object);
-
     /* Statements */
 
     Object visit(AssignmentStatement assignmentStatement, Object object);

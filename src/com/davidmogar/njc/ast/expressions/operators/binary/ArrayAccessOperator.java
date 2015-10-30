@@ -7,6 +7,8 @@ public class ArrayAccessOperator extends BinaryOperator {
 
     public ArrayAccessOperator(int line, int column, Expression leftExpression, Expression rightExpression) {
         super(line, column, leftExpression, rightExpression, "[]");
+
+        setLeftValue(true);
     }
 
     @Override

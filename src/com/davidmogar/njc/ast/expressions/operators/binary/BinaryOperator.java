@@ -1,9 +1,9 @@
 package com.davidmogar.njc.ast.expressions.operators.binary;
 
-import com.davidmogar.njc.ast.AbstractAstNode;
+import com.davidmogar.njc.ast.expressions.AbstractExpression;
 import com.davidmogar.njc.ast.expressions.Expression;
 
-public abstract class BinaryOperator extends AbstractAstNode implements Expression {
+public abstract class BinaryOperator extends AbstractExpression {
 
     public Expression leftExpression;
     public Expression rightExpression;

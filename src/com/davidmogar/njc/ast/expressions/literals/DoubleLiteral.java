@@ -1,9 +1,9 @@
 package com.davidmogar.njc.ast.expressions.literals;
 
+import com.davidmogar.njc.ast.expressions.AbstractExpression;
 import com.davidmogar.njc.visitors.Visitor;
-import com.davidmogar.njc.ast.AbstractAstNode;
 
-public class DoubleLiteral extends AbstractAstNode implements Number {
+public class DoubleLiteral extends AbstractExpression {
 
     public double value;
 

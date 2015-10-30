@@ -5,9 +5,9 @@ import com.davidmogar.njc.ast.AbstractAstNode;
 
 public class ArrayType extends AbstractAstNode implements Type {
 
-    private Type type;
+    public Type type;
 
-    private int size;
+    public int size;
 
     public ArrayType(int line, int column, Type type, int size) {
         super(line, column);
@@ -27,14 +27,6 @@ public class ArrayType extends AbstractAstNode implements Type {
         } else {
             return new ArrayType(type.getLine(), type.getColumn(), type, size);
         }
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public int getSize() {
-        return size;
     }
 
     @Override

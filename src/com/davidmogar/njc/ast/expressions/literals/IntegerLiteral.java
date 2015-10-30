@@ -1,11 +1,12 @@
 package com.davidmogar.njc.ast.expressions.literals;
 
+import com.davidmogar.njc.ast.expressions.AbstractExpression;
 import com.davidmogar.njc.visitors.Visitor;
 import com.davidmogar.njc.ast.AbstractAstNode;
 
 import java.lang.*;
 
-public class IntegerLiteral extends AbstractAstNode implements Number {
+public class IntegerLiteral extends AbstractExpression {
 
     public int value;
 

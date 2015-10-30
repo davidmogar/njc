@@ -1,10 +1,11 @@
 package com.davidmogar.njc.ast.expressions.operators.unary;
 
+import com.davidmogar.njc.ast.expressions.AbstractExpression;
 import com.davidmogar.njc.visitors.Visitor;
 import com.davidmogar.njc.ast.AbstractAstNode;
 import com.davidmogar.njc.ast.expressions.Expression;
 
-public abstract class UnaryOperator extends AbstractAstNode implements Expression {
+public abstract class UnaryOperator extends AbstractExpression {
 
     public Expression expression;
 
