@@ -1,5 +1,6 @@
 package com.davidmogar.njc.ast.statements;
 
+import com.davidmogar.njc.Visitor;
 import com.davidmogar.njc.ast.AbstractAstNode;
 import com.davidmogar.njc.ast.expressions.Expression;
 
@@ -10,6 +11,11 @@ public class ReturnStatement extends AbstractAstNode implements Statement {
     public ReturnStatement(int line, int column, Expression expression) {
         super(line, column);
         this.expression = expression;
+    }
+
+    @Override
+    public void accept(Visitor visitor, Object object) {
+        visitor.visit(this, object);
     }
 
 }

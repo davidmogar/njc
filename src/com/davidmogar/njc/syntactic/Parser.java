@@ -718,7 +718,7 @@ boolean doaction;
 //########## USER-SUPPLIED ACTIONS ##########
 case 1:
 //#line 51 "../src/com/davidmogar/njc/syntactic/syntactic.y"
-{ ast = new Program((List<Definition>) val_peek(0)); }
+{ ast = new Program(lexicon.getLine(), lexicon.getColumn(), (List<Definition>) val_peek(0)); }
 break;
 case 2:
 //#line 54 "../src/com/davidmogar/njc/syntactic/syntactic.y"
@@ -814,7 +814,7 @@ case 21:
 break;
 case 22:
 //#line 96 "../src/com/davidmogar/njc/syntactic/syntactic.y"
-{ yyval = new ArrayType(lexicon.getLine(), lexicon.getColumn(), (Type) val_peek(3), (Integer) val_peek(1)); }
+{ yyval = ArrayType.createArray((Type) val_peek(3), (Integer) val_peek(1)); }
 break;
 case 23:
 //#line 99 "../src/com/davidmogar/njc/syntactic/syntactic.y"

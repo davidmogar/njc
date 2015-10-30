@@ -1,5 +1,6 @@
 package com.davidmogar.njc.ast.statements.io;
 
+import com.davidmogar.njc.Visitor;
 import com.davidmogar.njc.ast.AbstractAstNode;
 import com.davidmogar.njc.ast.expressions.Expression;
 import com.davidmogar.njc.ast.statements.Statement;
@@ -16,13 +17,8 @@ public class ReadStatement extends AbstractAstNode implements Statement {
     }
 
     @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder("read ");
-        for (Expression expression : expressions) {
-            builder.append(expression);
-            builder.append(", ");
-        }
-        builder.setLength(builder.length() - 2);
-        return builder.toString();
+    public void accept(Visitor visitor, Object object) {
+        visitor.visit(this, object);
     }
+
 }

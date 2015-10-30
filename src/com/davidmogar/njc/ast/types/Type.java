@@ -1,4 +1,6 @@
 package com.davidmogar.njc.ast.types;
 
-public interface Type {
+import com.davidmogar.njc.ast.AstNode;
+
+public interface Type extends AstNode {
 }

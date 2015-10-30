@@ -1,5 +1,6 @@
 package com.davidmogar.njc.ast.types;
 
+import com.davidmogar.njc.Visitor;
 import com.davidmogar.njc.ast.AbstractAstNode;
 
 public class StringType extends AbstractAstNode implements Type {
@@ -16,6 +17,11 @@ public class StringType extends AbstractAstNode implements Type {
         }
 
         return instance;
+    }
+
+    @Override
+    public void accept(Visitor visitor, Object object) {
+        visitor.visit(this, object);
     }
     
 }

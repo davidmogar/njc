@@ -3,7 +3,7 @@ package com.davidmogar.njc.ast.statements.definitions;
 import com.davidmogar.njc.ast.AbstractAstNode;
 import com.davidmogar.njc.ast.types.Type;
 
-public class AbstractDefinition extends AbstractAstNode implements Definition {
+public abstract class AbstractDefinition extends AbstractAstNode implements Definition {
 
     private String name;
     private Type type;
@@ -23,4 +23,5 @@ public class AbstractDefinition extends AbstractAstNode implements Definition {
     public Type getType() {
         return type;
     }
+
 }

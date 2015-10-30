@@ -1,5 +1,6 @@
 package com.davidmogar.njc.ast.expressions;
 
+import com.davidmogar.njc.Visitor;
 import com.davidmogar.njc.ast.AbstractAstNode;
 
 public class Variable extends AbstractAstNode implements Expression {
@@ -12,7 +13,8 @@ public class Variable extends AbstractAstNode implements Expression {
     }
 
     @Override
-    public String toString() {
-        return name;
+    public void accept(Visitor visitor, Object object) {
+        visitor.visit(this, object);
     }
+
 }

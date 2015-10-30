@@ -1,5 +1,6 @@
 package com.davidmogar.njc.ast.statements;
 
+import com.davidmogar.njc.Visitor;
 import com.davidmogar.njc.ast.AbstractAstNode;
 import com.davidmogar.njc.ast.expressions.Expression;
 import com.davidmogar.njc.ast.expressions.Variable;
@@ -20,6 +21,11 @@ public class InvocationStatement extends AbstractAstNode implements Expression, 
         super(line, column);
         this.variable = variable;
         this.arguments = arguments;
+    }
+
+    @Override
+    public void accept(Visitor visitor, Object object) {
+        visitor.visit(this, object);
     }
 
 }

@@ -48,7 +48,7 @@ import java.util.*;
 
 %%
 
-program:        definitions { ast = new Program((List<Definition>) $1); }
+program:        definitions { ast = new Program(lexicon.getLine(), lexicon.getColumn(), (List<Definition>) $1); }
 
 
 definitions:    functions { $$ = $1; }
@@ -93,7 +93,7 @@ type:       CHARACTER { $$ = CharacterType.getInstance(lexicon.getLine(), lexico
             | DOUBLE { $$ = DoubleType.getInstance(lexicon.getLine(), lexicon.getColumn()); }
             | INTEGER { $$ = IntegerType.getInstance(lexicon.getLine(), lexicon.getColumn()); }
             | STRING { $$ = StringType.getInstance(lexicon.getLine(), lexicon.getColumn()); }
-            | type '[' INTEGER_LITERAL ']' { $$ = new ArrayType(lexicon.getLine(), lexicon.getColumn(), (Type) $1, (Integer) $3); }
+            | type '[' INTEGER_LITERAL ']' { $$ = ArrayType.createArray((Type) $1, (Integer) $3); }
             ;
 
 assignment:         expression '=' expression { $$ = new AssignmentStatement(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3); } ;

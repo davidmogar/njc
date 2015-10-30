@@ -1,5 +1,6 @@
 package com.davidmogar.njc.ast.statements;
 
+import com.davidmogar.njc.Visitor;
 import com.davidmogar.njc.ast.AbstractAstNode;
 import com.davidmogar.njc.ast.expressions.Expression;
 
@@ -15,7 +16,8 @@ public class AssignmentStatement extends AbstractAstNode implements Statement {
     }
 
     @Override
-    public String toString() {
-        return leftValue + " = " + rightValue;
+    public void accept(Visitor visitor, Object object) {
+        visitor.visit(this, object);
     }
+
 }

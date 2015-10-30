@@ -1,5 +1,6 @@
 package com.davidmogar.njc.ast.statements.controlflow;
 
+import com.davidmogar.njc.Visitor;
 import com.davidmogar.njc.ast.AbstractAstNode;
 import com.davidmogar.njc.ast.expressions.Expression;
 import com.davidmogar.njc.ast.statements.Block;
@@ -14,6 +15,11 @@ public class WhileStatement extends AbstractAstNode implements Statement {
         super(line, column);
         this.condition = condition;
         this.block = block;
+    }
+
+    @Override
+    public void accept(Visitor visitor, Object object) {
+        visitor.visit(this, object);
     }
 
 }

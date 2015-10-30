@@ -1,5 +1,6 @@
 package com.davidmogar.njc.ast.expressions.literals;
 
+import com.davidmogar.njc.Visitor;
 import com.davidmogar.njc.ast.AbstractAstNode;
 
 public class DoubleLiteral extends AbstractAstNode implements Number {
@@ -12,7 +13,8 @@ public class DoubleLiteral extends AbstractAstNode implements Number {
     }
 
     @Override
-    public String toString() {
-        return String.valueOf(value);
+    public void accept(Visitor visitor, Object object) {
+        visitor.visit(this, object);
     }
+
 }

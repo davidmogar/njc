@@ -1,5 +1,6 @@
 package com.davidmogar.njc.ast.types;
 
+import com.davidmogar.njc.Visitor;
 import com.davidmogar.njc.ast.AbstractAstNode;
 import com.davidmogar.njc.ast.statements.definitions.VariableDefinition;
 
@@ -20,4 +21,10 @@ public class FunctionType extends AbstractAstNode implements Type {
         this.parameters = parameters;
         this.returnType = returnType;
     }
+
+    @Override
+    public void accept(Visitor visitor, Object object) {
+        visitor.visit(this, object);
+    }
+
 }
