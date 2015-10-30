@@ -14,9 +14,4 @@ public abstract class UnaryOperator extends AbstractExpression {
         this.expression = expression;
     }
 
-    @Override
-    public void accept(Visitor visitor, Object object) {
-        visitor.visit(this, object);
-    }
-
 }
