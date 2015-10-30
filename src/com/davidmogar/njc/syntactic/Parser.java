@@ -22,7 +22,6 @@ package com.davidmogar.njc.syntactic;
 import com.davidmogar.njc.ast.*;
 import com.davidmogar.njc.ast.expressions.*;
 import com.davidmogar.njc.ast.expressions.literals.*;
-import com.davidmogar.njc.ast.expressions.operators.*;
 import com.davidmogar.njc.ast.expressions.operators.binary.*;
 import com.davidmogar.njc.ast.expressions.operators.unary.*;
 import com.davidmogar.njc.ast.statements.*;
@@ -33,7 +32,7 @@ import com.davidmogar.njc.ast.types.*;
 import com.davidmogar.njc.lexicon.Lexicon;
 import java.util.*;
 
-//#line 33 "Parser.java"
+//#line 32 "Parser.java"
 
 
 
@@ -533,7 +532,7 @@ final static String yyrule[] = {
 "expressions : expressions ',' expression",
 };
 
-//#line 272 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 271 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 
 private Lexicon lexicon;
 
@@ -563,7 +562,7 @@ public Parser(Lexicon lexicon) {
 public int parse() {
 	return yyparse();
 }
-//#line 503 "Parser.java"
+//#line 502 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -718,15 +717,15 @@ boolean doaction;
       {
 //########## USER-SUPPLIED ACTIONS ##########
 case 1:
-//#line 52 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 51 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { ast = new Program((List<Definition>) val_peek(0)); }
 break;
 case 2:
-//#line 55 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 54 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = val_peek(0); }
 break;
 case 3:
-//#line 56 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 55 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
                         List<Definition> list = (List<Definition>) val_peek(1);
                         list.addAll((List<Definition>) val_peek(0));
@@ -734,39 +733,39 @@ case 3:
                     }
 break;
 case 4:
-//#line 63 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 62 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = val_peek(1); }
 break;
 case 5:
-//#line 64 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 63 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new Block(lexicon.getLine(), lexicon.getColumn(), (List<Statement>) val_peek(1)); }
 break;
 case 6:
-//#line 65 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 64 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = val_peek(0); }
 break;
 case 7:
-//#line 66 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 65 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = val_peek(0); }
 break;
 case 8:
-//#line 67 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 66 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = val_peek(1); }
 break;
 case 9:
-//#line 68 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 67 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = val_peek(1); }
 break;
 case 10:
-//#line 69 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 68 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = val_peek(1); }
 break;
 case 11:
-//#line 70 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 69 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = val_peek(1); }
 break;
 case 12:
-//#line 73 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 72 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
                         List<Statement> statements = new ArrayList<>();
                         statements.add((Statement) val_peek(0));
@@ -774,7 +773,7 @@ case 12:
                     }
 break;
 case 13:
-//#line 78 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 77 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
                         List<Statement> statements = (List<Statement>) val_peek(1);
                         statements.add((Statement) val_peek(0));
@@ -782,47 +781,47 @@ case 13:
                     }
 break;
 case 14:
-//#line 87 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 86 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new CharacterLiteral(lexicon.getLine(), lexicon.getColumn(), (Character) val_peek(0)); }
 break;
 case 15:
-//#line 88 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 87 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new DoubleLiteral(lexicon.getLine(), lexicon.getColumn(), (Double) val_peek(0)); }
 break;
 case 16:
-//#line 89 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 88 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new IntegerLiteral(lexicon.getLine(), lexicon.getColumn(), (Integer) val_peek(0)); }
 break;
 case 17:
-//#line 90 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 89 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new StringLiteral(lexicon.getLine(), lexicon.getColumn(), (String) val_peek(0)); }
 break;
 case 18:
-//#line 93 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 92 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = CharacterType.getInstance(lexicon.getLine(), lexicon.getColumn()); }
 break;
 case 19:
-//#line 94 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 93 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = DoubleType.getInstance(lexicon.getLine(), lexicon.getColumn()); }
 break;
 case 20:
-//#line 95 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 94 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = IntegerType.getInstance(lexicon.getLine(), lexicon.getColumn()); }
 break;
 case 21:
-//#line 96 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 95 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = StringType.getInstance(lexicon.getLine(), lexicon.getColumn()); }
 break;
 case 22:
-//#line 97 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 96 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new ArrayType(lexicon.getLine(), lexicon.getColumn(), (Type) val_peek(3), (Integer) val_peek(1)); }
 break;
 case 23:
-//#line 100 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 99 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new AssignmentStatement(lexicon.getLine(), lexicon.getColumn(), (Expression) val_peek(2), (Expression) val_peek(0)); }
 break;
 case 24:
-//#line 102 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 101 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
                             List<VariableDefinition> definitions = new ArrayList<>();;
                             for(Variable variable : (List<Variable>) val_peek(0)) {
@@ -832,7 +831,7 @@ case 24:
                         }
 break;
 case 25:
-//#line 111 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 110 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
                             List<Statement> declarations = (List<Statement>) val_peek(2);
                             declarations.addAll((List<Statement>) val_peek(1));
@@ -840,15 +839,15 @@ case 25:
                         }
 break;
 case 26:
-//#line 116 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 115 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = val_peek(1); }
 break;
 case 27:
-//#line 119 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 118 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new Variable(lexicon.getLine(), lexicon.getColumn(), (String) val_peek(0)); }
 break;
 case 28:
-//#line 121 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 120 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
                             List<Variable> variables = new ArrayList<>();
                             variables.add((Variable) val_peek(0));
@@ -856,7 +855,7 @@ case 28:
                         }
 break;
 case 29:
-//#line 126 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 125 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
                             List<Variable> variables = (List<Variable>) val_peek(2);
                             variables.add((Variable) val_peek(0));
@@ -864,22 +863,22 @@ case 29:
                         }
 break;
 case 30:
-//#line 135 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 134 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new Block(lexicon.getLine(), lexicon.getColumn()); }
 break;
 case 31:
-//#line 136 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 135 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new Block(lexicon.getLine(), lexicon.getColumn(), (List<Statement>) val_peek(1)); }
 break;
 case 32:
-//#line 139 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 138 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
                                 FunctionType type = new FunctionType(lexicon.getLine(), lexicon.getColumn(), (Type) val_peek(4));
                                 yyval = new FunctionDefinition(lexicon.getLine(), lexicon.getColumn(), ((Variable) val_peek(3)).name, (Type) val_peek(4), (Block) val_peek(0));
                             }
 break;
 case 33:
-//#line 143 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 142 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
                                 Type type = VoidType.getInstance(lexicon.getLine(), lexicon.getColumn());
                                 FunctionType functionType = new FunctionType(lexicon.getLine(), lexicon.getColumn(), type);
@@ -887,14 +886,14 @@ case 33:
                             }
 break;
 case 34:
-//#line 148 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 147 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
                                 FunctionType type = new FunctionType(lexicon.getLine(), lexicon.getColumn(), (List<VariableDefinition>) val_peek(2), (Type) val_peek(5));
                                 yyval = new FunctionDefinition(lexicon.getLine(), lexicon.getColumn(), ((Variable) val_peek(4)).name, (Type) val_peek(5), (Block) val_peek(0));
                             }
 break;
 case 35:
-//#line 152 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 151 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
                                 Type type = VoidType.getInstance(lexicon.getLine(), lexicon.getColumn());
                                 FunctionType functionType = new FunctionType(lexicon.getLine(), lexicon.getColumn(), (List<VariableDefinition>) val_peek(2), type);
@@ -902,7 +901,7 @@ case 35:
                             }
 break;
 case 36:
-//#line 159 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 158 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
                                 List<FunctionDefinition> functions = new ArrayList<>();
                                 functions.add((FunctionDefinition) val_peek(0));
@@ -910,7 +909,7 @@ case 36:
                             }
 break;
 case 37:
-//#line 164 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 163 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
                                 List<FunctionDefinition> functions = (List<FunctionDefinition>) val_peek(0);
                                 functions.add((FunctionDefinition) val_peek(1));
@@ -918,27 +917,27 @@ case 37:
                             }
 break;
 case 38:
-//#line 171 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 170 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new InvocationStatement(lexicon.getLine(), lexicon.getColumn(), (Variable) val_peek(2)); }
 break;
 case 39:
-//#line 172 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 171 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new InvocationStatement(lexicon.getLine(), lexicon.getColumn(), (Variable) val_peek(3), (List<Expression>) val_peek(1)); }
 break;
 case 40:
-//#line 175 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 174 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = val_peek(0); }
 break;
 case 41:
-//#line 176 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 175 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new Variable(lexicon.getLine(), lexicon.getColumn(), (String) val_peek(0)); }
 break;
 case 42:
-//#line 179 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 178 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new VariableDefinition(lexicon.getLine(), lexicon.getColumn(), ((Variable) val_peek(0)).name, (Type) val_peek(1)); }
 break;
 case 43:
-//#line 181 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 180 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
                                 List<VariableDefinition> parameters = new ArrayList<>();
                                 parameters.add((VariableDefinition) val_peek(0));
@@ -946,7 +945,7 @@ case 43:
                             }
 break;
 case 44:
-//#line 186 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 185 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
                                 List<VariableDefinition> parameters = (List<VariableDefinition>) val_peek(2);
                                 parameters.add((VariableDefinition) val_peek(0));
@@ -954,7 +953,7 @@ case 44:
                             }
 break;
 case 45:
-//#line 193 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 192 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
                                 List<Statement> statements = new ArrayList<>();
                                 statements.add((Statement) val_peek(0));
@@ -962,11 +961,11 @@ case 45:
                             }
 break;
 case 46:
-//#line 198 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 197 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = val_peek(0); }
 break;
 case 47:
-//#line 201 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 200 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
                                 List<Statement> statements = new ArrayList<>();
                                 statements.add((Statement) val_peek(0));
@@ -975,7 +974,7 @@ case 47:
                             }
 break;
 case 48:
-//#line 207 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 206 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
                                 List<Statement> statements = new ArrayList<>();
                                 statements.add((Statement) val_peek(1));
@@ -984,115 +983,115 @@ case 48:
                             }
 break;
 case 49:
-//#line 215 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 214 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
                                 yyval = new IfStatement(lexicon.getLine(), lexicon.getColumn(), (Expression) val_peek(2), (Block) val_peek(0));
                             }
 break;
 case 50:
-//#line 218 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 217 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
                                 yyval = new IfStatement(lexicon.getLine(), lexicon.getColumn(), (Expression) val_peek(3), (Block) val_peek(1), (Block) val_peek(0));
                             }
 break;
 case 51:
-//#line 223 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 222 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = val_peek(0); }
 break;
 case 52:
-//#line 224 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 223 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = val_peek(0); }
 break;
 case 53:
-//#line 227 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 226 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new WhileStatement(lexicon.getLine(), lexicon.getColumn(), (Expression) val_peek(2), (Block) val_peek(0)); }
 break;
 case 54:
-//#line 231 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 230 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new ReadStatement(lexicon.getLine(), lexicon.getColumn(), (List<Expression>) val_peek(0)); }
 break;
 case 55:
-//#line 233 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 232 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new ReturnStatement(lexicon.getLine(), lexicon.getColumn(), (Expression) val_peek(0)); }
 break;
 case 56:
-//#line 235 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 234 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new ReadStatement(lexicon.getLine(), lexicon.getColumn(), (List<Expression>) val_peek(0)); }
 break;
 case 57:
-//#line 237 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 236 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new LogicalOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) val_peek(2), (Expression) val_peek(0), "&&"); }
 break;
 case 58:
-//#line 238 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 237 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new LogicalOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) val_peek(2), (Expression) val_peek(0), "=="); }
 break;
 case 59:
-//#line 239 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 238 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new LogicalOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) val_peek(2), (Expression) val_peek(0), ">="); }
 break;
 case 60:
-//#line 240 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 239 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new LogicalOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) val_peek(2), (Expression) val_peek(0), "<="); }
 break;
 case 61:
-//#line 241 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 240 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new LogicalOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) val_peek(2), (Expression) val_peek(0), "!="); }
 break;
 case 62:
-//#line 242 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 241 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new NotOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) val_peek(0)); }
 break;
 case 63:
-//#line 245 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 244 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new ArithmeticOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) val_peek(2), (Expression) val_peek(0), "+"); }
 break;
 case 64:
-//#line 246 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 245 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new ArithmeticOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) val_peek(2), (Expression) val_peek(0), "-"); }
 break;
 case 65:
-//#line 247 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 246 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new ArithmeticOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) val_peek(2), (Expression) val_peek(0), "*"); }
 break;
 case 66:
-//#line 248 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 247 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new ArithmeticOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) val_peek(2), (Expression) val_peek(0), "/"); }
 break;
 case 67:
-//#line 249 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 248 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new NegationOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) val_peek(0)); }
 break;
 case 68:
-//#line 250 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 249 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new CastOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) val_peek(0), (Type) val_peek(2)); }
 break;
 case 69:
-//#line 251 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 250 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = new ArrayAccessOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) val_peek(3), (Expression) val_peek(1)); }
 break;
 case 70:
-//#line 252 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 251 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = val_peek(1); }
 break;
 case 71:
-//#line 253 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 252 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = val_peek(0); }
 break;
 case 72:
-//#line 254 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 253 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = val_peek(0); }
 break;
 case 73:
-//#line 255 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 254 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = val_peek(0); }
 break;
 case 74:
-//#line 256 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 255 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 { yyval = val_peek(0); }
 break;
 case 75:
-//#line 259 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 258 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
                             List<Expression> expressions = new ArrayList<>();
                             expressions.add((Expression) val_peek(0));
@@ -1100,14 +1099,14 @@ case 75:
                         }
 break;
 case 76:
-//#line 264 "../src/com/davidmogar/njc/syntactic/syntactic.y"
+//#line 263 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
                             List<Expression> expressions = (List<Expression>) val_peek(2);
                             expressions.add((Expression) val_peek(0));
                             yyval = expressions;
                         }
 break;
-//#line 1042 "Parser.java"
+//#line 1041 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

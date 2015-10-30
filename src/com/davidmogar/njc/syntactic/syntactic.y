@@ -3,7 +3,6 @@
 import com.davidmogar.njc.ast.*;
 import com.davidmogar.njc.ast.expressions.*;
 import com.davidmogar.njc.ast.expressions.literals.*;
-import com.davidmogar.njc.ast.expressions.operators.*;
 import com.davidmogar.njc.ast.expressions.operators.binary.*;
 import com.davidmogar.njc.ast.expressions.operators.unary.*;
 import com.davidmogar.njc.ast.statements.*;
