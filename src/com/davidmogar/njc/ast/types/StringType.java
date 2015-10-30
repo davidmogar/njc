@@ -1,6 +1,6 @@
 package com.davidmogar.njc.ast.types;
 
-import com.davidmogar.njc.Visitor;
+import com.davidmogar.njc.visitors.Visitor;
 import com.davidmogar.njc.ast.AbstractAstNode;
 
 public class StringType extends AbstractAstNode implements Type {

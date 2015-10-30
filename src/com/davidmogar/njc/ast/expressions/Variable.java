@@ -1,6 +1,6 @@
 package com.davidmogar.njc.ast.expressions;
 
-import com.davidmogar.njc.Visitor;
+import com.davidmogar.njc.visitors.Visitor;
 import com.davidmogar.njc.ast.AbstractAstNode;
 
 public class Variable extends AbstractAstNode implements Expression {

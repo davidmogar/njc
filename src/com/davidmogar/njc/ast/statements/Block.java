@@ -1,8 +1,7 @@
 package com.davidmogar.njc.ast.statements;
 
-import com.davidmogar.njc.Visitor;
+import com.davidmogar.njc.visitors.Visitor;
 import com.davidmogar.njc.ast.AbstractAstNode;
-import com.davidmogar.njc.ast.statements.Statement;
 
 import java.util.ArrayList;
 import java.util.List;

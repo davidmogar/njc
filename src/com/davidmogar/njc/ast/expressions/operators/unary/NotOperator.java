@@ -1,6 +1,6 @@
 package com.davidmogar.njc.ast.expressions.operators.unary;
 
-import com.davidmogar.njc.Visitor;
+import com.davidmogar.njc.visitors.Visitor;
 import com.davidmogar.njc.ast.expressions.Expression;
 
 public class NotOperator extends UnaryOperator {

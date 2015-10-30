@@ -1,6 +1,6 @@
 package com.davidmogar.njc.ast.statements.definitions;
 
-import com.davidmogar.njc.Visitor;
+import com.davidmogar.njc.visitors.Visitor;
 import com.davidmogar.njc.ast.statements.Block;
 import com.davidmogar.njc.ast.statements.Statement;
 import com.davidmogar.njc.ast.types.Type;

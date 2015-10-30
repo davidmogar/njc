@@ -1,6 +1,6 @@
 package com.davidmogar.njc.ast;
 
-import com.davidmogar.njc.Visitor;
+import com.davidmogar.njc.visitors.Visitor;
 
 public interface AstNode {
 

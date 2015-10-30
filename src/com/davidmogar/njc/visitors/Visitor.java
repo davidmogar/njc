@@ -1,4 +1,4 @@
-package com.davidmogar.njc;
+package com.davidmogar.njc.visitors;
 
 import com.davidmogar.njc.ast.Program;
 import com.davidmogar.njc.ast.expressions.Variable;
