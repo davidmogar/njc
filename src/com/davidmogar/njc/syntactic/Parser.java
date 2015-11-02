@@ -738,7 +738,7 @@ case 4:
 break;
 case 5:
 //#line 63 "../src/com/davidmogar/njc/syntactic/syntactic.y"
-{ yyval = new Block(lexicon.getLine(), lexicon.getColumn(), (List<Statement>) val_peek(1)); }
+{ yyval = val_peek(1); }
 break;
 case 6:
 //#line 64 "../src/com/davidmogar/njc/syntactic/syntactic.y"
@@ -827,15 +827,15 @@ case 24:
                             for(Variable variable : (List<Variable>) val_peek(0)) {
                                 definitions.add(new VariableDefinition(lexicon.getLine(), lexicon.getColumn(), variable.name, (Type) val_peek(1)));
                             }
-                            yyval = definitions;
+                            yyval = new VariableDefinitionsGroup(lexicon.getLine(), lexicon.getColumn(), definitions);
                         }
 break;
 case 25:
 //#line 110 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
-                            List<Statement> declarations = (List<Statement>) val_peek(2);
-                            declarations.addAll((List<Statement>) val_peek(1));
-                            yyval = declarations;
+                            VariableDefinitionsGroup variableDefinitionsGroup = (VariableDefinitionsGroup) val_peek(2);
+                            variableDefinitionsGroup.merge((VariableDefinitionsGroup) val_peek(1));
+                            yyval = variableDefinitionsGroup;
                         }
 break;
 case 26:
@@ -1016,7 +1016,7 @@ case 55:
 break;
 case 56:
 //#line 234 "../src/com/davidmogar/njc/syntactic/syntactic.y"
-{ yyval = new ReadStatement(lexicon.getLine(), lexicon.getColumn(), (List<Expression>) val_peek(0)); }
+{ yyval = new WriteStatement(lexicon.getLine(), lexicon.getColumn(), (List<Expression>) val_peek(0)); }
 break;
 case 57:
 //#line 236 "../src/com/davidmogar/njc/syntactic/syntactic.y"

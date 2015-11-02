@@ -60,7 +60,7 @@ definitions:    functions { $$ = $1; }
                 ;
 
 statement:      function_call ';' { $$ = $1; }
-                | declaration ';' { $$ = new Block(lexicon.getLine(), lexicon.getColumn(), (List<Statement>) $1); }
+                | declaration ';' { $$ = $1; }
                 | if { $$ = $1; }
                 | while { $$ = $1; }
                 | read ';' { $$ = $1; }
@@ -103,14 +103,14 @@ declaration:        type identifiers {
                             for(Variable variable : (List<Variable>) $2) {
                                 definitions.add(new VariableDefinition(lexicon.getLine(), lexicon.getColumn(), variable.name, (Type) $1));
                             }
-                            $$ = definitions;
+                            $$ = new VariableDefinitionsGroup(lexicon.getLine(), lexicon.getColumn(), definitions);
                         }
                     ;
 
 declarations:       declarations declaration ';' {
-                            List<Statement> declarations = (List<Statement>) $1;
-                            declarations.addAll((List<Statement>) $2);
-                            $$ = declarations;
+                            VariableDefinitionsGroup variableDefinitionsGroup = (VariableDefinitionsGroup) $1;
+                            variableDefinitionsGroup.merge((VariableDefinitionsGroup) $2);
+                            $$ = variableDefinitionsGroup;
                         }
                     | declaration ';' { $$ = $1; }
                     ;
@@ -231,7 +231,7 @@ read:           READ expressions { $$ = new ReadStatement(lexicon.getLine(), lex
 
 return:         RETURN expression { $$ = new ReturnStatement(lexicon.getLine(), lexicon.getColumn(), (Expression) $2); } ;
 
-write:          WRITE expressions { $$ = new ReadStatement(lexicon.getLine(), lexicon.getColumn(), (List<Expression>) $2); } ;
+write:          WRITE expressions { $$ = new WriteStatement(lexicon.getLine(), lexicon.getColumn(), (List<Expression>) $2); } ;
 
 logic_expression:   expression AND expression { $$ = new LogicalOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "&&"); }
                     | expression EQUALS expression { $$ = new LogicalOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "=="); }

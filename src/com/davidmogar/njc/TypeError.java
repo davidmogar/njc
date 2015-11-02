@@ -1,5 +1,7 @@
 package com.davidmogar.njc;
 
+import com.davidmogar.njc.ast.AstNode;
+
 public class TypeError {
 
     private String message;
@@ -13,6 +15,10 @@ public class TypeError {
         this.message = message;
 
         ErrorHandler.getInstance().addTypeError(this);
+    }
+
+    public TypeError(AstNode node, String message) {
+        this(node.getLine(), node.getColumn(), message);
     }
 
     @Override

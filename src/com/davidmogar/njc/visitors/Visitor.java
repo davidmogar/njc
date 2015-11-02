@@ -13,7 +13,6 @@ import com.davidmogar.njc.ast.expressions.operators.binary.LogicalOperator;
 import com.davidmogar.njc.ast.expressions.operators.unary.CastOperator;
 import com.davidmogar.njc.ast.expressions.operators.unary.NegationOperator;
 import com.davidmogar.njc.ast.expressions.operators.unary.NotOperator;
-import com.davidmogar.njc.ast.expressions.operators.unary.UnaryOperator;
 import com.davidmogar.njc.ast.statements.AssignmentStatement;
 import com.davidmogar.njc.ast.statements.Block;
 import com.davidmogar.njc.ast.statements.InvocationStatement;
@@ -22,6 +21,7 @@ import com.davidmogar.njc.ast.statements.controlflow.IfStatement;
 import com.davidmogar.njc.ast.statements.controlflow.WhileStatement;
 import com.davidmogar.njc.ast.statements.definitions.FunctionDefinition;
 import com.davidmogar.njc.ast.statements.definitions.VariableDefinition;
+import com.davidmogar.njc.ast.statements.definitions.VariableDefinitionsGroup;
 import com.davidmogar.njc.ast.statements.io.ReadStatement;
 import com.davidmogar.njc.ast.statements.io.WriteStatement;
 import com.davidmogar.njc.ast.types.*;
@@ -85,6 +85,8 @@ public interface Visitor {
     Object visit(FunctionDefinition functionDefinition, Object object);
 
     Object visit(VariableDefinition variableDefinition, Object object);
+
+    Object visit(VariableDefinitionsGroup variableDefinitionsGroup, Object object);
 
     /* IO */
 

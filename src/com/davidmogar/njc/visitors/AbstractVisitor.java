@@ -21,6 +21,7 @@ import com.davidmogar.njc.ast.statements.controlflow.WhileStatement;
 import com.davidmogar.njc.ast.statements.definitions.Definition;
 import com.davidmogar.njc.ast.statements.definitions.FunctionDefinition;
 import com.davidmogar.njc.ast.statements.definitions.VariableDefinition;
+import com.davidmogar.njc.ast.statements.definitions.VariableDefinitionsGroup;
 import com.davidmogar.njc.ast.statements.io.ReadStatement;
 import com.davidmogar.njc.ast.statements.io.WriteStatement;
 import com.davidmogar.njc.ast.types.*;
@@ -97,13 +98,13 @@ public class AbstractVisitor implements Visitor {
 
     @Override
     public Object visit(NegationOperator negationOperator, Object object) {
-        negationOperator.accept(this, object);
+        negationOperator.expression.accept(this, object);
         return null;
     }
 
     @Override
     public Object visit(NotOperator notOperator, Object object) {
-        notOperator.accept(this, object);
+        notOperator.expression.accept(this, object);
         return null;
     }
 
@@ -141,7 +142,9 @@ public class AbstractVisitor implements Visitor {
     public Object visit(IfStatement ifStatement, Object object) {
         ifStatement.condition.accept(this, object);
         ifStatement.ifBlock.accept(this, object);
-        ifStatement.elseBlock.accept(this, object);
+        if (ifStatement.elseBlock != null) {
+            ifStatement.elseBlock.accept(this, object);
+        }
         return null;
     }
 
@@ -160,6 +163,14 @@ public class AbstractVisitor implements Visitor {
 
     @Override
     public Object visit(VariableDefinition variableDefinition, Object object) {
+        return null;
+    }
+
+    @Override
+    public Object visit(VariableDefinitionsGroup variableDefinitionsGroup, Object object) {
+        for (VariableDefinition variableDefinition : variableDefinitionsGroup.variableDefinitions) {
+            variableDefinition.accept(this, object);
+        }
         return null;
     }
 

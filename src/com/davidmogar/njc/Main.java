@@ -1,6 +1,8 @@
 package com.davidmogar.njc;
 
 import com.davidmogar.njc.lexicon.Lexicon;
+import com.davidmogar.njc.visitors.LinkerVisitor;
+import com.davidmogar.njc.semantic.SemanticVisitor;
 import com.davidmogar.njc.syntactic.Parser;
 
 import java.io.FileReader;
@@ -25,6 +27,8 @@ public class Main {
         Lexicon lexicon = new Lexicon(fileReader);
         Parser parser = new Parser(lexicon);
         parser.run();
+        parser.ast.accept(new SemanticVisitor(), null);
+        parser.ast.accept(new LinkerVisitor(), null);
 
         ErrorHandler.getInstance().getTypeErrors().forEach(System.err::println);
     }
