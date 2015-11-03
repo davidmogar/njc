@@ -27,8 +27,11 @@ public class Main {
         Lexicon lexicon = new Lexicon(fileReader);
         Parser parser = new Parser(lexicon);
         parser.run();
-        parser.ast.accept(new SemanticVisitor(), null);
-        parser.ast.accept(new LinkerVisitor(), null);
+
+        if (parser.ast != null) {
+            parser.ast.accept(new LinkerVisitor(), null);
+            parser.ast.accept(new SemanticVisitor(), null);
+        }
 
         ErrorHandler.getInstance().getTypeErrors().forEach(System.err::println);
     }

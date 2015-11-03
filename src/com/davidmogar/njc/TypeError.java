@@ -1,17 +1,15 @@
 package com.davidmogar.njc;
 
 import com.davidmogar.njc.ast.AstNode;
+import com.davidmogar.njc.ast.types.AbstractType;
+import com.davidmogar.njc.visitors.Visitor;
 
-public class TypeError {
+public class TypeError extends AbstractType {
 
     private String message;
 
-    private int column;
-    private int line;
-
     public TypeError(int line, int column, String message) {
-        this.line = line;
-        this.column = column;
+        super(line, column);
         this.message = message;
 
         ErrorHandler.getInstance().addTypeError(this);
@@ -22,7 +20,16 @@ public class TypeError {
     }
 
     @Override
+    public void accept(Visitor visitor, Object object) {
+    }
+
+    @Override
+    public String getName() {
+        return "TypeError";
+    }
+
+    @Override
     public String toString() {
-        return "(" + line + ", " + column + ") " + message;
+        return "(" + getLine() + ", " + getColumn() + ") " + message;
     }
 }

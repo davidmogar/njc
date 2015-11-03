@@ -8,7 +8,6 @@ import com.davidmogar.njc.ast.statements.definitions.Definition;
 import com.davidmogar.njc.ast.statements.definitions.FunctionDefinition;
 import com.davidmogar.njc.ast.statements.definitions.VariableDefinition;
 import com.davidmogar.njc.semantic.SymbolsTable;
-import com.davidmogar.njc.visitors.AbstractVisitor;
 
 public class LinkerVisitor extends AbstractVisitor {
 
@@ -21,8 +20,9 @@ public class LinkerVisitor extends AbstractVisitor {
     @Override
     public Object visit(Variable variable, Object object) {
         Definition definition = symbolsTable.getDefinition(variable.name);
-        if (definition != null && definition instanceof VariableDefinition) {
-            variable.variableDefinition = (VariableDefinition) definition;
+        if (definition != null) {
+            variable.definition = definition;
+            variable.setType(variable.definition.getType());
         } else {
             new TypeError(variable, "Cannot resolve symbol '" + variable.name + "'");
         }

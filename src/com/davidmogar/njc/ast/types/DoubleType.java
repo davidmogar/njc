@@ -1,9 +1,10 @@
 package com.davidmogar.njc.ast.types;
 
+import com.davidmogar.njc.TypeError;
 import com.davidmogar.njc.visitors.Visitor;
 import com.davidmogar.njc.ast.AbstractAstNode;
 
-public class DoubleType extends AbstractAstNode implements Type {
+public class DoubleType extends AbstractType implements Type {
 
     private static DoubleType instance;
 
@@ -20,8 +21,70 @@ public class DoubleType extends AbstractAstNode implements Type {
     }
 
     @Override
+    public String getName() {
+        return "double";
+    }
+
+    @Override
+    public Type inferArithmeticOperationType() {
+        return this;
+    }
+
+    @Override
+    public Type inferArithmeticOperationType(Type type) {
+        Type arithmeticType = null;
+        if (type instanceof DoubleType || type instanceof IntegerType
+                || type instanceof CharacterType || type instanceof TypeError) {
+            arithmeticType = type;
+        }
+        return arithmeticType;
+    }
+
+    @Override
+    public Type inferAssignmentType(Type type) {
+        Type assignmentType = null;
+        if (type instanceof CharacterType || type instanceof IntegerType
+                || type instanceof DoubleType || type instanceof TypeError) {
+            assignmentType = this;
+        }
+        return assignmentType;
+    }
+
+    @Override
+    public Type inferCastType(Type type) {
+        Type castType = null;
+        if (type instanceof TypeError) {
+            castType = type;
+        } else if (type instanceof CharacterType || type instanceof IntegerType || type instanceof DoubleType) {
+            castType = this;
+        }
+        return castType;
+    }
+
+    @Override
+    public Type inferComparisonOperationType(Type type) {
+        Type comparisonType = null;
+        if (type instanceof IntegerType || type instanceof TypeError) {
+            comparisonType = type;
+        } else if (type instanceof CharacterType || type instanceof DoubleType) {
+            comparisonType = IntegerType.getInstance(this.getLine(), this.getColumn());
+        }
+        return comparisonType;
+    }
+
+    @Override
+    public boolean isPrimitive() {
+        return true;
+    }
+
+    @Override
+    public boolean isPromotable(Type type) {
+        return type instanceof DoubleType;
+    }
+
+    @Override
     public void accept(Visitor visitor, Object object) {
         visitor.visit(this, object);
     }
-    
+
 }

@@ -6,13 +6,13 @@ import com.davidmogar.njc.ast.expressions.Expression;
 
 public class AssignmentStatement extends AbstractAstNode implements Statement {
 
-    public Expression leftValue;
-    public Expression rightValue;
+    public Expression leftExpression;
+    public Expression rightExpression;
 
-    public AssignmentStatement(int line, int column, Expression leftValue, Expression rightValue) {
+    public AssignmentStatement(int line, int column, Expression leftExpression, Expression rightExpression) {
         super(line, column);
-        this.leftValue = leftValue;
-        this.rightValue = rightValue;
+        this.leftExpression = leftExpression;
+        this.rightExpression = rightExpression;
     }
 
     @Override

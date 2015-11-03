@@ -3,8 +3,12 @@
 void main() {
   	int entero;
   	char caracter;
-  	read entero; 
-  	caracter = 850; //No se puede asignar int a char
-  	3 = entero; //3 no es lvalue
-  	read entero + 2;  //entero + 2 no es lvalue
+  	int[1] array;
+  	read entero;
+  	entero = array + 4;  //No se pueden sumar un char y un int
+  	entero = -4; 
+  	caracter = 'a' > 'b';	//No se puede asignar un int a un char
+  	caracter = -array; //No se puede hacer manos unario a char
+  	entero = 'a' || 'b'; 
+  	caracter = 4 || 0; //No se puede asignar un int a un char
 }

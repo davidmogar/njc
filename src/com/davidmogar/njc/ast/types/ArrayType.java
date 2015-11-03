@@ -1,9 +1,9 @@
 package com.davidmogar.njc.ast.types;
 
+import com.davidmogar.njc.TypeError;
 import com.davidmogar.njc.visitors.Visitor;
-import com.davidmogar.njc.ast.AbstractAstNode;
 
-public class ArrayType extends AbstractAstNode implements Type {
+public class ArrayType extends AbstractType implements Type {
 
     public Type type;
 
@@ -14,8 +14,10 @@ public class ArrayType extends AbstractAstNode implements Type {
     }
 
     public static ArrayType createArray(Type type, int size) {
+        ArrayType arrayType = null;
+
         if (type instanceof ArrayType) {
-            ArrayType arrayType = (ArrayType) type;
+            arrayType = (ArrayType) type;
 
             Type currentNode = arrayType.type;
             while (currentNode instanceof ArrayType) {
@@ -23,10 +25,23 @@ public class ArrayType extends AbstractAstNode implements Type {
             }
 
             arrayType.type = new ArrayType(type.getLine(), type.getColumn(), currentNode, size);;
-            return arrayType;
         } else {
-            return new ArrayType(type.getLine(), type.getColumn(), type, size);
+            arrayType =  new ArrayType(type.getLine(), type.getColumn(), type, size);
+            arrayType.type = type;
         }
+
+        return arrayType;
+    }
+
+    @Override
+    public Type inferArrayAccessType(Type type) {
+        Type arrayAccessType = null;
+        if (type instanceof TypeError) {
+            arrayAccessType = type;
+        } else if (type.isPromotable(IntegerType.getInstance(getLine(), getColumn()))) {
+            arrayAccessType =  this.type;
+        }
+        return arrayAccessType;
     }
 
     @Override

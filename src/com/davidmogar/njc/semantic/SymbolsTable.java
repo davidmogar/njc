@@ -34,7 +34,7 @@ public class SymbolsTable {
     }
 
     public Definition getDefinition(String name) {
-        return currentScope.get(name);
+        return getDefinition(scopes.size() - 1, name);
     }
 
     public void removeScope() {
@@ -43,6 +43,14 @@ public class SymbolsTable {
             currentScope = scopes.get(previousIndex);
             scopes.remove(previousIndex + 1);
         }
+    }
+
+    private Definition getDefinition(int position, String name) {
+        Definition definition = scopes.get(position).get(name);
+        if (definition == null && position > 0) {
+            definition = getDefinition(position - 1, name);
+        }
+        return definition;
     }
 
 }

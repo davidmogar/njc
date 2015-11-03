@@ -14,7 +14,6 @@ import com.davidmogar.njc.ast.expressions.operators.binary.LogicalOperator;
 import com.davidmogar.njc.ast.expressions.operators.unary.CastOperator;
 import com.davidmogar.njc.ast.expressions.operators.unary.NegationOperator;
 import com.davidmogar.njc.ast.expressions.operators.unary.NotOperator;
-import com.davidmogar.njc.ast.expressions.operators.unary.UnaryOperator;
 import com.davidmogar.njc.ast.statements.*;
 import com.davidmogar.njc.ast.statements.controlflow.IfStatement;
 import com.davidmogar.njc.ast.statements.controlflow.WhileStatement;
@@ -110,8 +109,8 @@ public class AbstractVisitor implements Visitor {
 
     @Override
     public Object visit(AssignmentStatement assignmentStatement, Object object) {
-        assignmentStatement.leftValue.accept(this, object);
-        assignmentStatement.rightValue.accept(this, object);
+        assignmentStatement.leftExpression.accept(this, object);
+        assignmentStatement.rightExpression.accept(this, object);
         return null;
     }
 

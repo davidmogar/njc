@@ -1,5 +1,6 @@
 %{
 
+import com.davidmogar.njc.*;
 import com.davidmogar.njc.ast.*;
 import com.davidmogar.njc.ast.expressions.*;
 import com.davidmogar.njc.ast.expressions.literals.*;
@@ -38,13 +39,14 @@ import java.util.*;
 
 %nonassoc LOWER_THAN_ELSE
 %nonassoc ELSE
-%left AND OR '!'
-%left EQUALS GREATER_EQUALS LOWER_EQUALS NOT_EQUALS
+%left AND OR
+%left EQUALS GREATER_EQUALS LOWER_EQUALS NOT_EQUALS '<' '>'
 %left '+' '-'
 %left '*' '/'
 %right NEGATION
 %nonassoc '[' ']'
 %nonassoc '(' ')'
+%left '!'
 
 %%
 
@@ -136,8 +138,9 @@ block:                  '{' '}' { $$ = new Block(lexicon.getLine(), lexicon.getC
                         ;
 
 function:               type function_name '(' ')' block {
-                                FunctionType type = new FunctionType(lexicon.getLine(), lexicon.getColumn(), (Type) $1);
-                                $$ = new FunctionDefinition(lexicon.getLine(), lexicon.getColumn(), ((Variable) $2).name, (Type) $1, (Block) $5);
+                                Type type = VoidType.getInstance(lexicon.getLine(), lexicon.getColumn());
+                                FunctionType functionType = new FunctionType(lexicon.getLine(), lexicon.getColumn(), type);
+                                $$ = new FunctionDefinition(lexicon.getLine(), lexicon.getColumn(), ((Variable) $2).name, functionType, (Block) $5);
                             }
                         | VOID function_name '(' ')' block {
                                 Type type = VoidType.getInstance(lexicon.getLine(), lexicon.getColumn());
@@ -145,8 +148,9 @@ function:               type function_name '(' ')' block {
                                 $$ = new FunctionDefinition(lexicon.getLine(), lexicon.getColumn(), ((Variable) $2).name, functionType, (Block) $5);
                             }
                         | type function_name '(' function_parameters ')' block {
-                                FunctionType type = new FunctionType(lexicon.getLine(), lexicon.getColumn(), (List<VariableDefinition>) $4, (Type) $1);
-                                $$ = new FunctionDefinition(lexicon.getLine(), lexicon.getColumn(), ((Variable) $2).name, (Type) $1, (Block) $6);
+                                Type type = VoidType.getInstance(lexicon.getLine(), lexicon.getColumn());
+                                FunctionType functionType = new FunctionType(lexicon.getLine(), lexicon.getColumn(), (List<VariableDefinition>) $4, type);
+                                $$ = new FunctionDefinition(lexicon.getLine(), lexicon.getColumn(), ((Variable) $2).name, functionType, (Block) $6);
                             }
                         | VOID function_name '(' function_parameters ')' block {
                                 Type type = VoidType.getInstance(lexicon.getLine(), lexicon.getColumn());
@@ -202,7 +206,7 @@ if_statement:           IF '(' expression ')' statement %prec LOWER_THAN_ELSE {
                                 statements.add((Statement) $5);
                                 Block block = new Block(lexicon.getLine(), lexicon.getColumn(), statements);
                                 $$ = new IfStatement(lexicon.getLine(), lexicon.getColumn(), (Expression) $3, block);
-                            }
+                            } %prec LOWER_THAN_ELSE
                         | IF '(' expression ')' statement else {
                                 List<Statement> statements = new ArrayList<>();
                                 statements.add((Statement) $5);
@@ -233,27 +237,33 @@ return:         RETURN expression { $$ = new ReturnStatement(lexicon.getLine(), 
 
 write:          WRITE expressions { $$ = new WriteStatement(lexicon.getLine(), lexicon.getColumn(), (List<Expression>) $2); } ;
 
-logic_expression:   expression AND expression { $$ = new LogicalOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "&&"); }
-                    | expression EQUALS expression { $$ = new LogicalOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "=="); }
-                    | expression GREATER_EQUALS expression { $$ = new LogicalOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, ">="); }
-                    | expression LOWER_EQUALS expression { $$ = new LogicalOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "<="); }
-                    | expression NOT_EQUALS expression { $$ = new LogicalOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "!="); }
-                    | '!' expression { $$ = new NotOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $2); }
-                    ;
+comparison_expression:  expression EQUALS expression { $$ = new ComparisonOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "=="); }
+                        | expression GREATER_EQUALS expression { $$ = new ComparisonOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, ">="); }
+                        | expression LOWER_EQUALS expression { $$ = new ComparisonOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "<="); }
+                        | expression NOT_EQUALS expression { $$ = new ComparisonOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "!="); }
+                        | expression '>' expression { $$ = new ComparisonOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, ">="); }
+                        | expression '<' expression { $$ = new ComparisonOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "<="); }
+                                                ;
 
-expression:         expression '+' expression { $$ = new ArithmeticOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "+"); }
-                    | expression '-' expression { $$ = new ArithmeticOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "-"); }
-                    | expression '*' expression { $$ = new ArithmeticOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "*"); }
-                    | expression '/' expression { $$ = new ArithmeticOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "/"); }
-                    | '-' expression { $$ = new NegationOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $2); } %prec NEGATION
-                    | '(' type ')' expression { $$ = new CastOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $4, (Type) $2); }
-                    | expression '[' expression ']' { $$ = new ArrayAccessOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3); }
-                    | '(' expression ')' { $$ = $2; }
-                    | logic_expression { $$ = $1; }
-                    | function_call { $$ = $1; }
-                    | literal { $$ = $1; }
-                    | identifier { $$ = $1; }
-                    ;
+logic_expression:       expression AND expression { $$ = new LogicalOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "&&"); }
+                        | expression OR expression { $$ = new LogicalOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "&&"); }
+                        | '!' expression { $$ = new NotOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $2); }
+                        ;
+
+expression:             expression '+' expression { $$ = new ArithmeticOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "+"); }
+                        | expression '-' expression { $$ = new ArithmeticOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "-"); }
+                        | expression '*' expression { $$ = new ArithmeticOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "*"); }
+                        | expression '/' expression { $$ = new ArithmeticOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "/"); }
+                        | '-' expression { $$ = new NegationOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $2); } %prec NEGATION
+                        | '(' type ')' expression { $$ = new CastOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $4, (Type) $2); }
+                        | expression '[' expression ']' { $$ = new ArrayAccessOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3); }
+                        | '(' expression ')' { $$ = $2; }
+                        | comparison_expression { $$ = $1; }
+                        | logic_expression { $$ = $1; }
+                        | function_call { $$ = $1; }
+                        | literal { $$ = $1; }
+                        | identifier { $$ = $1; }
+                        ;
 
 expressions:        expression {
                             List<Expression> expressions = new ArrayList<>();
@@ -279,21 +289,15 @@ private int yylex () {
 	    token=lexicon.yylex();
 	    yylval = lexicon.matchedValue;
     } catch(Throwable e) {
-        System.err.println ("Error lexicon en linea " + lexicon.getLine()+
-		" y columna "+lexicon.getColumn()+":\n\t"+e); 
+        new TypeError(lexicon.getLine(), lexicon.getColumn(), "Lexical error: " + e);
     }
     return token;
 }
 
 public void yyerror (String error) {
-    System.err.println ("Error Sintactico en linea " + lexicon.getLine()+
-		" y columna "+lexicon.getColumn()+":\n\t"+error);
+    new TypeError(lexicon.getLine(), lexicon.getColumn(), "Syntactic error: " + error);
 }
 
 public Parser(Lexicon lexicon) {
 	this.lexicon = lexicon;
-}
-
-public int parse() {
-	return yyparse();
 }

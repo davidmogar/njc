@@ -28,4 +28,17 @@ public class InvocationStatement extends AbstractExpression implements Statement
         visitor.visit(this, object);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder(variable.name + "(");
+        if (arguments.size() > 0) {
+            for (Expression expression : arguments) {
+                sb.append(expression.getType().getName());
+                sb.append(", ");
+            }
+            sb.setLength(sb.length() - 2);
+        }
+        sb.append(")");
+        return sb.toString();
+    }
 }
