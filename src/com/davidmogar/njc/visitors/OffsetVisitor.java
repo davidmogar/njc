@@ -66,7 +66,7 @@ public class OffsetVisitor extends AbstractVisitor {
             }
         }
 
-        return blockOffsetSum;
+        return -blockOffsetSum;
     }
 
     @Override
