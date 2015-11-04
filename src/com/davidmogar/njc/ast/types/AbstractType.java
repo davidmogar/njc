@@ -17,6 +17,16 @@ public abstract class AbstractType extends AbstractAstNode implements Type {
     }
 
     @Override
+    public int getSize() {
+        return 0;
+    }
+
+    @Override
+    public String getSuffix() {
+        return "";
+    }
+
+    @Override
     public Type inferArithmeticOperationType() {
         return null;
     }
@@ -59,6 +69,11 @@ public abstract class AbstractType extends AbstractAstNode implements Type {
     @Override
     public Type inferInvocationReturnType(List<Expression> expressions) {
         return null;
+    }
+
+    @Override
+    public boolean isLogic() {
+        return false;
     }
 
     @Override

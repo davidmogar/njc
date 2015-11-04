@@ -156,12 +156,14 @@ public class AbstractVisitor implements Visitor {
 
     @Override
     public Object visit(FunctionDefinition functionDefinition, Object object) {
+        functionDefinition.getType().accept(this, object);
         functionDefinition.block.accept(this, object);
         return null;
     }
 
     @Override
     public Object visit(VariableDefinition variableDefinition, Object object) {
+        variableDefinition.getType().accept(this, object);
         return null;
     }
 

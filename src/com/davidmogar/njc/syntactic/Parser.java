@@ -758,7 +758,7 @@ break;
 case 3:
 //#line 57 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
-                        List<Definition> list = (List<Definition>) val_peek(1);
+                        List list = ((VariableDefinitionsGroup) val_peek(1)).variableDefinitions;
                         list.addAll((List<Definition>) val_peek(0));
                         yyval = list;
                     }

@@ -12,8 +12,11 @@ public class SymbolsTable {
     private List<Map<String, Definition>> scopes;
     private Map<String, Definition> currentScope;
 
+    private int scope;
+
     public SymbolsTable() {
         scopes = new ArrayList<>();
+        scope = -1;
         createScope();
     }
 
@@ -23,6 +26,7 @@ public class SymbolsTable {
         if (!currentScope.containsKey(definition.getName())) {
             inserted = true;
             currentScope.put(definition.getName(), definition);
+            definition.setScope(scope);
         }
 
         return inserted;
@@ -31,6 +35,7 @@ public class SymbolsTable {
     public void createScope() {
         currentScope = new HashMap<>();
         scopes.add(currentScope);
+        scope++;
     }
 
     public Definition getDefinition(String name) {
@@ -38,10 +43,10 @@ public class SymbolsTable {
     }
 
     public void removeScope() {
-        int previousIndex = scopes.size() - 2;
-        if (previousIndex >= 0) {
-            currentScope = scopes.get(previousIndex);
-            scopes.remove(previousIndex + 1);
+        scope--;
+        if (scope >= 0 && scope < scopes.size()) {
+            currentScope = scopes.get(scope);
+            scopes.remove(scope + 1);
         }
     }
 

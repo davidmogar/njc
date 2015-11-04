@@ -7,7 +7,10 @@ import com.davidmogar.njc.ast.statements.Statement;
 import com.davidmogar.njc.ast.statements.definitions.Definition;
 import com.davidmogar.njc.ast.statements.definitions.FunctionDefinition;
 import com.davidmogar.njc.ast.statements.definitions.VariableDefinition;
+import com.davidmogar.njc.ast.types.FunctionType;
 import com.davidmogar.njc.semantic.SymbolsTable;
+
+import java.util.List;
 
 public class LinkerVisitor extends AbstractVisitor {
 
@@ -34,6 +37,13 @@ public class LinkerVisitor extends AbstractVisitor {
     public Object visit(Block block, Object object) {
         symbolsTable.createScope();
 
+        if (object instanceof List) {
+            List<Definition> parameters = (List<Definition>) object;
+            for (Definition definition : parameters) {
+                definition.accept(this, object);
+            }
+        }
+
         for (Statement statement : block.statements) {
             statement.accept(this, object);
         }
@@ -47,7 +57,12 @@ public class LinkerVisitor extends AbstractVisitor {
         if (!symbolsTable.addDefinition(functionDefinition)) {
             new TypeError(functionDefinition, "Function '" + functionDefinition.getName() + "' is already defined");
         }
-        return super.visit(functionDefinition, object);
+
+        FunctionType type = (FunctionType) functionDefinition.getType();
+        type.returnType.accept(this, object);
+        functionDefinition.block.accept(this, type.parameters);
+
+        return null;
     }
 
     @Override
@@ -58,5 +73,4 @@ public class LinkerVisitor extends AbstractVisitor {
         }
         return super.visit(variableDefinition, object);
     }
-
 }

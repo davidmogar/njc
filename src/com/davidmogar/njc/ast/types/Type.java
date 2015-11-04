@@ -9,6 +9,10 @@ public interface Type extends AstNode {
 
     String getName();
 
+    int getSize();
+
+    String getSuffix();
+
     Type inferArithmeticOperationType();
 
     Type inferArithmeticOperationType(Type type);
@@ -26,6 +30,8 @@ public interface Type extends AstNode {
     Type inferLogicOperationType(Type type);
 
     Type inferInvocationReturnType(List<Expression> expressions);
+
+    boolean isLogic();
 
     boolean isPrimitive();
 

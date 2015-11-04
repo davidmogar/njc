@@ -55,7 +55,7 @@ program:        definitions { ast = new Program(lexicon.getLine(), lexicon.getCo
 
 definitions:    functions { $$ = $1; }
                 | declarations functions {
-                        List<Definition> list = (List<Definition>) $1;
+                        List list = ((VariableDefinitionsGroup) $1).variableDefinitions;
                         list.addAll((List<Definition>) $2);
                         $$ = list;
                     }

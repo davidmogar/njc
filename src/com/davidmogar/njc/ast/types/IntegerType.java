@@ -6,6 +6,9 @@ import com.davidmogar.njc.ast.AbstractAstNode;
 
 public class IntegerType extends AbstractType implements Type {
 
+    private static final int SIZE = 2;
+    private static final String SUFFIX = "i";
+
     private static IntegerType instance;
 
     private IntegerType(int line, int column) {
@@ -23,6 +26,16 @@ public class IntegerType extends AbstractType implements Type {
     @Override
     public String getName() {
         return "int";
+    }
+
+    @Override
+    public int getSize() {
+        return SIZE;
+    }
+
+    @Override
+    public String getSuffix() {
+        return SUFFIX;
     }
 
     @Override
@@ -86,6 +99,11 @@ public class IntegerType extends AbstractType implements Type {
             logicType = this;
         }
         return logicType;
+    }
+
+    @Override
+    public boolean isLogic() {
+        return true;
     }
 
     @Override

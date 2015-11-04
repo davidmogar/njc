@@ -6,6 +6,9 @@ import com.davidmogar.njc.ast.AbstractAstNode;
 
 public class DoubleType extends AbstractType implements Type {
 
+    private static final int SIZE = 4;
+    private static final String SUFFIX = "f";
+
     private static DoubleType instance;
 
     private DoubleType(int line, int column) {
@@ -23,6 +26,16 @@ public class DoubleType extends AbstractType implements Type {
     @Override
     public String getName() {
         return "double";
+    }
+
+    @Override
+    public int getSize() {
+        return SIZE;
+    }
+
+    @Override
+    public String getSuffix() {
+        return SUFFIX;
     }
 
     @Override

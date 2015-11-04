@@ -1,6 +1,7 @@
 package com.davidmogar.njc.semantic;
 
 import com.davidmogar.njc.TypeError;
+import com.davidmogar.njc.ast.expressions.Expression;
 import com.davidmogar.njc.ast.expressions.operators.binary.ArithmeticOperator;
 import com.davidmogar.njc.ast.expressions.operators.binary.ArrayAccessOperator;
 import com.davidmogar.njc.ast.expressions.operators.binary.ComparisonOperator;
@@ -10,7 +11,13 @@ import com.davidmogar.njc.ast.expressions.operators.unary.NegationOperator;
 import com.davidmogar.njc.ast.expressions.operators.unary.NotOperator;
 import com.davidmogar.njc.ast.statements.AssignmentStatement;
 import com.davidmogar.njc.ast.statements.InvocationStatement;
+import com.davidmogar.njc.ast.statements.ReturnStatement;
+import com.davidmogar.njc.ast.statements.controlflow.IfStatement;
+import com.davidmogar.njc.ast.statements.controlflow.WhileStatement;
+import com.davidmogar.njc.ast.statements.definitions.FunctionDefinition;
+import com.davidmogar.njc.ast.statements.definitions.VariableDefinition;
 import com.davidmogar.njc.ast.statements.io.ReadStatement;
+import com.davidmogar.njc.ast.types.FunctionType;
 import com.davidmogar.njc.ast.types.Type;
 import com.davidmogar.njc.visitors.AbstractVisitor;
 
@@ -128,6 +135,52 @@ public class SemanticVisitor extends AbstractVisitor {
     }
 
     @Override
+    public Object visit(IfStatement ifStatement, Object object) {
+        super.visit(ifStatement, object);
+
+        Type type = ifStatement.condition.getType();
+        if (!type.isLogic()) {
+            new TypeError(ifStatement, "Incompatible types. Required 'int', found '" + type.getName() + "'");
+        }
+
+        return null;
+    }
+
+    @Override
+    public Object visit(WhileStatement whileStatement, Object object) {
+        super.visit(whileStatement, object);
+
+        Type type = whileStatement.condition.getType();
+        if (!type.isLogic()) {
+            new TypeError(whileStatement, "Incompatible types. Required 'int', found '" + type.getName() + "'");
+        }
+
+        return null;
+    }
+
+    @Override
+    public Object visit(FunctionDefinition functionDefinition, Object object) {
+        FunctionType functionType = (FunctionType) functionDefinition.getType();
+        for (VariableDefinition variableDefinition : functionType.parameters) {
+            Type variableType = variableDefinition.getType();
+            if (variableType.isPrimitive()) {
+                variableDefinition.accept(this, object);
+            } else {
+                new TypeError(functionDefinition, "Incompatible types on function parameters. Expected a primitive type" +
+                        ", found '" + variableType.getName() + "'");
+            }
+        }
+        if (!functionType.returnType.isPrimitive()) {
+            new TypeError(functionDefinition, "Incompatible types on function return. Expected a primitive type, found '" +
+                    functionType.returnType.getName() + "'");
+        }
+
+        super.visit(functionDefinition, functionType.returnType);
+
+        return null;
+    }
+
+    @Override
     public Object visit(AssignmentStatement assignmentStatement, Object object) {
         super.visit(assignmentStatement, object);
 
@@ -141,6 +194,20 @@ public class SemanticVisitor extends AbstractVisitor {
             }
         } else {
             new TypeError(assignmentStatement.leftExpression, "Variable expected");
+        }
+
+        return null;
+    }
+
+    @Override
+    public Object visit(ReturnStatement returnStatement, Object object) {
+        super.visit(returnStatement, object);
+
+        Type type = (Type) object;
+        Type returnType = returnStatement.expression.getType();
+        if (!returnType.isPromotable(type)) {
+            new TypeError(returnStatement, "Incompatible types on function return. Expected '" + type.getName() + "', found '" +
+                    returnType.getName() + "'");
         }
 
         return null;
@@ -169,4 +236,5 @@ public class SemanticVisitor extends AbstractVisitor {
 
         return null;
     }
+
 }

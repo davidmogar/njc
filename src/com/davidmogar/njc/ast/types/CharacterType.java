@@ -6,6 +6,9 @@ import com.davidmogar.njc.ast.AbstractAstNode;
 
 public class CharacterType extends AbstractType implements Type {
 
+    private static final int SIZE = 1;
+    private static final String SUFFIX = "b";
+
     private static CharacterType instance;
 
     private CharacterType(int line, int column) {
@@ -23,6 +26,16 @@ public class CharacterType extends AbstractType implements Type {
     @Override
     public String getName() {
         return "char";
+    }
+
+    @Override
+    public int getSize() {
+        return SIZE;
+    }
+
+    @Override
+    public String getSuffix() {
+        return SUFFIX;
     }
 
     @Override
@@ -86,6 +99,11 @@ public class CharacterType extends AbstractType implements Type {
             logicType = IntegerType.getInstance(this.getLine(), this.getColumn());
         }
         return logicType;
+    }
+
+    @Override
+    public boolean isLogic() {
+        return true;
     }
 
     @Override

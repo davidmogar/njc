@@ -7,8 +7,17 @@ import com.davidmogar.njc.syntactic.Parser;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
 public class Main {
+
+    private static void showErrors() {
+        List<TypeError> errors = ErrorHandler.getInstance().getTypeErrors();
+        if (errors.size() > 0) {
+            errors.forEach(System.err::println);
+            System.exit(-1);
+        }
+    }
 
     public static void main(String[] args) throws IOException {
         if (args.length < 1) {
@@ -28,12 +37,15 @@ public class Main {
         Parser parser = new Parser(lexicon);
         parser.run();
 
+        showErrors();
+
         if (parser.ast != null) {
             parser.ast.accept(new LinkerVisitor(), null);
+            showErrors();
             parser.ast.accept(new SemanticVisitor(), null);
         }
 
-        ErrorHandler.getInstance().getTypeErrors().forEach(System.err::println);
+        showErrors();
     }
 
 }
