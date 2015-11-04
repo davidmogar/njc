@@ -4,6 +4,7 @@ import com.davidmogar.njc.lexicon.Lexicon;
 import com.davidmogar.njc.visitors.LinkerVisitor;
 import com.davidmogar.njc.semantic.SemanticVisitor;
 import com.davidmogar.njc.syntactic.Parser;
+import com.davidmogar.njc.visitors.OffsetVisitor;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -43,6 +44,7 @@ public class Main {
             parser.ast.accept(new LinkerVisitor(), null);
             showErrors();
             parser.ast.accept(new SemanticVisitor(), null);
+            parser.ast.accept(new OffsetVisitor(), null);
         }
 
         showErrors();

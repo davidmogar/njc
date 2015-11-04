@@ -1,5 +1,7 @@
 // Programa errÛneo
-int a;
-void main(int a) {
-	int b;
+int g1;
+int g2;
+void main(int p1, int p2) {
+	int l1;
+	int l2;
 }
