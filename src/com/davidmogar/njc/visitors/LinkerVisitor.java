@@ -34,25 +34,6 @@ public class LinkerVisitor extends AbstractVisitor {
     }
 
     @Override
-    public Object visit(Block block, Object object) {
-        symbolsTable.createScope();
-
-        if (object instanceof List) {
-            List<Definition> parameters = (List<Definition>) object;
-            for (Definition definition : parameters) {
-                definition.accept(this, object);
-            }
-        }
-
-        for (Statement statement : block.statements) {
-            statement.accept(this, object);
-        }
-
-        symbolsTable.removeScope();
-        return null;
-    }
-
-    @Override
     public Object visit(FunctionDefinition functionDefinition, Object object) {
         if (!symbolsTable.addDefinition(functionDefinition)) {
             new TypeError(functionDefinition, "Function '" + functionDefinition.getName() + "' is already defined");
@@ -73,4 +54,24 @@ public class LinkerVisitor extends AbstractVisitor {
         }
         return super.visit(variableDefinition, object);
     }
+
+    @Override
+    public Object visit(Block block, Object object) {
+        symbolsTable.createScope();
+
+        if (object instanceof List) {
+            List<Definition> parameters = (List<Definition>) object;
+            for (Definition definition : parameters) {
+                definition.accept(this, object);
+            }
+        }
+
+        for (Statement statement : block.statements) {
+            statement.accept(this, object);
+        }
+
+        symbolsTable.removeScope();
+        return null;
+    }
+
 }

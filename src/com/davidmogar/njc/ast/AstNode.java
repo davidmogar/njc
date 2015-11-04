@@ -8,6 +8,6 @@ public interface AstNode {
 
     int getColumn();
 
-    void accept(Visitor visitor, Object object);
+    Object accept(Visitor visitor, Object object);
 
 }

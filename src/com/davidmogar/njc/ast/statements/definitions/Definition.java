@@ -8,9 +8,13 @@ public interface Definition extends AstNode, Statement {
 
     String getName();
 
+    int getOffset();
+
     int getScope();
 
     Type getType();
+
+    void setOffset(int offset);
 
     void setScope(int scope);
 

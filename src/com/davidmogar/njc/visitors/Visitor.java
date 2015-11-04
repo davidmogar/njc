@@ -1,5 +1,6 @@
 package com.davidmogar.njc.visitors;
 
+import com.davidmogar.njc.TypeError;
 import com.davidmogar.njc.ast.Program;
 import com.davidmogar.njc.ast.expressions.Variable;
 import com.davidmogar.njc.ast.expressions.literals.CharacterLiteral;
@@ -109,5 +110,7 @@ public interface Visitor {
     Object visit(StringType stringType, Object object);
 
     Object visit(VoidType voidType, Object object);
+
+    Object visit(TypeError typeError, Object object);
 
 }

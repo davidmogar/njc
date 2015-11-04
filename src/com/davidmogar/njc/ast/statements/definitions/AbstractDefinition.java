@@ -8,6 +8,7 @@ public abstract class AbstractDefinition extends AbstractAstNode implements Defi
     private String name;
     private Type type;
 
+    private int offset;
     private int scope;
 
     public AbstractDefinition(int line, int column, String name, Type type) {
@@ -15,12 +16,18 @@ public abstract class AbstractDefinition extends AbstractAstNode implements Defi
         this.name = name;
         this.type = type;
 
+        offset = 0;
         scope = 0;
     }
 
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public int getOffset() {
+        return offset;
     }
 
     @Override
@@ -31,6 +38,11 @@ public abstract class AbstractDefinition extends AbstractAstNode implements Defi
     @Override
     public Type getType() {
         return type;
+    }
+
+    @Override
+    public void setOffset(int offset) {
+        this.offset = offset;
     }
 
     @Override

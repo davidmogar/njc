@@ -1,5 +1,6 @@
 package com.davidmogar.njc.visitors;
 
+import com.davidmogar.njc.TypeError;
 import com.davidmogar.njc.ast.Program;
 import com.davidmogar.njc.ast.expressions.Expression;
 import com.davidmogar.njc.ast.expressions.Variable;
@@ -228,6 +229,11 @@ public class AbstractVisitor implements Visitor {
 
     @Override
     public Object visit(VoidType voidType, Object object) {
+        return null;
+    }
+
+    @Override
+    public Object visit(TypeError typeError, Object object) {
         return null;
     }
 
