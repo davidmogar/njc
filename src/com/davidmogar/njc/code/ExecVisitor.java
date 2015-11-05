@@ -46,9 +46,7 @@ public class ExecVisitor extends AbstractVisitor {
 
         functionDefinition.block.accept(this, object);
 
-        if (functionType.returnType instanceof VoidType) {
-            codeGenerator.ret(0, functionDefinition.getOffset(), parametersOffset);
-        }
+        codeGenerator.ret(functionType.returnType.getSize(), functionDefinition.getOffset(), parametersOffset);
 
         return null;
     }
