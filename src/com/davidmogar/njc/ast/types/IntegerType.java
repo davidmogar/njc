@@ -15,6 +15,7 @@ public class IntegerType extends AbstractType implements Type {
         super(line, column);
     }
 
+    public static IntegerType getInstance() { return getInstance(0, 0); }
     public static IntegerType getInstance(int line, int column) {
         if (instance == null) {
             instance = new IntegerType(line, column);

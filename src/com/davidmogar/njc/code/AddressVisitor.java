@@ -1,6 +1,7 @@
 package com.davidmogar.njc.code;
 
 import com.davidmogar.njc.ast.expressions.Variable;
+import com.davidmogar.njc.ast.types.IntegerType;
 import com.davidmogar.njc.visitors.AbstractVisitor;
 
 public class AddressVisitor extends AbstractVisitor {
@@ -23,7 +24,7 @@ public class AddressVisitor extends AbstractVisitor {
         } else {
             codeGenerator.pushbp();
             codeGenerator.push(variable.definition.getOffset());
-            codeGenerator.addi();
+            codeGenerator.add(IntegerType.getInstance());
         }
         return super.visit(variable, object);
     }

@@ -15,6 +15,7 @@ public class CharacterType extends AbstractType implements Type {
         super(line, column);
     }
 
+    public static CharacterType getInstance() { return getInstance(0, 0); }
     public static CharacterType getInstance(int line, int column) {
         if (instance == null) {
             instance = new CharacterType(line, column);

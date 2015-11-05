@@ -15,6 +15,7 @@ public class DoubleType extends AbstractType implements Type {
         super(line, column);
     }
 
+    public static DoubleType getInstance() { return getInstance(0, 0); }
     public static DoubleType getInstance(int line, int column) {
         if (instance == null) {
             instance = new DoubleType(line, column);

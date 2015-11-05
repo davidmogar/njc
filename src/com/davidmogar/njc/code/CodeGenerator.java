@@ -21,11 +21,6 @@ public class CodeGenerator {
         printWriter.flush();
     }
 
-    public void addi() {
-        printWriter.println("\taddi");
-        printWriter.flush();
-    }
-
     public void and() {
         printWriter.println("\tand");
         printWriter.flush();
@@ -117,11 +112,6 @@ public class CodeGenerator {
         printWriter.flush();
     }
 
-    public void divi() {
-        printWriter.println("\tdivi");
-        printWriter.flush();
-    }
-
     public void enter(int offset) {
         printWriter.println("\tenter " + offset);
         printWriter.flush();
@@ -209,11 +199,6 @@ public class CodeGenerator {
         printWriter.flush();
     }
 
-    public void muli() {
-        printWriter.println("\tmuli");
-        printWriter.flush();
-    }
-
     public void ne(Type type) {
         printWriter.println("\tne" + type.getSuffix());
         printWriter.flush();
@@ -276,11 +261,6 @@ public class CodeGenerator {
 
     public void sub(Type type) {
         printWriter.println("\tsub" + type.getSuffix());
-        printWriter.flush();
-    }
-
-    public void subi() {
-        printWriter.println("\tsubi");
         printWriter.flush();
     }
 
