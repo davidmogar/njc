@@ -3,20 +3,21 @@ package com.davidmogar.njc.code;
 import com.davidmogar.njc.ast.Program;
 import com.davidmogar.njc.ast.expressions.Expression;
 import com.davidmogar.njc.ast.statements.AssignmentStatement;
+import com.davidmogar.njc.ast.statements.Block;
+import com.davidmogar.njc.ast.statements.Statement;
 import com.davidmogar.njc.ast.statements.definitions.Definition;
 import com.davidmogar.njc.ast.statements.definitions.FunctionDefinition;
 import com.davidmogar.njc.ast.statements.definitions.VariableDefinition;
+import com.davidmogar.njc.ast.statements.definitions.VariableDefinitionsGroup;
 import com.davidmogar.njc.ast.statements.io.ReadStatement;
 import com.davidmogar.njc.ast.statements.io.WriteStatement;
 import com.davidmogar.njc.ast.types.FunctionType;
 import com.davidmogar.njc.ast.types.Type;
 import com.davidmogar.njc.ast.types.VoidType;
-import com.davidmogar.njc.visitors.AbstractVisitor;
-import com.davidmogar.njc.visitors.Visitor;
 
 import java.io.FileNotFoundException;
 
-public class ExecVisitor extends AbstractVisitor {
+public class ExecVisitor extends AbstractCodeVisitor {
 
     private AddressVisitor addressVisitor;
     private CodeGenerator codeGenerator;
@@ -44,9 +45,11 @@ public class ExecVisitor extends AbstractVisitor {
             variableDefinition.accept(this, object);
         }
 
-        functionDefinition.block.accept(this, object);
+        functionDefinition.block.accept(this, functionDefinition);
 
-        codeGenerator.ret(functionType.returnType.getSize(), functionDefinition.getOffset(), parametersOffset);
+        if (functionType.returnType instanceof VoidType) {
+            codeGenerator.ret(0, functionDefinition.getOffset(), parametersOffset);
+        }
 
         return null;
     }
@@ -58,12 +61,21 @@ public class ExecVisitor extends AbstractVisitor {
                     " (offset " + variableDefinition.getOffset() + ")");
         }
 
-        return super.visit(variableDefinition, object);
+        return null;
+    }
+
+    @Override
+    public Object visit(VariableDefinitionsGroup variableDefinitionsGroup, Object object) {
+        for (VariableDefinition variableDefinition : variableDefinitionsGroup.variableDefinitions) {
+            variableDefinition.accept(this, object);
+        }
+
+        return null;
     }
 
     @Override
     public Object visit(ReadStatement readStatement, Object object) {
-        codeGenerator.line(readStatement.getLine());
+        codeGenerator.line(readStatement.getLine()); // TODO: Move to block visitor
 
         for (Expression expression : readStatement.expressions) {
             codeGenerator.comment("Reading");
@@ -103,6 +115,15 @@ public class ExecVisitor extends AbstractVisitor {
     }
 
     @Override
+    public Object visit(Block block, Object object) {
+        for (Statement statement : block.statements) {
+            codeGenerator.line(statement.getLine());
+            statement.accept(this, object);
+        }
+        return null;
+    }
+
+    @Override
     public Object visit(Program program, Object object) {
         for (Definition definition : program.definitions) {
             if (definition instanceof FunctionDefinition) {
@@ -110,9 +131,10 @@ public class ExecVisitor extends AbstractVisitor {
                     codeGenerator.entryPoint();
                     codeGenerator.breakline();
                 }
+                definition.accept(this, object);
             }
         }
 
-        return super.visit(program, object);
+        return null;
     }
 }

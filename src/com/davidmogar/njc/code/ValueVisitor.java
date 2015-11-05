@@ -6,9 +6,8 @@ import com.davidmogar.njc.ast.expressions.literals.DoubleLiteral;
 import com.davidmogar.njc.ast.expressions.literals.IntegerLiteral;
 import com.davidmogar.njc.ast.expressions.operators.binary.ArithmeticOperator;
 import com.davidmogar.njc.ast.types.Type;
-import com.davidmogar.njc.visitors.AbstractVisitor;
 
-public class ValueVisitor extends AbstractVisitor {
+public class ValueVisitor extends AbstractCodeVisitor {
 
     private AddressVisitor addressVisitor;
     private CodeGenerator codeGenerator;

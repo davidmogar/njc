@@ -7,6 +7,7 @@ import com.davidmogar.njc.semantic.SemanticVisitor;
 import com.davidmogar.njc.syntactic.Parser;
 import com.davidmogar.njc.code.OffsetVisitor;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
@@ -22,14 +23,16 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        if (args.length < 1) {
-            System.err.println("Input file expected.");
+        if (args.length < 2) {
+            System.err.println("Input file and output file expected.");
             System.exit(0);
         }
 
+        File inputFile = null;
         FileReader fileReader = null;
         try {
-            fileReader = new FileReader(args[0]);
+            inputFile = new File(args[0]);
+            fileReader = new FileReader(inputFile);
         } catch (IOException e) {
             System.err.println(e.getMessage());
             System.exit(-1);
@@ -46,7 +49,7 @@ public class Main {
             showErrors();
             parser.ast.accept(new SemanticVisitor(), null);
             parser.ast.accept(new OffsetVisitor(), null);
-            parser.ast.accept(new ExecVisitor(args[0], args[1]), null);
+            parser.ast.accept(new ExecVisitor(inputFile.getName(), inputFile.getName() + ".o"), null);
         }
 
         showErrors();
