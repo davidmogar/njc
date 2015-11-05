@@ -1,4 +1,4 @@
-package com.davidmogar.njc.visitors;
+package com.davidmogar.njc.code;
 
 import com.davidmogar.njc.ast.statements.Block;
 import com.davidmogar.njc.ast.statements.Statement;
@@ -6,6 +6,7 @@ import com.davidmogar.njc.ast.statements.definitions.FunctionDefinition;
 import com.davidmogar.njc.ast.statements.definitions.VariableDefinition;
 import com.davidmogar.njc.ast.statements.definitions.VariableDefinitionsGroup;
 import com.davidmogar.njc.ast.types.FunctionType;
+import com.davidmogar.njc.visitors.AbstractVisitor;
 
 public class OffsetVisitor extends AbstractVisitor {
 
@@ -45,9 +46,16 @@ public class OffsetVisitor extends AbstractVisitor {
 
     @Override
     public Object visit(VariableDefinitionsGroup variableDefinitionsGroup, Object object) {
-        int blockOffsetSum = 0;
+        int blockOffsetSum;
+
+        if (object != null) {
+            blockOffsetSum = (Integer) object;
+        } else {
+            blockOffsetSum = 0;
+        }
+
         for (VariableDefinition variableDefinition : variableDefinitionsGroup.variableDefinitions) {
-            Object offset = variableDefinition.accept(this, object);
+            Object offset = variableDefinition.accept(this, blockOffsetSum);
             if (offset != null) {
                 blockOffsetSum = (Integer) offset;
             }

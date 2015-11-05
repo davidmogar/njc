@@ -1,7 +1,9 @@
-// Programa errÛneo
-int g1;
-int g2;
-void main(int p1, int p2) {
-	int l1;
-	int l2;
+/**
+ * Test program.
+ */
+void main() {
+	int a, b;
+	read b;
+	a = b + 3;
+	write a;
 }

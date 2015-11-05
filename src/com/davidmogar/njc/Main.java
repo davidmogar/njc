@@ -1,10 +1,11 @@
 package com.davidmogar.njc;
 
+import com.davidmogar.njc.code.ExecVisitor;
 import com.davidmogar.njc.lexicon.Lexicon;
-import com.davidmogar.njc.visitors.LinkerVisitor;
+import com.davidmogar.njc.semantic.LinkerVisitor;
 import com.davidmogar.njc.semantic.SemanticVisitor;
 import com.davidmogar.njc.syntactic.Parser;
-import com.davidmogar.njc.visitors.OffsetVisitor;
+import com.davidmogar.njc.code.OffsetVisitor;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -45,6 +46,7 @@ public class Main {
             showErrors();
             parser.ast.accept(new SemanticVisitor(), null);
             parser.ast.accept(new OffsetVisitor(), null);
+            parser.ast.accept(new ExecVisitor(args[0], args[1]), null);
         }
 
         showErrors();

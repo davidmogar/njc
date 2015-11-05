@@ -21,7 +21,7 @@ public class CodeGenerator {
         printWriter.flush();
     }
 
-    public void addi(Type type) {
+    public void addi() {
         printWriter.println("\taddi");
         printWriter.flush();
     }
@@ -29,6 +29,23 @@ public class CodeGenerator {
     public void and() {
         printWriter.println("\tand");
         printWriter.flush();
+    }
+
+    public void arithmetic(String operator, Type type) {
+        switch (operator) {
+            case "+":
+                add(type);
+                break;
+            case "/":
+                div(type);
+                break;
+            case "*":
+                mul(type);
+                break;
+            case "-":
+                sub(type);
+                break;
+        }
     }
 
     public void breakline() {
@@ -100,13 +117,13 @@ public class CodeGenerator {
         printWriter.flush();
     }
 
-    public void divi(Type type) {
+    public void divi() {
         printWriter.println("\tdivi");
         printWriter.flush();
     }
 
     public void enter(int offset) {
-        printWriter.println("\tenter" + offset);
+        printWriter.println("\tenter " + offset);
         printWriter.flush();
     }
 
@@ -192,7 +209,7 @@ public class CodeGenerator {
         printWriter.flush();
     }
 
-    public void muli(Type type) {
+    public void muli() {
         printWriter.println("\tmuli");
         printWriter.flush();
     }
@@ -262,13 +279,13 @@ public class CodeGenerator {
         printWriter.flush();
     }
 
-    public void subi(Type type) {
+    public void subi() {
         printWriter.println("\tsubi");
         printWriter.flush();
     }
 
     public void tag(String tag) {
-        printWriter.println("tag: " + tag);
+        printWriter.println(tag + ":");
         printWriter.flush();
     }
 

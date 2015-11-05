@@ -1,4 +1,4 @@
-package com.davidmogar.njc.visitors;
+package com.davidmogar.njc.semantic;
 
 import com.davidmogar.njc.TypeError;
 import com.davidmogar.njc.ast.expressions.Variable;
@@ -9,6 +9,7 @@ import com.davidmogar.njc.ast.statements.definitions.FunctionDefinition;
 import com.davidmogar.njc.ast.statements.definitions.VariableDefinition;
 import com.davidmogar.njc.ast.types.FunctionType;
 import com.davidmogar.njc.semantic.SymbolsTable;
+import com.davidmogar.njc.visitors.AbstractVisitor;
 
 import java.util.List;
 
