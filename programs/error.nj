@@ -1,7 +1,7 @@
 /**
  * Test program.
  */
-void main() {
+void main(int x) {
 	int a, b;
 	read b;
 	a = b + 3;

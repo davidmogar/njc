@@ -40,7 +40,7 @@ Comment = {SingleLineComment} | {BlockComment}
 BreakLine = \n | \r | \r\n | \n\r
 Digit = [0-9]
 Letter = [a-zA-Z]
-SingleCharTokens = "+" | "-" | "*" | "/" | "[" | "]" | "(" | ")" | "{" | "}" | "<" | ">" | "," | ";" | "=" | "!"
+SingleCharTokens = "+" | "-" | "*" | "/" | "%" | "[" | "]" | "(" | ")" | "{" | "}" | "<" | ">" | "," | ";" | "=" | "!"
 String = \"~\"
 
 Character = \'.\'

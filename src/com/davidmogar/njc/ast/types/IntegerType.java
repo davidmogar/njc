@@ -25,6 +25,11 @@ public class IntegerType extends AbstractType implements Type {
     }
 
     @Override
+    public Type biggest(Type type) {
+        return (type instanceof DoubleType)? type : this;
+    }
+
+    @Override
     public String getName() {
         return "int";
     }

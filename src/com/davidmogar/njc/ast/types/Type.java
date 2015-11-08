@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface Type extends AstNode {
 
+    Type biggest(Type type);
+
     String getName();
 
     int getSize();

@@ -1,28 +1,44 @@
-int i, n;
-char c;
+double[10] v;
 
-void p() {}
-
-int f(int n, double r) {
-  double real;
-  char c1, c2;
-  c1 = (char)n;
-  real = c1 + n + r;
-  p();
-  return (int)c1;
-}
-
+// * Programa principal
 void main() {
-  double[10][5] vector;
-  i=0;
-  while (n >= i) {
-    if (n == vector[0][0] && !c)
-      write 'c', 'i', 'e', 'r', 't', 'o', '\n';
-    else
-      write 'f', 'a', 'l', 's', 'o', '\n';
-    i=i+1;
-  }
-  write f(i, (double)i);
-  vector[9][(int)4.3]=5.6;
-  f(1, 2.2);
+	double valor;
+	int i,j;
+	int[4][5] w;
+	int dia;
+	int mes, anio;
+	
+	
+	read dia; // * lvalue
+	anio=(int)'a'; 
+	mes=dia*anio%12+1;
+	write dia, '\n', mes, '\n', (double)(anio), '\n';
+	
+	read valor;
+		
+	i=0;	
+	while (i<10) {
+		v[i]=valor; // * lvalue
+		write i,':',v[i], ' ';
+		if (i%2)
+			write 'i','m','p','a','r','\n';
+		else 
+			write 'p','a','r','\n';
+		i=i+1;
+	}
+	write '\n';
+
+	i=0;
+	while (i<4) {
+		j=0;
+		while (j<5) {
+			w[i][j]=i+j;
+			write w[i][j], ' ';
+			j=j+1;
+		}
+		write '\n';
+		i=i+1;
+	}
+
 }
+	

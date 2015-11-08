@@ -2,7 +2,6 @@ package com.davidmogar.njc.ast.types;
 
 import com.davidmogar.njc.ast.expressions.Expression;
 import com.davidmogar.njc.visitors.Visitor;
-import com.davidmogar.njc.ast.AbstractAstNode;
 import com.davidmogar.njc.ast.statements.definitions.VariableDefinition;
 
 import java.util.ArrayList;
@@ -12,6 +11,7 @@ public class FunctionType extends AbstractType implements Type {
 
     public List<VariableDefinition> parameters;
     public Type returnType;
+    public int parametersOffset;
 
     public FunctionType(int line, int column, Type returnType) {
         this(line, column, new ArrayList<>(), returnType);
@@ -21,6 +21,8 @@ public class FunctionType extends AbstractType implements Type {
         super(line, column);
         this.parameters = parameters;
         this.returnType = returnType;
+
+        parametersOffset = 0;
     }
 
     @Override

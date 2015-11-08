@@ -42,7 +42,7 @@ import java.util.*;
 %left AND OR
 %left EQUALS GREATER_EQUALS LOWER_EQUALS NOT_EQUALS '<' '>'
 %left '+' '-'
-%left '*' '/'
+%left '*' '/' '%'
 %right NEGATION
 %nonassoc '[' ']'
 %nonassoc '(' ')'
@@ -241,8 +241,8 @@ comparison_expression:  expression EQUALS expression { $$ = new ComparisonOperat
                         | expression GREATER_EQUALS expression { $$ = new ComparisonOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, ">="); }
                         | expression LOWER_EQUALS expression { $$ = new ComparisonOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "<="); }
                         | expression NOT_EQUALS expression { $$ = new ComparisonOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "!="); }
-                        | expression '>' expression { $$ = new ComparisonOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, ">="); }
-                        | expression '<' expression { $$ = new ComparisonOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "<="); }
+                        | expression '>' expression { $$ = new ComparisonOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, ">"); }
+                        | expression '<' expression { $$ = new ComparisonOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "<"); }
                                                 ;
 
 logic_expression:       expression AND expression { $$ = new LogicalOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "&&"); }
@@ -254,6 +254,7 @@ expression:             expression '+' expression { $$ = new ArithmeticOperator(
                         | expression '-' expression { $$ = new ArithmeticOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "-"); }
                         | expression '*' expression { $$ = new ArithmeticOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "*"); }
                         | expression '/' expression { $$ = new ArithmeticOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "/"); }
+                        | expression '%' expression { $$ = new ArithmeticOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3, "%"); }
                         | '-' expression { $$ = new NegationOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $2); } %prec NEGATION
                         | '(' type ')' expression { $$ = new CastOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $4, (Type) $2); }
                         | expression '[' expression ']' { $$ = new ArrayAccessOperator(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3); }

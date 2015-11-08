@@ -25,6 +25,11 @@ public class DoubleType extends AbstractType implements Type {
     }
 
     @Override
+    public Type biggest(Type type) {
+        return this;
+    }
+
+    @Override
     public String getName() {
         return "double";
     }

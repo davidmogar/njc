@@ -1,10 +1,12 @@
 package com.davidmogar.njc.ast.statements;
 
+import com.davidmogar.njc.ast.expressions.AbstractExpression;
+import com.davidmogar.njc.ast.types.Type;
 import com.davidmogar.njc.visitors.Visitor;
 import com.davidmogar.njc.ast.AbstractAstNode;
 import com.davidmogar.njc.ast.expressions.Expression;
 
-public class AssignmentStatement extends AbstractAstNode implements Statement {
+public class AssignmentStatement extends AbstractExpression implements Statement {
 
     public Expression leftExpression;
     public Expression rightExpression;
@@ -19,6 +21,5 @@ public class AssignmentStatement extends AbstractAstNode implements Statement {
     public Object accept(Visitor visitor, Object object) {
         return visitor.visit(this, object);
     }
-
 
 }

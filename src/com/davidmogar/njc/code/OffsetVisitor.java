@@ -86,6 +86,8 @@ public class OffsetVisitor extends AbstractVisitor {
             parametersOffsetSum += variableDefinition.getType().getSize();
         }
 
+        functionType.parametersOffset = parametersOffsetSum - 4;
+
         return null;
     }
 }

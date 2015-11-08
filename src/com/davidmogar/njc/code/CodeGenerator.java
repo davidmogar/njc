@@ -2,6 +2,7 @@ package com.davidmogar.njc.code;
 
 import com.davidmogar.njc.ast.types.Type;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
@@ -9,10 +10,10 @@ public class CodeGenerator {
 
     private PrintWriter printWriter;
 
-    public CodeGenerator(String input, String output) throws FileNotFoundException {
-        printWriter = new PrintWriter(output);
+    public CodeGenerator(File inputFile, File outputFile) throws FileNotFoundException {
+        printWriter = new PrintWriter(outputFile.getPath());
 
-        source(input);
+        source(inputFile.getName());
         breakline();
     }
 
@@ -33,6 +34,9 @@ public class CodeGenerator {
                 break;
             case "/":
                 div(type);
+                break;
+            case "%":
+                mod();
                 break;
             case "*":
                 mul(type);
@@ -71,7 +75,9 @@ public class CodeGenerator {
                 }
                 break;
             case 'f':
-                printWriter.println("\tf2i");
+                if (desiredSuffix != 'f') {
+                    printWriter.println("\tf2i");
+                }
                 if (desiredSuffix == 'b') {
                     printWriter.println("\ti2b");
                 }
@@ -189,7 +195,7 @@ public class CodeGenerator {
         printWriter.flush();
     }
 
-    public void modi() {
+    public void mod() {
         printWriter.println("\tmodi");
         printWriter.flush();
     }
@@ -216,6 +222,11 @@ public class CodeGenerator {
 
     public void out(Type type) {
         printWriter.println("\tout" + type.getSuffix());
+        printWriter.flush();
+    }
+
+    public void pop(Type type) {
+        printWriter.println("\tpop" + type.getSuffix());
         printWriter.flush();
     }
 

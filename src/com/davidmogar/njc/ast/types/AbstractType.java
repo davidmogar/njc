@@ -12,6 +12,11 @@ public abstract class AbstractType extends AbstractAstNode implements Type {
     }
 
     @Override
+    public Type biggest(Type type) {
+        return type;
+    }
+
+    @Override
     public String getName() {
         return this.getClass().getSimpleName().replace("Type", "");
     }

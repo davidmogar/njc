@@ -23,15 +23,17 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        if (args.length < 2) {
-            System.err.println("Input file and output file expected.");
+        if (args.length < 1) {
+            System.err.println("Input file expected.");
             System.exit(0);
         }
 
         File inputFile = null;
+        File outputFile = null;
         FileReader fileReader = null;
         try {
             inputFile = new File(args[0]);
+            outputFile = new File(inputFile.getPath() + ".o");
             fileReader = new FileReader(inputFile);
         } catch (IOException e) {
             System.err.println(e.getMessage());
@@ -49,7 +51,7 @@ public class Main {
             showErrors();
             parser.ast.accept(new SemanticVisitor(), null);
             parser.ast.accept(new OffsetVisitor(), null);
-            parser.ast.accept(new ExecVisitor(inputFile.getName(), inputFile.getName() + ".o"), null);
+            parser.ast.accept(new ExecVisitor(inputFile, outputFile), null);
         }
 
         showErrors();

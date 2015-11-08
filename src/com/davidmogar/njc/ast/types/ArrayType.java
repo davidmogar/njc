@@ -6,15 +6,16 @@ import com.davidmogar.njc.visitors.Visitor;
 public class ArrayType extends AbstractType implements Type {
 
     public Type type;
-
     public int size;
 
     public ArrayType(int line, int column, Type type, int size) {
         super(line, column);
+        this.type = type;
+        this.size = size;
     }
 
     public static ArrayType createArray(Type type, int size) {
-        ArrayType arrayType = null;
+        ArrayType arrayType;
 
         if (type instanceof ArrayType) {
             arrayType = (ArrayType) type;
@@ -24,13 +25,17 @@ public class ArrayType extends AbstractType implements Type {
                 currentNode = ((ArrayType) currentNode).type;
             }
 
-            arrayType.type = new ArrayType(type.getLine(), type.getColumn(), currentNode, size);;
+            arrayType.type = new ArrayType(type.getLine(), type.getColumn(), currentNode, size);
         } else {
-            arrayType =  new ArrayType(type.getLine(), type.getColumn(), type, size);
-            arrayType.type = type;
+            arrayType = new ArrayType(type.getLine(), type.getColumn(), type, size);
         }
 
         return arrayType;
+    }
+
+    @Override
+    public int getSize() {
+        return size * type.getSize();
     }
 
     @Override
