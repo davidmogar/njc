@@ -53,7 +53,7 @@ public class CodeGenerator {
     }
 
     public void call(String name) {
-        printWriter.println("\tcall" + name);
+        printWriter.println("\tcall " + name);
         printWriter.flush();
     }
 

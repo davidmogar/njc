@@ -1,5 +1,9 @@
 double[10] v;
 
+void f() {
+	write 'h', 'o', 'l', 'a', '\n';
+}
+
 // * Programa principal
 void main() {
 	double valor;
@@ -7,7 +11,7 @@ void main() {
 	int[4][5] w;
 	int dia;
 	int mes, anio;
-	
+	f();
 	
 	read dia; // * lvalue
 	anio=(int)'a'; 

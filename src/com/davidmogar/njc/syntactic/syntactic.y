@@ -164,9 +164,9 @@ functions:              function {
                                 functions.add((FunctionDefinition) $1);
                                 $$ = functions;
                             }
-                        | function functions  {
-                                List<FunctionDefinition> functions = (List<FunctionDefinition>) $2;
-                                functions.add((FunctionDefinition) $1);
+                        | functions function  {
+                                List<FunctionDefinition> functions = (List<FunctionDefinition>) $1;
+                                functions.add((FunctionDefinition) $2);
                                 $$ = functions;
                             }
                         ;
