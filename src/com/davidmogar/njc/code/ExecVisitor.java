@@ -2,6 +2,7 @@ package com.davidmogar.njc.code;
 
 import com.davidmogar.njc.ast.Program;
 import com.davidmogar.njc.ast.expressions.Expression;
+import com.davidmogar.njc.ast.expressions.literals.StringLiteral;
 import com.davidmogar.njc.ast.statements.*;
 import com.davidmogar.njc.ast.statements.controlflow.IfStatement;
 import com.davidmogar.njc.ast.statements.controlflow.WhileStatement;
@@ -11,10 +12,7 @@ import com.davidmogar.njc.ast.statements.definitions.VariableDefinition;
 import com.davidmogar.njc.ast.statements.definitions.VariableDefinitionsGroup;
 import com.davidmogar.njc.ast.statements.io.ReadStatement;
 import com.davidmogar.njc.ast.statements.io.WriteStatement;
-import com.davidmogar.njc.ast.types.FunctionType;
-import com.davidmogar.njc.ast.types.IntegerType;
-import com.davidmogar.njc.ast.types.Type;
-import com.davidmogar.njc.ast.types.VoidType;
+import com.davidmogar.njc.ast.types.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -124,7 +122,14 @@ public class ExecVisitor extends AbstractCodeVisitor {
         for (Expression expression : writeStatement.expressions) {
             codeGenerator.comment("Writing");
             expression.accept(valueVisitor, object);
-            codeGenerator.out(expression.getType());
+            Type type = expression.getType();
+            if (type instanceof StringType) {
+                for (char ignored : ((StringLiteral) expression).value.toCharArray()) {
+                    codeGenerator.out(CharacterType.getInstance());
+                }
+            } else {
+                codeGenerator.out(type);
+            }
         }
 
         return null;

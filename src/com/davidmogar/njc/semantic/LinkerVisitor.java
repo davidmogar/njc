@@ -61,7 +61,7 @@ public class LinkerVisitor extends AbstractVisitor {
         symbolsTable.createScope();
 
         if (object instanceof List) {
-            List<Definition> parameters = (List<Definition>) object;
+            List<Definition> parameters = (List) object;
             for (Definition definition : parameters) {
                 definition.accept(this, object);
             }

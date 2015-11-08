@@ -23,5 +23,5 @@ public class StringType extends AbstractType implements Type {
     public Object accept(Visitor visitor, Object object) {
         return visitor.visit(this, object);
     }
-    
+
 }

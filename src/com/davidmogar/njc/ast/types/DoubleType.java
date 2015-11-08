@@ -6,8 +6,8 @@ import com.davidmogar.njc.ast.AbstractAstNode;
 
 public class DoubleType extends AbstractType implements Type {
 
-    private static final int SIZE = 4;
-    private static final String SUFFIX = "f";
+    public static final int SIZE = 4;
+    public static final String SUFFIX = "f";
 
     private static DoubleType instance;
 

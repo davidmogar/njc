@@ -6,8 +6,8 @@ import com.davidmogar.njc.ast.AbstractAstNode;
 
 public class IntegerType extends AbstractType implements Type {
 
-    private static final int SIZE = 2;
-    private static final String SUFFIX = "i";
+    public static final int SIZE = 2;
+    public static final String SUFFIX = "i";
 
     private static IntegerType instance;
 

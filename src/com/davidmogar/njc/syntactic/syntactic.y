@@ -101,7 +101,7 @@ type:       CHARACTER { $$ = CharacterType.getInstance(lexicon.getLine(), lexico
 assignment:         expression '=' expression { $$ = new AssignmentStatement(lexicon.getLine(), lexicon.getColumn(), (Expression) $1, (Expression) $3); } ;
 
 declaration:        type identifiers {
-                            List<VariableDefinition> definitions = new ArrayList<>();;
+                            List<VariableDefinition> definitions = new ArrayList<>();
                             for(Variable variable : (List<Variable>) $2) {
                                 definitions.add(new VariableDefinition(lexicon.getLine(), lexicon.getColumn(), variable.name, (Type) $1));
                             }

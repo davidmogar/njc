@@ -6,8 +6,8 @@ import com.davidmogar.njc.ast.AbstractAstNode;
 
 public class CharacterType extends AbstractType implements Type {
 
-    private static final int SIZE = 1;
-    private static final String SUFFIX = "b";
+    public static final int SIZE = 1;
+    public static final String SUFFIX = "b";
 
     private static CharacterType instance;
 

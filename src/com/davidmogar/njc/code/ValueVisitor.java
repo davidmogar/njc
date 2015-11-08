@@ -5,6 +5,7 @@ import com.davidmogar.njc.ast.expressions.Variable;
 import com.davidmogar.njc.ast.expressions.literals.CharacterLiteral;
 import com.davidmogar.njc.ast.expressions.literals.DoubleLiteral;
 import com.davidmogar.njc.ast.expressions.literals.IntegerLiteral;
+import com.davidmogar.njc.ast.expressions.literals.StringLiteral;
 import com.davidmogar.njc.ast.expressions.operators.binary.ArithmeticOperator;
 import com.davidmogar.njc.ast.expressions.operators.binary.ArrayAccessOperator;
 import com.davidmogar.njc.ast.expressions.operators.binary.ComparisonOperator;
@@ -47,6 +48,17 @@ public class ValueVisitor extends AbstractCodeVisitor {
     @Override
     public Object visit(IntegerLiteral integerLiteral, Object object) {
         codeGenerator.push(integerLiteral.value);
+        return null;
+    }
+
+    @Override
+    public Object visit(StringLiteral stringLiteral, Object object) {
+        char[] characters = stringLiteral.value.toCharArray();
+
+        for (int i = characters.length - 1; i >= 0; i--) {
+            codeGenerator.push(characters[i]);
+        }
+
         return null;
     }
 
