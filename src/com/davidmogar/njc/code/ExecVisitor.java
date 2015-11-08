@@ -155,7 +155,7 @@ public class ExecVisitor extends AbstractCodeVisitor {
     public Object visit(InvocationStatement invocationStatement, Object object) {
         invocationStatement.accept(valueVisitor, object);
 
-        FunctionType functionType = (FunctionType) invocationStatement.getType();
+        FunctionType functionType = (FunctionType) invocationStatement.variable.definition.getType();
         if (!(functionType.returnType instanceof VoidType)) {
             codeGenerator.pop(functionType.returnType);
         }

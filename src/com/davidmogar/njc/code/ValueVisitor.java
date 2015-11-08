@@ -133,7 +133,7 @@ public class ValueVisitor extends AbstractCodeVisitor {
 
     @Override
     public Object visit(InvocationStatement invocationStatement, Object object) {
-        FunctionType functionType = (FunctionType) invocationStatement.getType();
+        FunctionType functionType = (FunctionType) invocationStatement.variable.definition.getType();
 
         for (int i = 0; i < invocationStatement.arguments.size(); i++) {
             Expression expression = invocationStatement.arguments.get(i);
