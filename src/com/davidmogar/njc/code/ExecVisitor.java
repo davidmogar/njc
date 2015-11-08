@@ -30,7 +30,7 @@ public class ExecVisitor extends AbstractCodeVisitor {
     public ExecVisitor(File inputFile, File outputFile) throws FileNotFoundException {
         codeGenerator = new CodeGenerator(inputFile, outputFile);
         addressVisitor = new AddressVisitor(codeGenerator);
-        valueVisitor = new ValueVisitor(codeGenerator);
+        valueVisitor = new ValueVisitor(codeGenerator, this);
 
         addressVisitor.setValueVisitor(valueVisitor);
         valueVisitor.setAddressVisitor(addressVisitor);
@@ -52,9 +52,6 @@ public class ExecVisitor extends AbstractCodeVisitor {
 
         return null;
     }
-
-    a++
-    pop
 
     @Override
     public Object visit(WhileStatement whileStatement, Object object) {
@@ -190,4 +187,5 @@ public class ExecVisitor extends AbstractCodeVisitor {
 
         return null;
     }
+
 }

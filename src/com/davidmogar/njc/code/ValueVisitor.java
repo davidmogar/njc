@@ -32,24 +32,6 @@ public class ValueVisitor extends AbstractCodeVisitor {
         this.addressVisitor = addressVisitor;
     }
 
-    a++
-    push 'a'
-    load
-    push 'a'
-    load
-    push 1
-    add
-    store
-
-    ++a
-    push 'a'
-    load
-    push 1
-    add
-    store
-    push 'a'
-    load
-
     @Override
     public Object visit(CharacterLiteral characterLiteral, Object object) {
         codeGenerator.push(characterLiteral.value);
@@ -80,8 +62,6 @@ public class ValueVisitor extends AbstractCodeVisitor {
 
         return null;
     }
-
-
 
     @Override
     public Object visit(ArrayAccessOperator arrayAccessOperator, Object object) {
@@ -174,4 +154,5 @@ public class ValueVisitor extends AbstractCodeVisitor {
 
         return null;
     }
+
 }
