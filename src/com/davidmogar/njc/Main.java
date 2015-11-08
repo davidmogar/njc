@@ -51,19 +51,13 @@ public class Main {
             showErrors();
             parser.ast.accept(new SemanticVisitor(), null);
             parser.ast.accept(new OffsetVisitor(), null);
-            parser.ast.accept(new ExecVisitor(inputFile, outputFile), null);
         }
 
         showErrors();
 
-        String s = "";
-        s += 'h';
-        s += 'o';
-        s += 'l';
-        s += 'a';
-        s += '\\';
-        s += 'n';
-        System.out.println(s.replaceAll("\\\\n", "\n"));
+        parser.ast.accept(new ExecVisitor(inputFile, outputFile), null);
+
+        showErrors();
     }
 
 }
