@@ -1,6 +1,7 @@
 package com.davidmogar.njc.semantic;
 
 import com.davidmogar.njc.TypeError;
+import com.davidmogar.njc.ast.Program;
 import com.davidmogar.njc.ast.expressions.Expression;
 import com.davidmogar.njc.ast.expressions.operators.binary.ArithmeticOperator;
 import com.davidmogar.njc.ast.expressions.operators.binary.ArrayAccessOperator;
@@ -14,6 +15,7 @@ import com.davidmogar.njc.ast.statements.InvocationStatement;
 import com.davidmogar.njc.ast.statements.ReturnStatement;
 import com.davidmogar.njc.ast.statements.controlflow.IfStatement;
 import com.davidmogar.njc.ast.statements.controlflow.WhileStatement;
+import com.davidmogar.njc.ast.statements.definitions.Definition;
 import com.davidmogar.njc.ast.statements.definitions.FunctionDefinition;
 import com.davidmogar.njc.ast.statements.definitions.VariableDefinition;
 import com.davidmogar.njc.ast.statements.io.ReadStatement;
@@ -22,6 +24,23 @@ import com.davidmogar.njc.ast.types.Type;
 import com.davidmogar.njc.visitors.AbstractVisitor;
 
 public class SemanticVisitor extends AbstractVisitor {
+
+    private boolean containsMainFunction;
+
+    public SemanticVisitor() {
+        containsMainFunction = false;
+    }
+
+    @Override
+    public Object visit(Program program, Object object) {
+        super.visit(program, object);
+
+        if (!containsMainFunction) {
+            new TypeError(program, "A valid program must contain a 'main' function");
+        }
+
+        return null;
+    }
 
     @Override
     public Object visit(ArithmeticOperator arithmeticOperator, Object object) {
@@ -170,9 +189,15 @@ public class SemanticVisitor extends AbstractVisitor {
                         ", found '" + variableType.getName() + "'");
             }
         }
+
         if (!functionType.returnType.isPrimitive()) {
             new TypeError(functionDefinition, "Incompatible types on function return. Expected a primitive type, found '" +
                     functionType.returnType.getName() + "'");
+        }
+
+        /* Check if a valid main function exists */
+        if (functionDefinition.getName().equals("main")) {
+            containsMainFunction = true;
         }
 
         super.visit(functionDefinition, functionType.returnType);
