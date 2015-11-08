@@ -33,7 +33,7 @@ public class Main {
         FileReader fileReader = null;
         try {
             inputFile = new File(args[0]);
-            outputFile = new File(inputFile.getPath() + ".o");
+            outputFile = new File(inputFile.getPath() + "o");
             fileReader = new FileReader(inputFile);
         } catch (IOException e) {
             System.err.println(e.getMessage());
@@ -55,6 +55,15 @@ public class Main {
         }
 
         showErrors();
+
+        String s = "";
+        s += 'h';
+        s += 'o';
+        s += 'l';
+        s += 'a';
+        s += '\\';
+        s += 'n';
+        System.out.println(s.replaceAll("\\\\n", "\n"));
     }
 
 }

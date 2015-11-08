@@ -1,7 +1,7 @@
 double[10] v;
 
 void f() {
-	write "hola";
+	write "hola\n";
 }
 
 // * Programa principal

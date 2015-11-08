@@ -872,7 +872,7 @@ break;
 case 24:
 //#line 103 "../src/com/davidmogar/njc/syntactic/syntactic.y"
 {
-                            List<VariableDefinition> definitions = new ArrayList<>();;
+                            List<VariableDefinition> definitions = new ArrayList<>();
                             for(Variable variable : (List<Variable>) val_peek(0)) {
                                 definitions.add(new VariableDefinition(lexicon.getLine(), lexicon.getColumn(), variable.name, (Type) val_peek(1)));
                             }

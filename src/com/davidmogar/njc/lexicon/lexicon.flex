@@ -91,7 +91,7 @@ Double = ({Integer}\.{Digit}* | \.{Digit})([eE][\-\+]?{Integer})?
 '\\t'				{ matchedValue = '\n'; return Parser.CHARACTER_LITERAL; }
 {Double}			{ matchedValue = new Double(yytext()); return Parser.DOUBLE_LITERAL; }
 {Integer}			{ matchedValue = new Integer(yytext()); return Parser.INTEGER_LITERAL; }
-{String}			{ matchedValue = yytext().replaceAll("\"", ""); return Parser.STRING_LITERAL; }
+{String}			{ matchedValue = yytext().replaceAll("\"", "").replaceAll("\\\\n", "\n").replaceAll("\\\\t", "\t"); return Parser.STRING_LITERAL; }
 
 /* Operators */
 "&&"				{ matchedValue = yytext(); return Parser.AND; }
