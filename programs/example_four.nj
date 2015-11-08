@@ -1,0 +1,19 @@
+/*
+ * Program using Strings.
+ */
+
+void main() {
+	int i;
+
+	write "Bomb activated\n";
+	write "Starting countdown...\n";
+
+	i = 10;
+	while (i > 0) {
+		write i, '\n';
+		i = i - 1;
+	}
+
+	write "BOOM!";
+}
+	

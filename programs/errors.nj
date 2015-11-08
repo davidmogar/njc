@@ -1,0 +1,14 @@
+void p(int[2] a) {
+    int b;
+    b = 2.0;
+    b = a;
+    b = (double) a;
+
+    if (a) {
+        write a;
+    } else {
+        read '2';
+    }
+
+    return 2;
+}

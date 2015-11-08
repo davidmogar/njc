@@ -1,0 +1,16 @@
+/*
+ * Program using values returned by other functions.
+ */
+
+int getFirstValue() {
+	return 2;
+}
+
+int getSecondValue() {
+	return 3;
+}
+
+void main() {
+	write(getFirstValue() + getSecondValue());
+}
+	

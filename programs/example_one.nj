@@ -1,17 +1,15 @@
+/*
+ * Sample coverage program.
+ */
+
 double[10] v;
 
-void f() {
-	write "hola\n";
-}
-
-// * Programa principal
 void main() {
 	double valor;
 	int i,j;
 	int[4][5] w;
 	int dia;
 	int mes, anio;
-	f();
 	
 	read dia; // * lvalue
 	anio=(int)'a'; 

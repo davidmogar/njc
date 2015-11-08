@@ -1,0 +1,12 @@
+/*
+ * Program using functions with parameters.
+ */
+
+int addTwo(int value) {
+	return value + 2;
+}
+
+void main() {
+	write(addTwo(1) + addTwo(2));
+}
+	

@@ -1,9 +1,0 @@
-/**
- * Test program.
- */
-void main(int x) {
-	int a, b;
-	read b;
-	a = b + 3;
-	write a;
-}
