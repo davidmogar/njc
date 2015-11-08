@@ -138,8 +138,7 @@ block:                  '{' '}' { $$ = new Block(lexicon.getLine(), lexicon.getC
                         ;
 
 function:               type function_name '(' ')' block {
-                                Type type = VoidType.getInstance(lexicon.getLine(), lexicon.getColumn());
-                                FunctionType functionType = new FunctionType(lexicon.getLine(), lexicon.getColumn(), type);
+                                FunctionType functionType = new FunctionType(lexicon.getLine(), lexicon.getColumn(), (Type) $1);
                                 $$ = new FunctionDefinition(lexicon.getLine(), lexicon.getColumn(), ((Variable) $2).name, functionType, (Block) $5);
                             }
                         | VOID function_name '(' ')' block {
@@ -148,8 +147,7 @@ function:               type function_name '(' ')' block {
                                 $$ = new FunctionDefinition(lexicon.getLine(), lexicon.getColumn(), ((Variable) $2).name, functionType, (Block) $5);
                             }
                         | type function_name '(' function_parameters ')' block {
-                                Type type = VoidType.getInstance(lexicon.getLine(), lexicon.getColumn());
-                                FunctionType functionType = new FunctionType(lexicon.getLine(), lexicon.getColumn(), (List<VariableDefinition>) $4, type);
+                                FunctionType functionType = new FunctionType(lexicon.getLine(), lexicon.getColumn(), (List<VariableDefinition>) $4, (Type) $1);
                                 $$ = new FunctionDefinition(lexicon.getLine(), lexicon.getColumn(), ((Variable) $2).name, functionType, (Block) $6);
                             }
                         | VOID function_name '(' function_parameters ')' block {
