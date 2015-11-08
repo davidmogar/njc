@@ -175,12 +175,11 @@ public class ExecVisitor extends AbstractCodeVisitor {
 
     @Override
     public Object visit(Program program, Object object) {
+        codeGenerator.entryPoint();
+        codeGenerator.breakline();
+
         for (Definition definition : program.definitions) {
             if (definition instanceof FunctionDefinition) {
-                if (definition.getName().equals("main")) {
-                    codeGenerator.entryPoint();
-                    codeGenerator.breakline();
-                }
                 definition.accept(this, object);
             }
         }
